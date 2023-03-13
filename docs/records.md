@@ -432,7 +432,7 @@ omega, sigma, table, and theta.
 
  * thetai (parse: no)
 
- * theatp (parse: no)
+ * thetap (parse: no)
 
  * thetapv (parse: no)
 
