@@ -1,0 +1,11 @@
+Package: nmrec
+Title: Read, Parse, and Modify NONMEM control records
+Version: 0.0.0.9000
+Authors@R:
+    person("Kyle", "Meyer", , "kylem@metrumrg.com", role = c("aut", "cre"))
+Description: A library for reading records from a NONMEM control stream,
+    parsing and modifying records of interest, and writing the result.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
