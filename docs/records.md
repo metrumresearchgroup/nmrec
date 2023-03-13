@@ -95,7 +95,8 @@ omega, sigma, table, and theta.
  * contr (parse: no)
 
    abbreviations to check:
-   * bin
+   * con
+   * cont
 
  * covariance (parse: no)
 
