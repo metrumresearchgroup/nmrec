@@ -39,3 +39,418 @@ Notes from testing:
 
  * If separating options by commas, it's invalid to have multiple
    commas.
+
+
+Records
+-------
+
+Initial within-record parsing planned for chain, data, estimation,
+omega, sigma, table, and theta.
+
+ * abbreviated (parse: no)
+
+   abbreviations:
+   * abbr
+
+   abbreviations to check:
+   * abb
+   * abbre
+   * abbrev
+   * abbrevi
+   * abbrevia
+   * abbreviat
+   * abbreviate
+
+ * aes (parse: no)
+
+ * aesinit (parse: no)
+
+   aliases:
+   - aes0
+
+   abbreviations to check:
+   * aesi
+   * aesin
+   * aesini
+
+ * anneal (parse: no)
+
+   abbreviations to check:
+   * anne
+   * annea
+
+ * bind (parse: no)
+
+   abbreviations to check:
+   * bin
+
+ * chain (parse: yes)
+
+   abbreviations to check:
+   * cha
+   * chai
+
+   check substring abbreviation for all options
+
+ * contr (parse: no)
+
+   abbreviations to check:
+   * bin
+
+ * covariance (parse: no)
+
+   aliases:
+   * covr
+
+   abbreviations to check:
+   * cov
+   * cova
+   * covar
+   * covari
+   * covaria
+   * covarian
+   * covarianc
+
+ * data (parse: partial)
+
+   notes:
+   * filename must be first argument
+   * `*` is for when there is more than one problem (which at least
+     initially won't be supported)
+
+   aliases:
+   * infile
+
+ * default (parse: no)
+
+   aliases:
+   * defaults
+
+   abbreviations to check:
+   * def
+   * defa
+   * defau
+   * defaul
+
+ * des (parse: no)
+
+ * design (parse: no)
+
+   aliases:
+   * optdesign
+   * opt
+
+   abbreviations:
+   * desi (noted in VIII)
+
+   abbreviations to check:
+   * desig
+   * optd
+   * optde
+   * optdes
+   * optdesi
+   * optdesig
+
+ * error (parse: no)
+
+   abbreviations to check:
+   * err
+   * erro
+
+ * estimation (parse: yes)
+
+   aliases:
+   * estm
+   * estimate
+
+   abbreviations:
+   * est
+
+   abbreviations to check:
+   * esti
+   * estim
+   * estima
+   * estimat
+   * estimati
+   * estimatio
+
+   check substring abbreviation for all options
+
+ * etas (parse: no)
+
+   abbreviations to check:
+   * eta
+
+ * format (parse: no)
+
+   aliases to check:
+   * fmtn (probably not, but V appendix 3 lists this name)
+
+   abbreviations to check:
+   * for
+   * form
+   * forma
+
+ * index (parse: no)
+
+   aliases:
+   * indxs
+   * indexes
+
+   abbreviations to check:
+   * ind
+   * inde
+   * indx
+   * indexe
+
+ * infn (parse: no)
+
+   abbreviations to check:
+   * inf
+
+ * input (parse: no)
+
+   abbreviations to check:
+   * inp
+   * inpu
+
+ * level (parse: no)
+
+   abbreviations to check:
+   * lev
+   * leve
+
+ * mix (parse: no)
+
+ * model (parse: no)
+
+   abbreviations to check:
+   * mod
+   * mode
+
+ * msfi (parse: no)
+
+   abbreviations to check:
+   * msf
+
+ * nonparametric (parse: no)
+
+   abbreviations to check:
+   * non
+   * nonp
+   * nonpa
+   * nonpar
+   * nonpara
+   * nonparam
+   * nonparame
+   * nonparamet
+   * nonparametr
+   * nonparametri
+
+ * olkjdf (parse: no)
+
+   abbreviations to check:
+   * olk
+   * olkj
+   * olkjd
+
+ * omega (parse: yes)
+
+   abbreviations to check:
+   * ome
+   * omeg
+
+   option aliases:
+   * sd
+
+   check substring abbreviation for all options
+
+ * omegap (parse: no)
+
+ * omegapd (parse: no)
+
+ * omit (parse: no)
+
+   abbreviations to check:
+   * omi
+
+ * ovarf (parse: no)
+
+   abbreviations to check:
+   * ova
+   * ovar
+
+ * phis (parse: no)
+
+   abbreviations to check:
+   * phi
+
+ * pk (parse: no)
+
+ * pred (parse: no)
+
+   abbreviations to check:
+   * pre
+
+ * prior (parse: no)
+
+   abbreviations to check:
+   * pri
+   * prio
+
+   Note: May need to parse at least subroutine to interpret theta,
+   omega, sigma.
+
+ * problem (parse: no)
+
+   abbreviations:
+   * prob
+
+   abbreviations to check:
+   * pro
+   * probl
+   * proble
+
+ * rcov (parse: no)
+
+   abbreviations to check:
+   * rco (probably can't work due to rcovi)
+
+ * rcovi (parse: no)
+
+ * scatterplot (parse: no)
+
+   aliases:
+   * scatters
+   * scattergrams
+
+   abbreviations:
+   * scat
+
+   abbreviations to check:
+   * sca
+   * scatt
+   * scatte
+   * scatter
+   * scatterp
+   * scatterpl
+   * scatterplo
+
+ * sigma (parse: yes)
+
+   abbreviations to check:
+   * sig
+   * sigm
+
+   option aliases:
+   * sd
+
+   check substring abbreviation for all options
+
+ * sigmap (parse: no)
+
+ * sigmapd (parse: no)
+
+ * simulation (parse: no)
+
+   aliases:
+   * simulate
+   * siml
+
+   abbreviations to check:
+   * sim
+   * simu
+   * simul
+   * simula
+   * simulat
+   * simulati
+   * simulatio
+
+ * sizes (parse: no)
+
+   abbreviations to check:
+   * siz
+   * size
+
+ * slkjdf (parse: no)
+
+   abbreviations to check:
+   * slk
+   * slkj
+   * slkjd
+
+ * subroutines (parse: no)
+
+   aliases:
+   * subs
+
+   abbreviations to check:
+   * sub
+   * subr
+   * subro
+   * subrou
+   * subrout
+   * subrouti
+   * subroutin
+   * subroutine
+
+ * super (parse: no)
+
+   abbreviations to check:
+   * sup
+   * supe
+
+ * svarf (parse: no)
+
+   abbreviations to check:
+   * sva
+   * svar
+
+ * table (parse: yes)
+
+   abbreviations:
+   * tab
+
+   abbreviations to check:
+   * tabl
+
+   check substring abbreviation for all options
+
+ * theta (parse: yes)
+
+   abbreviations to check:
+   * the
+   * thet
+
+   option aliases:
+   * numberpts
+   * numpoints
+   * nmpts
+
+   check substring abbreviation for all options
+
+ * thetai (parse: no)
+
+ * theatp (parse: no)
+
+ * thetapv (parse: no)
+
+ * thetar (parse: no)
+
+ * tol (parse: no)
+
+ * ttdf (parse: no)
+
+   abbreviations to check:
+   * ttd
+
+ * warnings (parse: no)
+
+   abbreviations:
+   * warning
+
+   abbreviations to check:
+   * war
+   * warn
+   * warni
+   * warnin
