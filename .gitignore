@@ -3,3 +3,6 @@
 .Rhistory
 .Rproj.user
 .httr-oauth
+/.Rprofile
+/renv.lock
+/renv/

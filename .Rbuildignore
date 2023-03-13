@@ -1,2 +1,6 @@
 ^LICENSE\.md$
+^Makefile$
 ^docs$
+^pkgr\.yml$
+^renv$
+^renv\.lock$
