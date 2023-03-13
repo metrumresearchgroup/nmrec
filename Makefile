@@ -5,6 +5,8 @@ help:
 	$(info )
 	$(info check, test, document: run devtools::*())
 	$(info check-quick: devtools::check() with no tests or vignettes)
+	$(info )
+	$(info fmt: run styler::style_pkg())
 	@:
 
 .PHONY: check
@@ -23,6 +25,11 @@ document:
 .PHONY: test
 test:
 	Rscript -e 'options(warn = 2)' -e 'devtools::test()'
+
+.PHONY: fmt
+fmt:
+	Rscript -e 'styler::style_pkg()'
+
 
 .PHONY: renv
 renv:
