@@ -4,6 +4,8 @@ Descriptions:
   - DESCRIPTION
 
 Packages:
+  - DT
+  - covr
   - devtools
   - styler
 

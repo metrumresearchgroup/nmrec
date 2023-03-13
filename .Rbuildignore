@@ -2,6 +2,7 @@
 ^LICENSE\.md$
 ^Makefile$
 ^\.Rproj\.user$
+^coverage$
 ^docs$
 ^pkgr\.yml$
 ^renv$

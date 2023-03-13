@@ -4,5 +4,6 @@
 .Rproj.user
 .httr-oauth
 /.Rprofile
+/coverage/
 /renv.lock
 /renv/

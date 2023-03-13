@@ -5,6 +5,7 @@ help:
 	$(info )
 	$(info check, test, document: run devtools::*())
 	$(info check-quick: devtools::check() with no tests or vignettes)
+	$(info cov: run tests and display coverage report)
 	$(info )
 	$(info fmt: run styler::style_pkg())
 	@:
@@ -25,6 +26,11 @@ document:
 .PHONY: test
 test:
 	Rscript -e 'options(warn = 2)' -e 'devtools::test()'
+
+.PHONY: cov
+cov:
+	mkdir -p coverage
+	Rscript -e 'covr::report(file = "coverage/index.html", browse = TRUE)'
 
 .PHONY: fmt
 fmt:
