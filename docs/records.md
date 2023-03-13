@@ -103,8 +103,10 @@ omega, sigma, table, and theta.
    aliases:
    * covr
 
-   abbreviations to check:
+   abbreviations:
    * cov
+
+   abbreviations to check:
    * cova
    * covar
    * covari
@@ -385,8 +387,10 @@ omega, sigma, table, and theta.
    aliases:
    * subs
 
-   abbreviations to check:
+   abbreviations:
    * sub
+
+   abbreviations to check:
    * subr
    * subro
    * subrou
