@@ -105,6 +105,42 @@ elem_select <- function(x) {
   )
 }
 
+#' Does object inherit from specified `nmrec_element` classes?
+#'
+#' @param e Object to check.
+#' @param types Short labels for `nmrec_element` class names (e.g., "whitespace"
+#'   for `nmrec_whitespace`). These will be transformed to a class name to pass
+#'   to the `what` argument of [inherits()].
+#' @param which Relayed to [inherits()].
+#' @return Same form returned by [inherits()] (boolean if `which` is `FALSE` and
+#'   integer vector otherwise).
+#' @noRd
+elem_is <- function(e, types, which = FALSE) {
+  classes <- purrr::map_chr(types, elem_get_class)
+  return(inherits(e, classes, which = which))
+}
+
+elem_get_class <- function(x) {
+  switch(x,
+    "ampersand" = "nmrec_ampersand",
+    "comma" = "nmrec_comma",
+    "equal_sign" = "nmrec_equal_sign",
+    "linebreak" = "nmrec_linebreak",
+    "paren" = "nmrec_paren",
+    "paren_close" = "nmrec_paren_close",
+    "paren_open" = "nmrec_paren_open",
+    "quote" = "nmrec_quote",
+    "quote_double" = "nmrec_quote_double",
+    "quote_single" = "nmrec_quote_single",
+    "semicolon" = "nmrec_semicolon",
+    "whitespace" = "nmrec_whitespace",
+    abort(
+      paste("Unknown nmrec_element subclass:", deparse(x)),
+      "nmrec_dev_error"
+    )
+  )
+}
+
 elem_ampersand <- function() {
   structure("&",
     class = c(
