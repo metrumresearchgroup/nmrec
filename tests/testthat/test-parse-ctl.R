@@ -63,6 +63,7 @@ test_that("parse_ctl() works: control 3", {
   }
 
   rec <- records[[3]]
+  expect_s3_class(rec, "nmrec_record_data")
   expect_identical(rec$name, "data")
   expect_identical(rec$get_lines(), "$DATA  DATA3")
   expect_identical(rec$format(), "$DATA  DATA3\n")
@@ -102,8 +103,17 @@ test_that("parse_ctl() works: bayes1", {
   }
 
   rec <- records[[3]]
+  expect_s3_class(rec, "nmrec_record_data")
   expect_identical(rec$name, "data")
   expect_identical(rec$get_lines(), "$DATA example1.csv IGNORE=C")
+  expect_null(rec$options)
+  expect_identical(rec$format(), "$DATA example1.csv IGNORE=C\n")
+  rec$parse()
+  expect_identical(
+    rec$options$filename,
+    option_pos$new("filename", value = "example1.csv")
+  )
+  expect_identical(rec$format(), "$DATA example1.csv IGNORE=C\n")
 
   rec <- records[[10]]
   expect_s3_class(rec, "nmrec_record_raw")

@@ -37,6 +37,7 @@ make_record <- function(lines) {
   )
 
   rec <- switch(name,
+    data = record_data,
     record_raw
   )
 
@@ -59,12 +60,33 @@ record <- R6::R6Class(
       private$lines
     },
     format = function() {
-      paste0(paste(private$lines, collapse = "\n"), "\n")
+      if (private$parsed) {
+        format_from_template(private$name_raw, self$template, self$options)
+      } else {
+        paste0(paste(private$lines, collapse = "\n"), "\n")
+      }
+    },
+    parse = function() {
+      if (!private$parsed) {
+        res <- private$parse_fn(private$name_raw, private$lines)
+        self$template <- res[["template"]]
+        self$options <- res[["options"]]
+        private$parsed <- TRUE
+      }
+
+      return(invisible(self))
     }
   ),
   private = list(
     name_raw = NULL,
-    lines = NULL
+    lines = NULL,
+    parsed = FALSE,
+    parse_fn = function(name_raw, lines) {
+      abort(
+        paste("parse_fn not implemented for", deparse(class(self))),
+        "nmrec_unsupported"
+      )
+    }
   )
 )
 
@@ -72,3 +94,25 @@ record_raw <- R6::R6Class(
   "nmrec_record_raw",
   inherit = record
 )
+
+format_from_template <- function(record_name, template, options) {
+  parts <- purrr::map(template, ~ {
+    if (identical(.x, "record_name")) {
+      value <- paste0("$", record_name)
+    } else if (inherits(.x, "nmrec_element")) {
+      value <- .x
+    } else {
+      opt <- options[[.x]]
+      if (is.null(opt)) {
+        abort(
+          sprintf("Template element %s not found", .x),
+          "nmrec_dev_error"
+        )
+      }
+      value <- opt$format()
+    }
+    return(value)
+  })
+
+  return(paste(parts, collapse = ""))
+}
