@@ -139,7 +139,7 @@ omega, sigma, table, and theta.
    * covarian
    * covarianc
 
- * data (parse: partial)
+ * data (parse: yes)
 
    notes:
    * filename must be first argument and must be on first line
