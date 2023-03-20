@@ -53,6 +53,18 @@ test_that("parse_ctl() aborts multiple $PROBLEM records are found", {
   }
 })
 
+test_that("parse_ctl() aborts when INCLUDE is used", {
+  cases <- list(
+    c("$PROBLEM", "  $include"),
+    c("INCLUDE"),
+    # NM-TRAN works without a separator before the value.
+    c("INCLUDEstuck")
+  )
+  for (case in cases) {
+    expect_error(parse_ctl(!!case), class = "nmrec_unsupported")
+  }
+})
+
 test_that("parse_ctl() works: control 3", {
   res <- parse_ctl(nmex_control3)
   expect_s3_class(res, "nmrec_ctl_records")

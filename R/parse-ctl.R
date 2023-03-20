@@ -18,6 +18,13 @@ read_ctl <- function(path) {
 #' @param lines Lines from a NONMEM control stream.
 #' @export
 parse_ctl <- function(lines) {
+  if (any(grepl("^[ \t]*\\$?include", lines, ignore.case = TRUE))) {
+    abort(
+      "nmrec does not support control streams that use `include`.",
+      "nmrec_unsupported"
+    )
+  }
+
   # ATTN: Hold off on vectorizing or otherwise optimizing until implementation
   # settles along with tests.
   beg_pos <- grep("^[ \t]*\\$[A-Za-z]", lines)
