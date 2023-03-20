@@ -297,8 +297,8 @@ omega, sigma, table, and theta.
  * omega (parse: yes)
 
    abbreviations to check:
-   - [ ] ome
-   - [ ] omeg
+   - [X] ome
+   - [X] omeg
 
    option aliases:
    * sd
