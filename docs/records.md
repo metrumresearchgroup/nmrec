@@ -78,13 +78,13 @@ omega, sigma, table, and theta.
    * abbr
 
    abbreviations to check:
-   * abb
-   * abbre
-   * abbrev
-   * abbrevi
-   * abbrevia
-   * abbreviat
-   * abbreviate
+   - [X] abb
+   - [X] abbre
+   - [X] abbrev
+   - [X] abbrevi
+   - [X] abbrevia
+   - [X] abbreviat
+   - [X] abbreviate
 
  * aes (parse: no)
 
@@ -94,34 +94,35 @@ omega, sigma, table, and theta.
    - aes0
 
    abbreviations to check:
-   * aesi
-   * aesin
-   * aesini
+   - [X] aesi
+   - [X] aesin
+   - [X] aesini
 
  * anneal (parse: no)
 
    abbreviations to check:
-   * anne
-   * annea
+   - [X] ann
+   - [X] anne
+   - [X] annea
 
  * bind (parse: no)
 
    abbreviations to check:
-   * bin
+   - [X] bin
 
  * chain (parse: yes)
 
    abbreviations to check:
-   * cha
-   * chai
+   - [X] cha
+   - [X] chai
 
    check substring abbreviation for all options
 
  * contr (parse: no)
 
    abbreviations to check:
-   * con
-   * cont
+   - [X] con
+   - [X] cont
 
  * covariance (parse: no)
 
@@ -150,16 +151,25 @@ omega, sigma, table, and theta.
    aliases:
    * infile
 
+   abbreviations to check:
+   - [X] dat
+   - [X] inf
+   * [X] infi
+   * [X] infil
+
+   option aliases:
+   * checkdata
+
  * default (parse: no)
 
    aliases:
    * defaults
 
    abbreviations to check:
-   * def
-   * defa
-   * defau
-   * defaul
+   - [X] def
+   - [X] defa
+   - [X] defau
+   - [X] defaul
 
  * des (parse: no)
 
@@ -173,18 +183,18 @@ omega, sigma, table, and theta.
    * desi (noted in VIII)
 
    abbreviations to check:
-   * desig
-   * optd
-   * optde
-   * optdes
-   * optdesi
-   * optdesig
+   - [X] desig
+   - [X] optd
+   - [X] optde
+   - [X] optdes
+   - [X] optdesi
+   - [X] optdesig
 
  * error (parse: no)
 
    abbreviations to check:
-   * err
-   * erro
+   - [X] err
+   - [X] erro
 
  * estimation (parse: yes)
 
@@ -196,29 +206,30 @@ omega, sigma, table, and theta.
    * est
 
    abbreviations to check:
-   * esti
-   * estim
-   * estima
-   * estimat
-   * estimati
-   * estimatio
+   - [X] esti
+   - [X] estim
+   - [X] estima
+   - [X] estimat
+   - [X] estimati
+   - [X] estimatio
 
    check substring abbreviation for all options
 
  * etas (parse: no)
 
    abbreviations to check:
-   * eta
+   - [X] eta
 
  * format (parse: no)
 
    aliases to check:
-   * fmtn (probably not, but V appendix 3 lists this name)
+   - [X] fmtn (V appendix 3 lists this name): no, unknown control
+         record error
 
    abbreviations to check:
-   * for
-   * form
-   * forma
+   - [X] for
+   - [X] form
+   - [X] forma
 
  * index (parse: no)
 
@@ -227,67 +238,67 @@ omega, sigma, table, and theta.
    * indexes
 
    abbreviations to check:
-   * ind
-   * inde
-   * indx
-   * indexe
+   - [X] ind
+   - [X] inde
+   - [X] indx
+   - [X] indexe
 
  * infn (parse: no)
 
    abbreviations to check:
-   * inf
+   - [X] inf: no, for infile
 
  * input (parse: no)
 
    abbreviations to check:
-   * inp
-   * inpu
+   - [X] inp
+   - [X] inpu
 
  * level (parse: no)
 
    abbreviations to check:
-   * lev
-   * leve
+   - [X] lev
+   - [X] leve
 
  * mix (parse: no)
 
  * model (parse: no)
 
    abbreviations to check:
-   * mod
-   * mode
+   - [X] mod
+   - [X] mode
 
  * msfi (parse: no)
 
    abbreviations to check:
-   * msf
+   - [X] msf
 
  * nonparametric (parse: no)
 
    abbreviations to check:
-   * non
-   * nonp
-   * nonpa
-   * nonpar
-   * nonpara
-   * nonparam
-   * nonparame
-   * nonparamet
-   * nonparametr
-   * nonparametri
+   - [X] non
+   - [X] nonp
+   - [X] nonpa
+   - [X] nonpar
+   - [X] nonpara
+   - [X] nonparam
+   - [X] nonparame
+   - [X] nonparamet
+   - [X] nonparametr
+   - [X] nonparametri
 
  * olkjdf (parse: no)
 
    abbreviations to check:
-   * olk
-   * olkj
-   * olkjd
+   - [X] olk
+   - [X] olkj
+   - [X] olkjd
 
  * omega (parse: yes)
 
    abbreviations to check:
-   * ome
-   * omeg
+   - [ ] ome
+   - [ ] omeg
 
    option aliases:
    * sd
@@ -301,31 +312,31 @@ omega, sigma, table, and theta.
  * omit (parse: no)
 
    abbreviations to check:
-   * omi
+   - [X] omi
 
  * ovarf (parse: no)
 
    abbreviations to check:
-   * ova
-   * ovar
+   - [X] ova
+   - [X] ovar
 
  * phis (parse: no)
 
    abbreviations to check:
-   * phi
+   - [X] phi
 
  * pk (parse: no)
 
  * pred (parse: no)
 
    abbreviations to check:
-   * pre
+   - [X] pre
 
  * prior (parse: no)
 
    abbreviations to check:
-   * pri
-   * prio
+   - [X] pri
+   - [X] prio
 
    Note: May need to parse at least subroutine to interpret theta,
    omega, sigma.
@@ -336,14 +347,14 @@ omega, sigma, table, and theta.
    * prob
 
    abbreviations to check:
-   * pro
-   * probl
-   * proble
+   - [X] pro
+   - [X] probl
+   - [X] proble
 
  * rcov (parse: no)
 
    abbreviations to check:
-   * rco (probably can't work due to rcovi)
+   - [X] rco
 
  * rcovi (parse: no)
 
@@ -357,19 +368,23 @@ omega, sigma, table, and theta.
    * scat
 
    abbreviations to check:
-   * sca
-   * scatt
-   * scatte
-   * scatter
-   * scatterp
-   * scatterpl
-   * scatterplo
+   - [X] sca
+   - [X] scatt
+   - [X] scatte
+   - [X] scatter
+   - [X] scatterp
+   - [X] scatterpl
+   - [X] scatterplo
+   - [X] scatterg
+   - [X] scattergr
+   - [X] scattergra
+   - [X] scattergram
 
  * sigma (parse: yes)
 
    abbreviations to check:
-   * sig
-   * sigm
+   - [X] sig
+   - [X] sigm
 
    option aliases:
    * sd
@@ -387,26 +402,26 @@ omega, sigma, table, and theta.
    * siml
 
    abbreviations to check:
-   * sim
-   * simu
-   * simul
-   * simula
-   * simulat
-   * simulati
-   * simulatio
+   - [X] sim
+   - [X] simu
+   - [X] simul
+   - [X] simula
+   - [X] simulat
+   - [X] simulati
+   - [X] simulatio
 
  * sizes (parse: no)
 
    abbreviations to check:
-   * siz
-   * size
+   - [X] siz
+   - [X] size
 
  * slkjdf (parse: no)
 
    abbreviations to check:
-   * slk
-   * slkj
-   * slkjd
+   - [X] slk
+   - [X] slkj
+   - [X] slkjd
 
  * subroutines (parse: no)
 
@@ -417,25 +432,25 @@ omega, sigma, table, and theta.
    * sub
 
    abbreviations to check:
-   * subr
-   * subro
-   * subrou
-   * subrout
-   * subrouti
-   * subroutin
-   * subroutine
+   - [X] subr
+   - [X] subro
+   - [X] subrou
+   - [X] subrout
+   - [X] subrouti
+   - [X] subroutin
+   - [X] subroutine
 
  * super (parse: no)
 
    abbreviations to check:
-   * sup
-   * supe
+   - [X] sup
+   - [X] supe
 
  * svarf (parse: no)
 
    abbreviations to check:
-   * sva
-   * svar
+   - [X] sva
+   - [X] svar
 
  * table (parse: yes)
 
@@ -450,8 +465,8 @@ omega, sigma, table, and theta.
  * theta (parse: yes)
 
    abbreviations to check:
-   * the
-   * thet
+   - [X] the
+   - [X] thet
 
    option aliases:
    * numberpts
@@ -473,7 +488,7 @@ omega, sigma, table, and theta.
  * ttdf (parse: no)
 
    abbreviations to check:
-   * ttd
+   - [X] ttd
 
  * warnings (parse: no)
 
@@ -481,7 +496,7 @@ omega, sigma, table, and theta.
    * warning
 
    abbreviations to check:
-   * war
-   * warn
-   * warni
-   * warnin
+   - [X] war
+   - [X] warn
+   - [X] warni
+   - [X] warnin
