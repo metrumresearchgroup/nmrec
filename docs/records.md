@@ -40,6 +40,31 @@ Notes from testing:
  * If separating options by commas, it's invalid to have multiple
    commas.
 
+ * Options and values can be separated across multiple lines in some
+   cases (e.g., `SIG` option of `$ESTIMATION`).  Separator (whitespace
+   or =) can be on its own line.  However, in other spots this isn't
+   permitted (at least `FILE` option of `$TABLE`).
+
+ * It is not valid to use comma after record name.
+
+ * Option values in some cases can be pinned to the option
+   name (e.g., `SIG3`, `IGNORE(ID.EQ.2)`).  At the very least, this
+   does not seem to be valid of `FILE` values of `$TABLE`.
+
+   Will likely not support the `SIG3` form.
+
+ * Unlike data file name, files fed to NONMEM (e.g. those for `$TABLE`
+   entries) cannot use spaces.
+
+ * At least for `IGNORE` list, can start "(" on one line and then
+   continue with content on the next.  Errors if you put
+   non-whitespace content after "(" and then put ")" on following
+   line.
+
+ * There are some options that are stricter about the form they take
+   (e.g., the `MISDAT` option of `$DATA` errors if an equal sign isn't
+   used as the delimiter).
+
 
 Records
 -------
@@ -117,7 +142,8 @@ omega, sigma, table, and theta.
  * data (parse: partial)
 
    notes:
-   * filename must be first argument
+   * filename must be first argument and must be on first line
+   * filename may be separated from next argument with comma
    * `*` is for when there is more than one problem (which at least
      initially won't be supported)
 
