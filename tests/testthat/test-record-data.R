@@ -1,3 +1,13 @@
+test_that("data_option_types and data_option_names align", {
+  expect_setequal(
+    names(data_option_types),
+    purrr::map_chr(
+      ls(data_option_names),
+      ~ get(.x, envir = data_option_names)
+    )
+  )
+})
+
 test_that("parse_data_record() aborts if filename is not on first line", {
   expect_error(parse_data_record("data", c("$data", "fn")),
     class = "nmrec_parse_error"
