@@ -116,6 +116,7 @@ test_that("parse_ctl() works: bayes1", {
       "; Prior information of THETAS"
     )
   )
+  expect_error(rec$parse(), class = "nmrec_unsupported")
 })
 
 test_that("make_record() dev errors", {
