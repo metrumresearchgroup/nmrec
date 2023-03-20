@@ -2,5 +2,6 @@
 
 export(parse_ctl)
 export(read_ctl)
+importFrom(rlang,"%||%")
 importFrom(rlang,abort)
 importFrom(rlang,warn)
