@@ -60,18 +60,17 @@ record <- R6::R6Class(
       private$lines
     },
     format = function() {
-      if (private$parsed) {
-        format_from_template(private$name_raw, self$template, self$options)
-      } else {
+      if (is.null(self$template)) {
         paste0(paste(private$lines, collapse = "\n"), "\n")
+      } else {
+        format_from_template(private$name_raw, self$template, self$options)
       }
     },
     parse = function() {
-      if (!private$parsed) {
+      if (is.null(self$template)) {
         res <- private$parse_fn(private$name_raw, private$lines)
         self$template <- res[["template"]]
         self$options <- res[["options"]]
-        private$parsed <- TRUE
       }
 
       return(invisible(self))
@@ -80,7 +79,6 @@ record <- R6::R6Class(
   private = list(
     name_raw = NULL,
     lines = NULL,
-    parsed = FALSE,
     parse_fn = function(name_raw, lines) {
       abort(
         paste("parse_fn not implemented for", deparse_string(class(self))),
