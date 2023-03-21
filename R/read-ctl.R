@@ -1,7 +1,5 @@
 #' Read records from a NONMEM control stream
 #'
-#' @description
-#'
 #' `read_ctl()` parses records from a file, and `parse_ctl()` parses them from a
 #' character vector.
 #'
