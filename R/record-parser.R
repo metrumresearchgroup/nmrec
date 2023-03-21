@@ -60,6 +60,9 @@ record_parser <- R6::R6Class(
 
       return(invisible(self))
     },
+    resolve_option = function(x) {
+      get0(tolower(x), self$option_names)
+    },
     template_append = function(x) {
       self$template[[self$idx_t]] <- x
       self$tick_t()
@@ -207,7 +210,7 @@ process_options <- function(rp, known_options, name_map) {
   rp$gobble()
   while (!rp$elems_done()) {
     opt_raw <- rp$elems_yank()
-    opt <- get0(tolower(opt_raw), name_map)
+    opt <- rp$resolve_option(opt_raw)
     if (is.null(opt)) {
       abort(
         sprintf("Unknown option for $%s: %s", rp$name_raw, opt_raw),
