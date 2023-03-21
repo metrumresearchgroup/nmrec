@@ -187,8 +187,13 @@ record_parser <- R6::R6Class(
       }
       return(invisible(self))
     },
-    process_options = function() {
-      process_options(self, self$option_types, self$option_names)
+    process_options = function(fail_on_unknown = TRUE) {
+      process_options(
+        self,
+        self$option_types,
+        self$option_names,
+        fail_on_unknown = fail_on_unknown
+      )
       return(invisible(self))
     },
     tick_e = function(n = 1L) {
@@ -206,17 +211,22 @@ record_parser <- R6::R6Class(
   )
 )
 
-process_options <- function(rp, known_options, name_map) {
+process_options <- function(rp, known_options, name_map,
+                            fail_on_unknown = TRUE) {
   rp$gobble()
   while (!rp$elems_done()) {
-    opt_raw <- rp$elems_yank()
+    opt_raw <- rp$elems[[rp$idx_e]]
     opt <- rp$resolve_option(opt_raw)
     if (is.null(opt)) {
-      abort(
-        sprintf("Unknown option for $%s: %s", rp$name_raw, opt_raw),
-        c("nmrec_unknown_option", "nmrec_parse_error")
-      )
+      if (fail_on_unknown) {
+        abort(
+          sprintf("Unknown option for $%s: %s", rp$name_raw, opt_raw),
+          c("nmrec_unknown_option", "nmrec_parse_error")
+        )
+      }
+      break
     }
+    rp$tick_e()
 
     kind <- known_options[[opt]]
     if (is.null(kind)) {
