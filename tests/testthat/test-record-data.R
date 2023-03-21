@@ -15,7 +15,7 @@ test_that("parse_data_record() aborts if filename is not on first line", {
 })
 
 test_that("parse_data_record() aborts on filename=*", {
-  expect_error(parse_data_record("data", c("$data *")),
+  expect_error(parse_data_record("data", "$data *"),
     class = "nmrec_unsupported"
   )
 })
@@ -29,7 +29,7 @@ test_that("parse_data_record() aborts if format option lacks closing paren", {
 test_that("parse_data_record() works", {
   cases <- list(
     list(
-      input = c("$data foo.csv"),
+      input = "$data foo.csv",
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
@@ -41,7 +41,7 @@ test_that("parse_data_record() works", {
       )
     ),
     list(
-      input = c("$data 'foo bar.csv'"),
+      input = "$data 'foo bar.csv'",
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
@@ -53,7 +53,7 @@ test_that("parse_data_record() works", {
       )
     ),
     list(
-      input = c('$data "foo bar.csv"'),
+      input = '$data "foo bar.csv"',
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
