@@ -120,13 +120,13 @@ record_parser <- R6::R6Class(
       }
       return(elem_is(self$elems[[pos]], types, which = which))
     },
-    elems_find_next = function(types) {
+    elems_find_next = function(pred) {
       beg <- self$idx_e + 1
       n_elems <- self$n_elems
       if (beg > n_elems) {
         return(0L)
       }
-      idx <- purrr::detect_index(self$elems[beg:n_elems], ~ elem_is(.x, types))
+      idx <- purrr::detect_index(self$elems[beg:n_elems], pred)
       if (identical(idx, 0L)) {
         pos <- 0L
       } else {
@@ -144,7 +144,7 @@ record_parser <- R6::R6Class(
     gobble_comment = function() {
       if (self$elems_is("semicolon")) {
         beg <- self$idx_e
-        lb <- self$elems_find_next("linebreak")
+        lb <- self$elems_find_next(~ elem_is(.x, "linebreak"))
         if (identical(lb, 0L)) {
           abort(
             "Record always end with linebreak element",
@@ -248,7 +248,7 @@ process_options <- function(rp, known_options, name_map) {
       }
 
       if (rp$elems_is("paren_open")) {
-        pos <- rp$elems_find_next("paren_close")
+        pos <- rp$elems_find_next(~ elem_is(.x, "paren_close"))
         if (identical(pos, 0L)) {
           abort(
             c("Missing closing paren.", paste(rp$elems, collapse = "")),

@@ -28,7 +28,7 @@ parse_data_record <- function(name_raw, lines) {
 
   # (format)
   if (rp$elems_is("paren_open")) {
-    pos <- rp$elems_find_next("paren_close")
+    pos <- rp$elems_find_next(~ elem_is(.x, "paren_close"))
     if (identical(pos, 0L)) {
       abort(
         c("Missing closing paren.", paste(rp$elems, collapse = "")),
