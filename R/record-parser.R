@@ -7,6 +7,8 @@ record_parser <- R6::R6Class(
   public = list(
     name_raw = NULL,
     lines = NULL,
+    option_types = NULL,
+    option_names = NULL,
     elems = NULL,
     n_elems = NULL,
     idx_e = 1L,
@@ -14,9 +16,13 @@ record_parser <- R6::R6Class(
     idx_o = 1L,
     template = NULL,
     idx_t = 1L,
-    initialize = function(name_raw, lines) {
+    initialize = function(name_raw, lines,
+                          option_types = NULL,
+                          option_names = NULL) {
       self$name_raw <- name_raw
       self$lines <- lines
+      self$option_types <- option_types
+      self$option_names <- option_names
 
       self$elems <- split_to_elements(lines)
       self$n_elems <- length(self$elems)
@@ -174,8 +180,8 @@ record_parser <- R6::R6Class(
       }
       return(invisible(self))
     },
-    process_options = function(known_options, name_map) {
-      process_options(self, known_options, name_map)
+    process_options = function() {
+      process_options(self, self$option_types, self$option_names)
       return(invisible(self))
     },
     tick_e = function(n = 1L) {

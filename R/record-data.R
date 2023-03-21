@@ -1,7 +1,11 @@
 # TODO: Document parse_* functions somewhere.
 
 parse_data_record <- function(name_raw, lines) {
-  rp <- record_parser$new(name_raw, lines)
+  rp <- record_parser$new(
+    name_raw, lines,
+    option_types = data_option_types,
+    option_names = data_option_names
+  )
   filename <- rp$elems_yank(fold_quoted = TRUE)
 
   if (elem_is(filename, c("linebreak", "semicolon"))) {
@@ -37,7 +41,7 @@ parse_data_record <- function(name_raw, lines) {
     rp$options_append(option_pos$new("format", value = rp$elems_yank_to(pos)))
   }
 
-  rp$process_options(data_option_types, data_option_names)
+  rp$process_options()
 
   return(list(template = rp$get_template(), options = rp$get_options()))
 }
