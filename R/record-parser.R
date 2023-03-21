@@ -53,7 +53,11 @@ record_parser <- R6::R6Class(
     options_append = function(x) {
       self$options[[self$idx_o]] <- x
       names(self$options)[[self$idx_o]] <- x$name
+      self$template[[self$idx_t]] <- self$idx_o
+
       self$tick_o()
+      self$tick_t()
+
       return(invisible(self))
     },
     template_append = function(x) {
@@ -217,12 +221,9 @@ process_options <- function(rp, known_options, name_map) {
     }
 
     if (identical(kind, "flag")) {
-      rp$template_append(opt)
       rp$options_append(option_flag$new(opt, opt_raw, TRUE))
       rp$gobble()
     } else if (identical(kind, "value")) {
-      rp$template_append(opt)
-
       if (rp$elems_is("paren_open")) {
         sep <- ""
       } else {

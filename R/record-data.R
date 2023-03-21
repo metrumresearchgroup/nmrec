@@ -22,7 +22,6 @@ parse_data_record <- function(name_raw, lines) {
     )
   }
 
-  rp$template_append("filename")
   rp$options_append(option_pos$new("filename", value = filename))
 
   rp$gobble()
@@ -37,7 +36,6 @@ parse_data_record <- function(name_raw, lines) {
       )
     }
 
-    rp$template_append("format")
     rp$options_append(option_pos$new("format", value = rp$elems_yank_to(pos)))
   }
 

@@ -1,5 +1,5 @@
 test_that("format.nmrec_ctl_records() works", {
-  exs <- list(nmex_control3, nmex_ccontrs, nmex_bayes1)
+  exs <- list(nmex_control3, nmex_ccontrs, nmex_bayes1, nmex_a_uflg)
   for (ex in exs) {
     expected <- paste0(paste0(ex, collapse = "\n"), "\n")
     recs <- parse_ctl(ex)

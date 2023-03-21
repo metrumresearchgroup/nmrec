@@ -101,7 +101,7 @@ format_from_template <- function(record_name, template, options) {
       value <- paste0("$", record_name)
     } else if (inherits(.x, "nmrec_element")) {
       value <- .x
-    } else {
+    } else if (identical(length(.x), 1L) && is.integer(.x)) {
       opt <- options[[.x]]
       if (is.null(opt)) {
         abort(
@@ -110,7 +110,16 @@ format_from_template <- function(record_name, template, options) {
         )
       }
       value <- opt$format()
+    } else {
+      abort(
+        c(
+          "Got unexpected value for template element.",
+          deparse_string(.x)
+        ),
+        "nmrec_dev_error"
+      )
     }
+
     return(value)
   })
 

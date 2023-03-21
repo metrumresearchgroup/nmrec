@@ -33,7 +33,7 @@ test_that("parse_data_record() works", {
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
-          "filename", elem_linebreak()
+          1L, elem_linebreak()
         ),
         options = list(
           filename = option_pos$new("filename", value = "foo.csv")
@@ -45,7 +45,7 @@ test_that("parse_data_record() works", {
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
-          "filename", elem_linebreak()
+          1L, elem_linebreak()
         ),
         options = list(
           filename = option_pos$new("filename", value = "'foo bar.csv'")
@@ -57,7 +57,7 @@ test_that("parse_data_record() works", {
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
-          "filename", elem_linebreak()
+          1L, elem_linebreak()
         ),
         options = list(
           filename = option_pos$new("filename", value = '"foo bar.csv"')
@@ -69,9 +69,9 @@ test_that("parse_data_record() works", {
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
-          "filename", elem_whitespace(" "), elem_ampersand(),
+          1L, elem_whitespace(" "), elem_ampersand(),
           elem_whitespace("  "), elem_linebreak(),
-          "format", elem_whitespace(" "), "records", elem_linebreak()
+          2L, elem_whitespace(" "), 3L, elem_linebreak()
         ),
         options = list(
           filename = option_pos$new("filename", value = "foo.csv"),
@@ -89,9 +89,9 @@ test_that("parse_data_record() works", {
       want = list(
         template = list(
           "record_name", elem_whitespace("    "),
-          "filename", elem_whitespace(" "),
+          1L, elem_whitespace(" "),
           elem_comment("; a comment"), elem_linebreak(),
-          "ignore", elem_whitespace(" "), "norewind", elem_linebreak(),
+          2L, elem_whitespace(" "), 3L, elem_linebreak(),
           elem_whitespace("\t"), elem_comment("; trailing comment"),
           elem_linebreak()
         ),
@@ -104,6 +104,27 @@ test_that("parse_data_record() works", {
           norewind = option_flag$new(
             "norewind",
             name_raw = "norew", value = TRUE
+          )
+        )
+      )
+    ),
+    list(
+      input = "$data foo.csv IGNORE=C IGNORE(foo)",
+      want = list(
+        template = list(
+          "record_name", elem_whitespace(" "),
+          1L, elem_whitespace(" "),
+          2L, elem_whitespace(" "), 3L, elem_linebreak()
+        ),
+        options = list(
+          filename = option_pos$new("filename", value = "foo.csv"),
+          ignore = option_value$new(
+            "ignore",
+            name_raw = "IGNORE", value = "C", sep = "="
+          ),
+          ignore = option_value$new(
+            "ignore",
+            name_raw = "IGNORE", value = "(foo)", sep = ""
           )
         )
       )
