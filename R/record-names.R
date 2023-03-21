@@ -1,7 +1,7 @@
 #' Normalize various spellings of a record name
 #'
 #' @noRd
-canonical_record_name <- function(name) {
+resolve_record_name <- function(name) {
   n <- get0(tolower(name), record_names)
   if (is.null(n)) {
     abort(

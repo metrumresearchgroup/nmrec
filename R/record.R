@@ -26,7 +26,7 @@ make_record <- function(lines) {
   beg <- match[2]
   end <- beg + attr(match, "match.length")[2] - 1
   name_raw <- substr(line1, beg, end)
-  tryCatch(name <- canonical_record_name(name_raw),
+  tryCatch(name <- resolve_record_name(name_raw),
     nmrec_unknown_record = function(e) {
       warn(
         paste("Unknown record type:", name_raw),
