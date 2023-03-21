@@ -4,7 +4,7 @@
 #' character vector.
 #'
 #' @param path Path to NONMEM control stream.
-#' @return A `nmrec_ctl_records`.
+#' @return A `nmrec_ctl_records` object.
 #'
 #' @export
 read_ctl <- function(path) {
