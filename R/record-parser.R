@@ -277,7 +277,7 @@ find_closing_quote <- function(elems) {
       abort(
         paste(
           "Missing closing quote:",
-          deparse(paste0(elems[seq_len(end)], collapse = ""))
+          deparse_string(paste0(elems[seq_len(end)], collapse = ""))
         ),
         "nmrec_parse_error"
       )

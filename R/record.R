@@ -17,7 +17,7 @@ make_record <- function(lines) {
     abort(
       c(
         "First non-whitespace in first line must start with '$'.",
-        paste("got:", deparse(line1))
+        paste("got:", deparse_string(line1))
       ),
       "nmrec_dev_error"
     )
@@ -83,7 +83,7 @@ record <- R6::R6Class(
     parsed = FALSE,
     parse_fn = function(name_raw, lines) {
       abort(
-        paste("parse_fn not implemented for", deparse(class(self))),
+        paste("parse_fn not implemented for", deparse_string(class(self))),
         "nmrec_unsupported"
       )
     }

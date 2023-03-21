@@ -135,7 +135,7 @@ elem_get_class <- function(x) {
     "semicolon" = "nmrec_semicolon",
     "whitespace" = "nmrec_whitespace",
     abort(
-      paste("Unknown nmrec_element subclass:", deparse(x)),
+      paste("Unknown nmrec_element subclass:", deparse_string(x)),
       "nmrec_dev_error"
     )
   )

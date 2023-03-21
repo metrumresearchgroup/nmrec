@@ -5,7 +5,7 @@ canonical_record_name <- function(name) {
   n <- get0(tolower(name), record_names)
   if (is.null(n)) {
     abort(
-      paste("Unknown record type:", deparse(name)),
+      paste("Unknown record type:", deparse_string(name)),
       c("nmrec_unknown_record", "nmrec_parse_error")
     )
   }
