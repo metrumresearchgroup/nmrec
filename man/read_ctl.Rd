@@ -21,3 +21,6 @@ A \code{nmrec_ctl_records} object.
 \code{read_ctl()} parses records from a file, and \code{parse_ctl()} parses them from a
 character vector.
 }
+\seealso{
+\code{\link[=write_ctl]{write_ctl()}} for writing records to a file.
+}

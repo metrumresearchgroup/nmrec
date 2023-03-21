@@ -5,6 +5,7 @@
 #'
 #' @param path Path to NONMEM control stream.
 #' @return A `nmrec_ctl_records` object.
+#' @seealso [write_ctl()] for writing records to a file.
 #'
 #' @export
 read_ctl <- function(path) {
@@ -59,5 +60,3 @@ parse_ctl <- function(lines) {
   class(res) <- c("nmrec_ctl_records", class(res))
   return(res)
 }
-
-# TODO: Add format() method for nmrec_ctl_records.
