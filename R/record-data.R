@@ -1,10 +1,5 @@
-#' Parse a $DATA record into a template and option objects
-#'
-#' @param name_raw Record name, as given.
-#' @param lines Data record lines.
-#' @return A list with two items, a template (a list of strings, including
-#'   `nmrec_element` objects) and options (a list of `nmrec_option` objects).
-#' @noRd
+# TODO: Document parse_* functions somewhere.
+
 parse_data_record <- function(name_raw, lines) {
   rp <- record_parser$new(name_raw, lines)
   filename <- rp$elems_yank(fold_quoted = TRUE)
