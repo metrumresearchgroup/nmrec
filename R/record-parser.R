@@ -113,6 +113,9 @@ record_parser <- R6::R6Class(
 
       return(x)
     },
+    elems_current = function() {
+      return(self$elems[[self$idx_e]])
+    },
     elems_is = function(types, pos = NULL, which = FALSE) {
       pos <- pos %||% self$idx_e
       if (pos > self$n_elems) {
@@ -215,7 +218,7 @@ process_options <- function(rp, known_options, name_map,
                             fail_on_unknown = TRUE) {
   rp$gobble()
   while (!rp$elems_done()) {
-    opt_raw <- rp$elems[[rp$idx_e]]
+    opt_raw <- rp$elems_current()
     opt <- rp$resolve_option(opt_raw)
     if (is.null(opt)) {
       if (fail_on_unknown) {
