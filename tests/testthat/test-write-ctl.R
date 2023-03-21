@@ -6,11 +6,17 @@ test_that("format.nmrec_ctl_records() works", {
     expect_identical(format(recs), expected)
 
     # Still matches after $parse().
-    data <- purrr::detect(recs$records, ~ .x[["name"]] == "data")
-    if (is.null(data)) {
-      abort(sprintf("missing $data record: %s", format(recs)))
+    parsed_something <- FALSE
+    for (r in recs$records) {
+      if (!inherits(r, "nmrec_record_raw")) {
+        r$parse()
+        parsed_something <- TRUE
+      }
     }
-    data$parse()
+    if (!parsed_something) {
+      abort("failed to trigger parse() for test")
+    }
+
     expect_identical(format(recs), expected)
 
     tfile <- withr::local_tempfile(pattern = "nmrec-tests-")
