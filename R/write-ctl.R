@@ -1,4 +1,6 @@
-#' Write records to a file.
+#' Write records to a file
+#'
+#' Generate a new control stream from a `nmrec_ctl_records` object.
 #'
 #' @param records A `nmrec_ctl_records` object.
 #' @param path File to write records to.

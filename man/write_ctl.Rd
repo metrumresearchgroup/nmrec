@@ -2,7 +2,7 @@
 % Please edit documentation in R/write-ctl.R
 \name{write_ctl}
 \alias{write_ctl}
-\title{Write records to a file.}
+\title{Write records to a file}
 \usage{
 write_ctl(records, path)
 }
@@ -15,7 +15,7 @@ write_ctl(records, path)
 \code{records}, unmodified and invisibly.
 }
 \description{
-Write records to a file.
+Generate a new control stream from a \code{nmrec_ctl_records} object.
 }
 \seealso{
 \code{\link[=read_ctl]{read_ctl()}} for reading records from a file.
