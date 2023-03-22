@@ -38,6 +38,7 @@ make_record <- function(lines) {
 
   rec <- switch(name,
     data = record_data,
+    table = record_table,
     record_raw
   )
 
