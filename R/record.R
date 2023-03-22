@@ -18,6 +18,7 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
     estimation = record_estimation,
     prior = record_prior,
     table = record_table,
+    theta = record_theta,
     record_raw
   )
 

@@ -69,3 +69,49 @@ option_value <- R6::R6Class(
     }
   )
 )
+
+option_param <- R6::R6Class(
+  "nmrec_option_param",
+  inherit = option_pos,
+  public = list(
+    template = NULL,
+    values = NULL,
+    initialize = function(name, template, values) {
+      super$initialize(name = name)
+      self$template <- template
+      self$values <- values
+    },
+    format = function() {
+      if (is.null(self$template)) {
+        ""
+      } else {
+        parts <- purrr::map(self$template, ~ {
+          if (inherits(.x, "nmrec_element")) {
+            value <- .x
+          } else if (identical(length(.x), 1L) && is.integer(.x)) {
+            opt <- self$values[[.x]]
+            if (is.null(opt)) {
+              abort(
+                sprintf("Template element %s not found", .x),
+                "nmrec_dev_error"
+              )
+            }
+            value <- opt$format()
+          } else {
+            abort(
+              c(
+                "Got unexpected value for template element.",
+                deparse_string(.x)
+              ),
+              "nmrec_dev_error"
+            )
+          }
+
+          return(value)
+        })
+
+        paste(parts, collapse = "")
+      }
+    }
+  )
+)

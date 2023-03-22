@@ -1,0 +1,250 @@
+parse_theta_record <- function() {
+  rp <- record_parser$new(
+    private$name_raw, private$lines,
+    option_types = theta_option_types,
+    option_names = theta_option_names
+  )
+
+  prev <- private$previous_rec
+  if (!is.null(prev)) {
+    prev$parse()
+  }
+
+  record_parser_map(rp, function(r) {
+    r$process_options(fail_on_unknown = FALSE)
+    if (!r$elems_done()) {
+      param_parse_label(r)
+      r$gobble_one("whitespace")
+      parse_theta_value(r)
+    }
+  })
+  rp$elems_assert_done()
+
+  return(list(template = rp$get_template(), options = rp$get_options()))
+}
+
+#' Parse single theta value
+#'
+#' A "value" is the stretch of everything associated with a particular theta
+#' (e.g. "7", "7 FIXED", or "(0, 7) FIXED").
+#'
+#' @noRd
+parse_theta_value <- function(rp) {
+  templ <- tstring$new()
+  rp$gobble(template = templ)
+
+  if (rp$elems_is("paren_open")) {
+    parse_theta_paren(rp, templ)
+  } else {
+    val <- rp$elems_yank()
+    check_for_short_unint(val)
+    templ$append_v(
+      "init", option_pos$new("init", value = val)
+    )
+    rp$gobble(template = templ)
+    process_theta_value_option(rp, templ)
+  }
+
+  param_append("theta", rp, templ)
+}
+
+#' Parse a theta value starting on open paren
+#'
+#' @param rp `record_parser` object.
+#' @param templ `template` object.
+#' @noRd
+parse_theta_paren <- function(rp, templ) {
+  templ$append_t(rp$elems_yank())
+  pos_end <- find_closing_paren(rp, "linebreak")
+  rp$gobble_one("whitespace", template = templ)
+  valnames <- c("low", "init", "up")
+  idx_val <- get_theta_value_idx(rp, pos_end)
+
+  while (rp$idx_e < pos_end) {
+    process_theta_value_option(rp, templ)
+    if (rp$idx_e >= pos_end) {
+      break
+    }
+
+    if (rp$elems_is("whitespace")) {
+      templ$append_t(rp$elems_yank())
+      next
+    }
+    if (rp$elems_is("comma")) {
+      # (low,,up) form
+      no_init <- identical(idx_val, 2L) &&
+        rp$elems_is("comma", pos = rp$idx_e + 1) ||
+        (rp$elems_is("whitespace", pos = rp$idx_e + 1) &&
+          rp$elems_is("whitespace", pos = rp$idx_e + 2))
+      if (no_init) {
+        idx_val <- idx_val + 1L
+      }
+      templ$append_t(rp$elems_yank())
+      next
+    }
+
+    if (inherits(rp$elems_current(), "nmrec_element")) {
+      abort(
+        c(
+          sprintf(
+            "Unexpected element (%s) with parens.",
+            rp$elems_current()
+          ),
+          paste(rp$elems, collapse = "")
+        ),
+        "nmrec_parse_error"
+      )
+    }
+
+    if (idx_val > 3) {
+      abort(
+        c(
+          "Bug: there should be no more than 3 values.",
+          paste(rp$elems, collapse = "")
+        ),
+        "nmrec_dev_error"
+      )
+    }
+
+    val <- rp$elems_yank()
+    check_for_short_unint(val)
+    templ$append_v(
+      valnames[idx_val],
+      option_pos$new(valnames[idx_val], value = val)
+    )
+
+    idx_val <- idx_val + 1L
+  }
+
+  if (!rp$elems_is("paren_close")) {
+    abort("Bug: should end on closing paren.", "nmrec_dev_error")
+  }
+
+  templ$append_t(rp$elems_yank())
+  rp$gobble(template = templ)
+  process_theta_value_option(rp, templ)
+  rp$gobble(template = templ)
+
+  param_parse_x(rp, templ)
+}
+
+check_for_short_unint <- function(x) {
+  x <- tolower(x)
+  if (identical(x, "u") || identical(x, "un")) {
+    abort(
+      "nmrec requires 'unint' to be at least three characters.",
+      "nmrec_unsupported"
+    )
+  }
+}
+
+#' Find starting index for theta value
+#'
+#' theta may consist of one to three values, which NONMEM labels as "low",
+#' "init", "up". In most cases, the starting index is 1 ("low") but for the
+#' one-value form it is 2 ("init").
+#'
+#' @param rp `record_parser` object.
+#' @param pos_end Position of closing paren element.
+#' @return Index (1L or 2L) for c("low", "init", "up").
+#' @noRd
+get_theta_value_idx <- function(rp, pos_end) {
+  n_vals <- sum(purrr::map_lgl(rp$elems[rp$idx_e:pos_end], ~ {
+    !inherits(.x, "nmrec_element") && is.null(param_get_value_option(.x))
+  }))
+
+  if (!n_vals) {
+    abort(
+      c(
+        "Did not find theta value.",
+        paste(rp$elems, collapse = "")
+      ),
+      "nmrec_parse_error"
+    )
+  }
+
+  if (n_vals > 3) {
+    abort(
+      c(
+        "More than three theta values specified.",
+        paste(rp$elems, collapse = "")
+      ),
+      "nmrec_parse_error"
+    )
+  }
+
+  if (identical(n_vals, 1L)) {
+    idx_val <- 2L
+  } else {
+    idx_val <- 1L
+  }
+
+  return(idx_val)
+}
+
+#' Process options that are tied to a theta initial estimate
+#'
+#' @param rp `record_parser` object.
+#' @param templ Template for theta value.
+#' @noRd
+process_theta_value_option <- function(rp, templ) {
+  record_parser_map(rp, function(r) {
+    opt <- param_get_value_option(r$elems_current())
+    if (!is.null(opt)) {
+      templ$append_v(opt, option_flag$new(opt, r$elems_yank(), TRUE))
+      r$gobble(template = templ)
+    }
+  })
+}
+
+record_theta <- R6::R6Class(
+  "nmrec_record_theta",
+  inherit = record
+)
+record_theta$set("private", "parse_fn", parse_theta_record)
+
+theta_option_types <- list(
+  "abort" = option_type_flag,
+  "names" = option_type_value,
+  "noabort" = option_type_flag,
+  "noabortfirst" = option_type_flag,
+  "numberpoints" = option_type_value
+)
+
+theta_option_names <- list2env(
+  list(
+    "a" = "abort", # NM-TRAN takes this, not sure if nmrec should follow.
+    "ab" = "abort",
+    "abo" = "abort",
+    "abor" = "abort",
+    "abort" = "abort",
+    "names" = "names",
+    "no" = "noabort",
+    "noa" = "noabort",
+    "noab" = "noabort",
+    "noabo" = "noabort",
+    "noabor" = "noabort",
+    "noabort" = "noabort",
+    "noabortfirst" = "noabortfirst",
+    "nu" = "numberpoints",
+    "num" = "numberpoints",
+    "numb" = "numberpoints",
+    "numbe" = "numberpoints",
+    "number" = "numberpoints",
+    "numberp" = "numberpoints",
+    "numberpo" = "numberpoints",
+    "numberpoi" = "numberpoints",
+    "numberpoin" = "numberpoints",
+    "numberpoint" = "numberpoints",
+    "numberpoints" = "numberpoints",
+    "numberpt" = "numberpoints",
+    "numberpts" = "numberpoints",
+    "nump" = "numberpoints",
+    "numpo" = "numberpoints",
+    "numpoi" = "numberpoints",
+    "numpoin" = "numberpoints",
+    "numpoint" = "numberpoints",
+    "numpoints" = "numberpoints"
+  ),
+  parent = emptyenv()
+)
