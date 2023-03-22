@@ -83,7 +83,10 @@ record <- R6::R6Class(
     lines = NULL,
     parse_fn = function() {
       abort(
-        paste("parse_fn not implemented for", deparse_string(class(self))),
+        sprintf(
+          "Parsing not implemented for $%s record types.",
+          self$name
+        ),
         "nmrec_unsupported"
       )
     }
