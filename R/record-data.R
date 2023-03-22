@@ -6,28 +6,39 @@ parse_data_record <- function() {
     option_types = data_option_types,
     option_names = data_option_names
   )
-  filename <- rp$elems_yank(fold_quoted = TRUE)
 
-  if (elem_is(filename, c("linebreak", "semicolon"))) {
-    abort(
-      paste0("$", self$name_raw, " filename option must be on first line"),
-      "nmrec_parse_error"
-    )
+  prev <- private$previous_rec
+  filename <- NULL
+  if (is.null(prev)) {
+    filename <- rp$elems_yank(fold_quoted = TRUE)
+
+    if (elem_is(filename, c("linebreak", "semicolon"))) {
+      abort(
+        paste0("$", self$name_raw, " filename option must be on first line"),
+        "nmrec_parse_error"
+      )
+    }
+
+    if (identical(filename, "*")) {
+      abort(
+        "nmrec does not support filename=* for $DATA records.",
+        "nmrec_unsupported"
+      )
+    }
+
+    rp$options_append(option_pos$new("filename", value = filename))
+  } else {
+    # Parsing the previous $DATA record is necessary to decide how to parse any
+    # subsequent ones.
+    prev$parse()
   }
-
-  if (identical(filename, "*")) {
-    abort(
-      "nmrec does not support filename=* for $DATA records.",
-      "nmrec_unsupported"
-    )
-  }
-
-  rp$options_append(option_pos$new("filename", value = filename))
 
   rp$gobble()
 
+  file_only <- !is.null(filename) ||
+    identical(names(prev$options), "filename")
   # (format)
-  if (rp$elems_is("paren_open")) {
+  if (file_only && rp$elems_is("paren_open")) {
     pos <- rp$elems_find_next(~ elem_is(.x, "paren_close"))
     if (identical(pos, 0L)) {
       abort(
@@ -36,7 +47,9 @@ parse_data_record <- function() {
       )
     }
 
-    rp$options_append(option_pos$new("format", value = rp$elems_yank_to(pos)))
+    rp$options_append(
+      option_pos$new("format", value = rp$elems_yank_to(pos))
+    )
   }
 
   rp$process_options()

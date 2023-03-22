@@ -143,3 +143,58 @@ test_that("parse_data_record() works", {
     )
   }
 })
+
+test_that("data records are combined", {
+  lines <- c(
+    "$prob a",
+    "$data foo.csv",
+    "$sub bar",
+    "$data\t(F )",
+    "$DAT ign C"
+  )
+
+  res <- parse_ctl(lines)
+  recs <- res$records
+
+  for (i in c(2, 4, 5)) {
+    expect_null(recs[[i]]$template)
+    expect_null(recs[[i]]$options)
+  }
+
+  recs[[5]]$parse()
+
+  expect_identical(
+    recs[[2]]$template,
+    list("record_name", elem_whitespace(" "), 1L, elem_linebreak())
+  )
+  expect_identical(
+    recs[[2]]$options,
+    list(filename = option_pos$new("filename", value = "foo.csv"))
+  )
+
+  expect_identical(
+    recs[[4]]$template,
+    list("record_name", elem_whitespace("\t"), 1L, elem_linebreak())
+  )
+  expect_identical(
+    recs[[4]]$options,
+    list(format = option_pos$new("format", value = "(F )"))
+  )
+
+  expect_identical(
+    recs[[5]]$template,
+    list("record_name", elem_whitespace(" "), 1L, elem_linebreak())
+  )
+  expect_identical(
+    recs[[5]]$options,
+    list(ignore = option_value$new(
+      "ignore",
+      name_raw = "ign", value = "C", sep = " "
+    ))
+  )
+
+  expect_identical(
+    format(res),
+    paste0(paste0(lines, collapse = "\n"), "\n")
+  )
+})
