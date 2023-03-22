@@ -1,7 +1,7 @@
 #' Create record object from a record's lines
 #'
 #' @param lines Character vector of lines for a given record.
-#' @return An R6 record object.
+#' @return An `nmrec_record` R6 record object.
 #' @noRd
 make_record <- function(lines) {
   if (!length(lines)) {
