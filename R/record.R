@@ -1,40 +1,17 @@
 #' Create record object from a record's lines
 #'
+#' @param name Normalized record name.
+#' @param name_raw Record name as specified in record.
 #' @param lines Character vector of lines for a given record.
 #' @return An `nmrec_record` R6 record object.
 #' @noRd
-make_record <- function(lines) {
+make_record <- function(name, name_raw, lines) {
   if (!length(lines)) {
     abort(
       "make_record() called with empty `lines`.",
       "nmrec_dev_error"
     )
   }
-
-  line1 <- lines[1]
-  match <- regexec("^[ \t]*\\$([A-Za-z]+)", line1)[[1]]
-  if (identical(match[1], -1L)) {
-    abort(
-      c(
-        "First non-whitespace in first line must start with '$'.",
-        paste("got:", deparse_string(line1))
-      ),
-      "nmrec_dev_error"
-    )
-  }
-
-  beg <- match[2]
-  end <- beg + attr(match, "match.length")[2] - 1
-  name_raw <- substr(line1, beg, end)
-  tryCatch(name <- resolve_record_name(name_raw),
-    nmrec_unknown_record = function(e) {
-      warn(
-        paste("Unknown record type:", name_raw),
-        "nmrec_warning"
-      )
-      name <<- name_raw
-    }
-  )
 
   rec <- switch(name,
     data = record_data,

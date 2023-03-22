@@ -46,7 +46,15 @@ parse_ctl <- function(lines) {
 
   records <- vector("list", n_records)
   for (i in seq_len(n_records)) {
-    records[[i]] <- make_record(lines[beg_pos[i]:end_pos[i]])
+    beg <- beg_pos[i]
+    nm <- extract_record_name(lines[beg])
+    name <- nm[1]
+    name_raw <- nm[2]
+
+    records[[i]] <- make_record(
+      name, name_raw,
+      lines[beg:end_pos[i]]
+    )
   }
 
   n_prob_recs <- sum(purrr::map_chr(records, "name") == "problem")
@@ -59,4 +67,32 @@ parse_ctl <- function(lines) {
   res <- list(frontmatter = frontmatter, records = records)
   class(res) <- c("nmrec_ctl_records", class(res))
   return(res)
+}
+
+extract_record_name <- function(line) {
+  match <- regexec("^[ \t]*\\$([A-Za-z]+)", line)[[1]]
+  if (identical(match[1], -1L)) {
+    abort(
+      c(
+        "First non-whitespace in first line must start with '$'.",
+        paste("got:", deparse_string(line))
+      ),
+      "nmrec_dev_error"
+    )
+  }
+
+  beg <- match[2]
+  end <- beg + attr(match, "match.length")[2] - 1
+  name_raw <- substr(line, beg, end)
+  tryCatch(name <- resolve_record_name(name_raw),
+    nmrec_unknown_record = function(e) {
+      warn(
+        paste("Unknown record type:", name_raw),
+        "nmrec_warning"
+      )
+      name <<- name_raw
+    }
+  )
+
+  return(c(name, name_raw))
 }

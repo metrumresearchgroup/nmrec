@@ -141,15 +141,20 @@ test_that("parse_ctl() works: bayes1", {
   expect_error(rec$parse(), class = "nmrec_unsupported")
 })
 
-test_that("make_record() dev errors", {
+test_that("make_record() dev error on empty lines", {
+  expect_error(make_record("name", "name_raw", c()),
+    class = "nmrec_dev_error"
+  )
+})
+
+test_that("extract_record_name() dev errors", {
   cases <- list(
-    c(),
     "",
-    c("", ""),
-    "nodollar",
-    c("", "nodollar")
+    "nodollar"
   )
   for (case in cases) {
-    expect_error(make_record(!!case), class = "nmrec_dev_error")
+    expect_error(extract_record_name(!!case),
+      class = "nmrec_dev_error"
+    )
   }
 })
