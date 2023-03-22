@@ -9,21 +9,18 @@ test_that("data_option_types and data_option_names align", {
 })
 
 test_that("parse_data_record() aborts if filename is not on first line", {
-  expect_error(parse_data_record("data", c("$data", "fn")),
-    class = "nmrec_parse_error"
-  )
+  rec <- record_data$new("data", "data", c("$data", "fn"))
+  expect_error(rec$parse(), class = "nmrec_parse_error")
 })
 
 test_that("parse_data_record() aborts on filename=*", {
-  expect_error(parse_data_record("data", "$data *"),
-    class = "nmrec_unsupported"
-  )
+  rec <- record_data$new("data", "data", "$data *")
+  expect_error(rec$parse(), class = "nmrec_unsupported")
 })
 
 test_that("parse_data_record() aborts if format option lacks closing paren", {
-  expect_error(parse_data_record("data", c("$data fn", "(FE")),
-    class = "nmrec_parse_error"
-  )
+  rec <- record_data$new("data", "data", c("$data fn", "(FE"))
+  expect_error(rec$parse(), class = "nmrec_parse_error")
 })
 
 test_that("parse_data_record() works", {
@@ -132,8 +129,10 @@ test_that("parse_data_record() works", {
   )
 
   for (case in cases) {
-    res <- parse_data_record("data", case$input)
-    expect_identical(!!res, !!case$want)
+    rec <- record_data$new("data", "data", case$input)
+    res <- rec$parse()
+    expect_identical(!!res$template, !!case$want$template)
+    expect_identical(!!res$options, !!case$want$options)
     # Inputs and results match when rendered as string.
     expect_identical(
       format_from_template("data", res$template, res$options),

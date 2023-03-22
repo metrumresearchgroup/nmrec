@@ -9,9 +9,8 @@ test_that("table_option_types and table_option_names align", {
 })
 
 test_that("parse_table_record() aborts if list1 repeated", {
-  expect_error(parse_table_record("tab", "$tab id num noappend foo bar"),
-    class = "nmrec_parse_error"
-  )
+  rec <- record_table$new("table", "tab", "$tab id num noappend foo bar")
+  expect_error(rec$parse(), class = "nmrec_parse_error")
 })
 
 
@@ -157,8 +156,10 @@ test_that("parse_table_record() works", {
   )
 
   for (case in cases) {
-    res <- parse_table_record("table", case$input)
-    expect_identical(!!res, !!case$want)
+    rec <- record_table$new("table", "table", case$input)
+    res <- rec$parse()
+    expect_identical(!!res$template, !!case$want$template)
+    expect_identical(!!res$options, !!case$want$options)
     # Inputs and results match when rendered as string.
     expect_identical(
       format_from_template("table", res$template, res$options),
