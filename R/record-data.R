@@ -53,23 +53,23 @@ record_data <- R6::R6Class(
 )
 
 data_option_types <- list(
-  "accept" = "value",
-  "blankok" = "flag",
-  "checkout" = "flag",
-  "ignore" = "value",
-  "last20" = "value",
-  "lrecl" = "value",
-  "misdat" = "value",
-  "noopen" = "flag",
-  "norewind" = "flag",
-  "nowide" = "flag",
-  "null" = "value",
-  "pred_ignore_data" = "flag",
-  "records" = "value",
-  "repl" = "value",
-  "rewind" = "flag",
-  "translate" = "value",
-  "wide" = "flag"
+  "accept" = option_type_value,
+  "blankok" = option_type_flag,
+  "checkout" = option_type_flag,
+  "ignore" = option_type_value,
+  "last20" = option_type_value,
+  "lrecl" = option_type_value,
+  "misdat" = option_type_value,
+  "noopen" = option_type_flag,
+  "norewind" = option_type_flag,
+  "nowide" = option_type_flag,
+  "null" = option_type_value,
+  "pred_ignore_data" = option_type_flag,
+  "records" = option_type_value,
+  "repl" = option_type_value,
+  "rewind" = option_type_flag,
+  "translate" = option_type_value,
+  "wide" = option_type_flag
 )
 
 data_option_names <- list2env(
