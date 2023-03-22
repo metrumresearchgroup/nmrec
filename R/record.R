@@ -70,7 +70,7 @@ record <- R6::R6Class(
     },
     parse = function() {
       if (is.null(self$template)) {
-        res <- private$parse_fn(private$name_raw, private$lines)
+        res <- private$parse_fn()
         self$template <- res[["template"]]
         self$options <- res[["options"]]
       }
@@ -81,7 +81,7 @@ record <- R6::R6Class(
   private = list(
     name_raw = NULL,
     lines = NULL,
-    parse_fn = function(name_raw, lines) {
+    parse_fn = function() {
       abort(
         paste("parse_fn not implemented for", deparse_string(class(self))),
         "nmrec_unsupported"

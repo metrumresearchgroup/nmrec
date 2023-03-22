@@ -1,6 +1,6 @@
-parse_table_record <- function(name_raw, lines) {
+parse_table_record <- function() {
   rp <- record_parser$new(
-    name_raw, lines,
+    private$name_raw, private$lines,
     option_types = table_option_types,
     option_names = table_option_names
   )
@@ -61,11 +61,9 @@ parse_table_record <- function(name_raw, lines) {
 
 record_table <- R6::R6Class(
   "nmrec_record_table",
-  inherit = record,
-  private = list(
-    parse_fn = parse_table_record
-  )
+  inherit = record
 )
+record_table$set("private", "parse_fn", parse_table_record)
 
 table_option_types <- list(
   "append" = option_type_flag,

@@ -1,8 +1,8 @@
 # TODO: Document parse_* functions somewhere.
 
-parse_data_record <- function(name_raw, lines) {
+parse_data_record <- function() {
   rp <- record_parser$new(
-    name_raw, lines,
+    private$name_raw, private$lines,
     option_types = data_option_types,
     option_names = data_option_names
   )
@@ -10,7 +10,7 @@ parse_data_record <- function(name_raw, lines) {
 
   if (elem_is(filename, c("linebreak", "semicolon"))) {
     abort(
-      paste0("$", name_raw, " filename option must be on first line"),
+      paste0("$", self$name_raw, " filename option must be on first line"),
       "nmrec_parse_error"
     )
   }
@@ -46,11 +46,9 @@ parse_data_record <- function(name_raw, lines) {
 
 record_data <- R6::R6Class(
   "nmrec_record_data",
-  inherit = record,
-  private = list(
-    parse_fn = parse_data_record
-  )
+  inherit = record
 )
+record_data$set("private", "parse_fn", parse_data_record)
 
 data_option_types <- list(
   "accept" = option_type_value,

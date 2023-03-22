@@ -1,6 +1,6 @@
-parse_estimation_record <- function(name_raw, lines) {
+parse_estimation_record <- function() {
   rp <- record_parser$new(
-    name_raw, lines,
+    private$name_raw, private$lines,
     option_types = estimation_option_types,
     option_names = estimation_option_names
   )
@@ -10,11 +10,9 @@ parse_estimation_record <- function(name_raw, lines) {
 
 record_estimation <- R6::R6Class(
   "nmrec_record_estimation",
-  inherit = record,
-  private = list(
-    parse_fn = parse_estimation_record
-  )
+  inherit = record
 )
+record_estimation$set("private", "parse_fn", parse_estimation_record)
 
 estimation_option_types <- list(
   "-2loglikelihood" = option_type_flag,
