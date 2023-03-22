@@ -44,6 +44,7 @@ parse_ctl <- function(lines) {
     lines[1:beg_pos[1] - 1]
   }
 
+  last_rec_of_type <- new.env(parent = emptyenv())
   records <- vector("list", n_records)
   for (i in seq_len(n_records)) {
     beg <- beg_pos[i]
@@ -51,10 +52,13 @@ parse_ctl <- function(lines) {
     name <- nm[1]
     name_raw <- nm[2]
 
-    records[[i]] <- make_record(
+    rec <- make_record(
       name, name_raw,
-      lines[beg:end_pos[i]]
+      lines[beg:end_pos[i]],
+      previous_rec = get0(name, envir = last_rec_of_type)
     )
+    records[[i]] <- rec
+    assign(name, rec, envir = last_rec_of_type)
   }
 
   n_prob_recs <- sum(purrr::map_chr(records, "name") == "problem")

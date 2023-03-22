@@ -5,7 +5,7 @@
 #' @param lines Character vector of lines for a given record.
 #' @return An `nmrec_record` R6 record object.
 #' @noRd
-make_record <- function(name, name_raw, lines) {
+make_record <- function(name, name_raw, lines, previous_rec = NULL) {
   if (!length(lines)) {
     abort(
       "make_record() called with empty `lines`.",
@@ -20,7 +20,11 @@ make_record <- function(name, name_raw, lines) {
     record_raw
   )
 
-  return(rec$new(name = name, name_raw = name_raw, lines = lines))
+  return(rec$new(
+    name = name, name_raw = name_raw,
+    lines = lines,
+    previous_rec = previous_rec
+  ))
 }
 
 # TODO: Document.
@@ -30,10 +34,11 @@ record <- R6::R6Class(
     name = NULL,
     options = NULL,
     template = NULL,
-    initialize = function(name, name_raw, lines) {
+    initialize = function(name, name_raw, lines, previous_rec = NULL) {
       self$name <- name
       private$name_raw <- name_raw
       private$lines <- lines
+      private$previous_rec <- previous_rec
     },
     get_lines = function() {
       private$lines
@@ -58,6 +63,7 @@ record <- R6::R6Class(
   private = list(
     name_raw = NULL,
     lines = NULL,
+    previous_rec = NULL,
     parse_fn = function() {
       abort(
         sprintf(
