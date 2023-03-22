@@ -13,7 +13,6 @@ test_that("parse_table_record() aborts if list1 repeated", {
   expect_error(rec$parse(), class = "nmrec_parse_error")
 })
 
-
 test_that("parse_table_record() aborts if option closing trailing quote", {
   rec <- record_table$new("table", "tab", "$tab id file='noclose")
   expect_error(rec$parse(), class = "nmrec_parse_error")
