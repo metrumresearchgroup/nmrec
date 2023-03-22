@@ -14,6 +14,12 @@ test_that("parse_table_record() aborts if list1 repeated", {
   )
 })
 
+
+test_that("parse_table_record() aborts if option closing trailing quote", {
+  rec <- record_table$new("table", "tab", "$tab id file='noclose")
+  expect_error(rec$parse(), class = "nmrec_parse_error")
+})
+
 test_that("parse_table_record() works", {
   cases <- list(
     list(
@@ -122,6 +128,28 @@ test_that("parse_table_record() works", {
           wreschol = option_flag$new(
             "wreschol",
             name_raw = "wres", value = TRUE
+          )
+        )
+      )
+    ),
+    list(
+      input = "$table id noapp file='quo;ted'",
+      want = list(
+        template = list(
+          "record_name", elem_whitespace(" "),
+          1L, elem_whitespace(" "),
+          2L, elem_whitespace(" "),
+          3L, elem_linebreak()
+        ),
+        options = list(
+          list1 = option_pos$new("list1", value = "id"),
+          noappend = option_flag$new(
+            "noappend",
+            name_raw = "noapp", value = TRUE
+          ),
+          file = option_value$new(
+            "file",
+            name_raw = "file", value = "'quo;ted'"
           )
         )
       )
