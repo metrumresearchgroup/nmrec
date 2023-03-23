@@ -5,10 +5,8 @@ option <- R6::R6Class(
     name = NULL,
     name_raw = NULL,
     value = NULL,
-    initialize = function(name, name_raw = NULL, value = NULL) {
+    initialize = function(name, ...) {
       self$name <- name
-      self$name_raw <- name_raw
-      self$value <- value
     }
   )
 )
@@ -17,6 +15,10 @@ option_pos <- R6::R6Class(
   "nmrec_option_pos",
   inherit = option,
   public = list(
+    initialize = function(name, value = NULL, ...) {
+      super$initialize(name = name)
+      self$value <- value
+    },
     format = function() {
       if (is.null(self$value)) {
         ""
@@ -31,6 +33,11 @@ option_flag <- R6::R6Class(
   "nmrec_option_flag",
   inherit = option,
   public = list(
+    initialize = function(name, name_raw = NULL, value = TRUE, ...) {
+      super$initialize(name = name)
+      self$name_raw <- name_raw
+      self$value <- value
+    },
     format = function() {
       if (is.null(self$value)) {
         ""
@@ -46,8 +53,9 @@ option_value <- R6::R6Class(
   inherit = option,
   public = list(
     sep = NULL,
-    initialize = function(name, name_raw = NULL, value = NULL, sep = "=") {
-      self$name <- name
+    initialize = function(name, name_raw = NULL, value = NULL,
+                          sep = "=", ...) {
+      super$initialize(name = name)
       self$name_raw <- name_raw
       self$sep <- sep
       self$value <- value
