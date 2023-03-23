@@ -106,11 +106,15 @@ test_that("parse_data_record() works", {
       )
     ),
     list(
-      input = "$data foo.csv IGNORE=C IGNORE(foo)",
+      input = c(
+        "$data foo.csv",
+        "; comment",
+        "IGNORE=C IGNORE(foo)"
+      ),
       want = list(
         template = list(
           "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
+          1L, elem_linebreak(), elem_comment("; comment"), elem_linebreak(),
           2L, elem_whitespace(" "), 3L, elem_linebreak()
         ),
         options = list(

@@ -123,6 +123,7 @@ elem_is <- function(e, types, which = FALSE) {
 elem_get_class <- function(x) {
   switch(x,
     "ampersand" = "nmrec_ampersand",
+    "comment" = "nmrec_comment",
     "comma" = "nmrec_comma",
     "equal_sign" = "nmrec_equal_sign",
     "linebreak" = "nmrec_linebreak",

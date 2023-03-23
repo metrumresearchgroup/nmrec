@@ -165,7 +165,7 @@ record_parser <- R6::R6Class(
     },
     gobble = function() {
       uninteresting <- c(
-        "ampersand", "comma", "equal_sign",
+        "ampersand", "comma", "comment", "equal_sign",
         "linebreak", "whitespace"
       )
       while (!self$elems_done()) {
