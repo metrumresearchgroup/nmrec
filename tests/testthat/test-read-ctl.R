@@ -80,11 +80,12 @@ test_that("parse_ctl() works: control 3", {
   expect_identical(rec$get_lines(), "$DATA  DATA3")
   expect_identical(rec$format(), "$DATA  DATA3\n")
 
-  rec <- records[[7]]
+  rec <- records[[11]]
   expect_s3_class(rec, "nmrec_record_raw")
-  expect_identical(rec$name, "theta")
-  expect_identical(rec$get_lines(), c("$THETA  (0,1.7)  (0,.102)  (0,29)", ""))
-  expect_identical(rec$format(), "$THETA  (0,1.7)  (0,.102)  (0,29)\n\n")
+  expect_identical(rec$name, "scatterplot")
+  expect_identical(rec$get_lines(), "$SCAT    CP VS TIME")
+  expect_identical(rec$format(), "$SCAT    CP VS TIME\n")
+  expect_error(rec$parse(), class = "nmrec_unsupported")
 })
 
 test_that("parse_ctl() works: ccontrs", {
@@ -126,19 +127,6 @@ test_that("parse_ctl() works: bayes1", {
     option_pos$new("filename", value = "example1.csv")
   )
   expect_identical(rec$format(), "$DATA example1.csv IGNORE=C\n")
-
-  rec <- records[[10]]
-  expect_s3_class(rec, "nmrec_record_raw")
-  expect_identical(rec$name, "prior")
-  expect_identical(
-    rec$get_lines(),
-    c(
-      "$PRIOR NWPRI",
-      "",
-      "; Prior information of THETAS"
-    )
-  )
-  expect_error(rec$parse(), class = "nmrec_unsupported")
 })
 
 test_that("make_record() dev error on empty lines", {
