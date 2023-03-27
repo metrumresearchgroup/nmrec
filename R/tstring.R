@@ -11,6 +11,48 @@ tstring <- R6::R6Class(
       self$template <- vector("list", size_template)
       self$values <- vector("list", size_values)
     },
+    format = function() {
+      templ <- self$get_template()
+      parts <- purrr::map(templ, ~ {
+        if (!identical(length(.x), 1L)) {
+          abort(
+            c(
+              "Got non-scalar for template element.",
+              deparse_string(.x)
+            ),
+            "nmrec_dev_error"
+          )
+        }
+
+        if (is.character(.x)) {
+          value <- .x
+        } else if (is.integer(.x)) {
+          value <- self$values[[.x]]
+          if (is.null(value)) {
+            abort(
+              sprintf("Template value %s not found", .x),
+              "nmrec_dev_error"
+            )
+          }
+
+          if (!is.character(value)) {
+            value <- format(value)
+          }
+        } else {
+          abort(
+            c(
+              "Got unexpected value for template element.",
+              deparse_string(.x)
+            ),
+            "nmrec_dev_error"
+          )
+        }
+
+        return(value)
+      })
+
+      return(paste(parts, collapse = ""))
+    },
     get_template = function() {
       purrr::compact(self$template)
     },
