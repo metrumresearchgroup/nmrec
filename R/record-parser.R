@@ -12,10 +12,7 @@ record_parser <- R6::R6Class(
     elems = NULL,
     n_elems = NULL,
     idx_e = 1L,
-    options = NULL,
-    idx_o = 1L,
     template = NULL,
-    idx_t = 1L,
     initialize = function(name_raw, lines,
                           option_types = NULL,
                           option_names = NULL) {
@@ -26,8 +23,7 @@ record_parser <- R6::R6Class(
 
       self$elems <- split_to_elements(lines)
       self$n_elems <- length(self$elems)
-      self$options <- vector("list", self$n_elems)
-      self$template <- vector("list", self$n_elems * 2)
+      self$template <- tstring$new(self$n_elems * 2, self$n_elems)
 
       self$gobble_one("whitespace")
 
@@ -41,32 +37,21 @@ record_parser <- R6::R6Class(
           "nmrec_dev_error"
         )
       }
-      self$template_append("record_name")
+      self$template$append_t("record_name")
       self$gobble_one("whitespace")
     },
     get_template = function() {
-      purrr::compact(self$template)
+      self$template$get_template()
     },
     get_options = function() {
-      purrr::compact(self$options)
+      self$template$get_values()
     },
     options_append = function(x) {
-      self$options[[self$idx_o]] <- x
-      names(self$options)[[self$idx_o]] <- x$name
-      self$template[[self$idx_t]] <- self$idx_o
-
-      self$tick_o()
-      self$tick_t()
-
+      self$template$append_v(x$name, x)
       return(invisible(self))
     },
     resolve_option = function(x) {
       get0(tolower(x), self$option_names)
-    },
-    template_append = function(x) {
-      self$template[[self$idx_t]] <- x
-      self$tick_t()
-      return(invisible(self))
     },
     elems_done = function() {
       return(self$idx_e > self$n_elems)
@@ -140,7 +125,7 @@ record_parser <- R6::R6Class(
     },
     gobble_one = function(types) {
       if (self$elems_is(types)) {
-        self$template_append(self$elems_yank())
+        self$template$append_t(self$elems_yank())
       }
       return(invisible(self))
     },
@@ -157,8 +142,8 @@ record_parser <- R6::R6Class(
         comment <- elem_comment(
           paste0(self$elems[beg:(lb - 1)], collapse = "")
         )
-        self$template_append(comment)
-        self$template_append(self$elems[[lb]])
+        self$template$append_t(comment)
+        self$template$append_t(self$elems[[lb]])
         self$idx_e <- lb + 1
       }
       return(invisible(self))
@@ -186,7 +171,7 @@ record_parser <- R6::R6Class(
           break
         }
 
-        self$template_append(self$elems_yank())
+        self$template$append_t(self$elems_yank())
       }
       return(invisible(self))
     },
@@ -196,14 +181,6 @@ record_parser <- R6::R6Class(
     },
     tick_e = function(n = 1L) {
       self$idx_e <- self$idx_e + n
-      return(invisible(self))
-    },
-    tick_o = function(n = 1L) {
-      self$idx_o <- self$idx_o + n
-      return(invisible(self))
-    },
-    tick_t = function(n = 1L) {
-      self$idx_t <- self$idx_t + n
       return(invisible(self))
     }
   )
