@@ -123,13 +123,15 @@ record_parser <- R6::R6Class(
 
       return(pos)
     },
-    gobble_one = function(types) {
+    gobble_one = function(types, template = NULL) {
+      templ <- template %||% self$template
       if (self$elems_is(types)) {
-        self$template$append_t(self$elems_yank())
+        templ$append_t(self$elems_yank())
       }
       return(invisible(self))
     },
-    gobble_comment = function() {
+    gobble_comment = function(template = NULL) {
+      templ <- template %||% self$template
       if (self$elems_is("semicolon")) {
         beg <- self$idx_e
         lb <- self$elems_find_next(~ elem_is(.x, "linebreak"))
@@ -142,20 +144,21 @@ record_parser <- R6::R6Class(
         comment <- elem_comment(
           paste0(self$elems[beg:(lb - 1)], collapse = "")
         )
-        self$template$append_t(comment)
-        self$template$append_t(self$elems[[lb]])
+        templ$append_t(comment)
+        templ$append_t(self$elems[[lb]])
         self$idx_e <- lb + 1
       }
       return(invisible(self))
     },
-    gobble = function() {
+    gobble = function(template = NULL) {
+      templ <- template %||% self$template
       uninteresting <- c(
         "ampersand", "comma", "comment", "equal_sign",
         "linebreak", "whitespace"
       )
       while (!self$elems_done()) {
         if (self$elems_is("semicolon")) {
-          self$gobble_comment()
+          self$gobble_comment(template = templ)
           next
         }
         if (self$elems_is("ampersand")) {
@@ -171,7 +174,7 @@ record_parser <- R6::R6Class(
           break
         }
 
-        self$template$append_t(self$elems_yank())
+        templ$append_t(self$elems_yank())
       }
       return(invisible(self))
     },
