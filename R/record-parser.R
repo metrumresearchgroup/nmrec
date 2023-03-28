@@ -150,7 +150,7 @@ record_parser <- R6::R6Class(
         lb <- self$elems_find_next(~ elem_is(.x, "linebreak"))
         if (identical(lb, 0L)) {
           abort(
-            "Record always end with linebreak element",
+            "Record must end with linebreak element",
             "nmrec_dev_error"
           )
         }
