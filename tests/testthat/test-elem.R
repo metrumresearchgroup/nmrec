@@ -75,12 +75,12 @@ test_that("split_to_elements() works", {
 
   for (case in cases) {
     res <- split_to_elements(case$input)
-    expect_identical(!!res, !!case$want)
+    expect_identical(res, case$want)
     # Inputs and results match when rendered as string.
     expect_identical(
-      paste0(paste0(unlist(!!res), collapse = "")),
+      paste0(paste0(unlist(res), collapse = "")),
       paste0(
-        paste0(!!case$input, collapse = "\n"),
+        paste0(case$input, collapse = "\n"),
         "\n"
       )
     )
