@@ -71,7 +71,7 @@ test_that("parse_ctl() works: control 3", {
   records <- res$records
   expect_length(records, 13)
   for (i in seq_along(records)) {
-    expect_s3_class(!!records[[i]], "nmrec_record")
+    expect_s3_class(records[[!!i]], "nmrec_record")
   }
 
   rec <- records[[3]]
@@ -94,7 +94,7 @@ test_that("parse_ctl() works: ccontrs", {
   records <- res$records
   expect_length(records, 10)
   for (i in seq_along(records)) {
-    expect_s3_class(!!records[[i]], "nmrec_record")
+    expect_s3_class(records[[!!i]], "nmrec_record")
   }
 
   rec <- records[[1]]
@@ -112,7 +112,7 @@ test_that("parse_ctl() works: bayes1", {
   records <- res$records
   expect_length(records, 25)
   for (i in seq_along(records)) {
-    expect_s3_class(!!records[[i]], "nmrec_record")
+    expect_s3_class(records[[!!i]], "nmrec_record")
   }
 
   rec <- records[[3]]
