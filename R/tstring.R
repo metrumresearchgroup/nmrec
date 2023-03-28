@@ -81,6 +81,23 @@ tstring <- R6::R6Class(
     tick_t = function(n = 1L) {
       self$idx_t <- self$idx_t + n
       return(invisible(self))
+    },
+    pop_until = function(pred) {
+      idx <- purrr::detect_index(
+        self$template[seq_len(self$idx_t)],
+        pred,
+        .dir = "backward"
+      )
+
+      if (identical(idx, 0L) || identical(idx, self$idx_t - 1L)) {
+        return(list())
+      }
+
+      popped <- self$template[(idx + 1):(self$idx_t - 1L)]
+      self$template <- self$template[seq_len(idx)]
+      self$idx_t <- idx + 1L
+
+      return(popped)
     }
   )
 )
