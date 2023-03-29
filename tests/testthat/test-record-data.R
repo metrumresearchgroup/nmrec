@@ -129,6 +129,28 @@ test_that("parse_data_record() works", {
           )
         )
       )
+    ),
+    list(
+      input = c(
+        # For paren values, the value can continue to the next line, but nmrec
+        # will include comments as part of the value.
+        "$data foo.csv ign (foo ; bar",
+        "baz)"
+      ),
+      want = list(
+        template = list(
+          "record_name", elem_whitespace(" "),
+          1L, elem_whitespace(" "),
+          2L, elem_linebreak()
+        ),
+        options = list(
+          filename = option_pos$new("filename", value = "foo.csv"),
+          ignore = option_value$new(
+            "ignore",
+            name_raw = "ign", value = "(foo ; bar\nbaz)", sep = " "
+          )
+        )
+      )
     )
   )
 
