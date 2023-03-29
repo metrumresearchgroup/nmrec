@@ -191,12 +191,7 @@ record_parser <- R6::R6Class(
       return(invisible(self))
     },
     process_options = function(fail_on_unknown = TRUE) {
-      process_options(
-        self,
-        self$option_types,
-        self$option_names,
-        fail_on_unknown = fail_on_unknown
-      )
+      process_options(self, fail_on_unknown = fail_on_unknown)
       return(invisible(self))
     },
     tick_e = function(n = 1L) {
@@ -214,8 +209,7 @@ record_parser <- R6::R6Class(
   )
 )
 
-process_options <- function(rp, known_options, name_map,
-                            fail_on_unknown = TRUE) {
+process_options <- function(rp, fail_on_unknown = TRUE) {
   rp$gobble()
   while (!rp$elems_done()) {
     opt_raw <- rp$elems_current()
@@ -231,7 +225,7 @@ process_options <- function(rp, known_options, name_map,
     }
     rp$tick_e()
 
-    kind <- known_options[[opt]]
+    kind <- rp$option_types[[opt]]
     if (is.null(kind)) {
       abort(paste("No type defined for", opt), "nmrec_dev_error")
     }
