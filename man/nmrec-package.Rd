@@ -8,6 +8,14 @@
 \description{
 A library for reading records from a NONMEM control stream, parsing and modifying records of interest, and writing the result.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/metrumresearchgroup/nmrec}
+  \item Report bugs at \url{https://github.com/metrumresearchgroup/nmrec/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Kyle Meyer \email{kylem@metrumrg.com}
 
