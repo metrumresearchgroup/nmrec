@@ -24,8 +24,7 @@ test_that("parse_table_record() works", {
       input = "$table ID NUM",
       want = list(
         template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_linebreak()
+          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
         ),
         options = list(
           list1 = option_pos$new("list1", value = "ID NUM")

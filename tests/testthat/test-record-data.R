@@ -29,8 +29,7 @@ test_that("parse_data_record() works", {
       input = "$data foo.csv",
       want = list(
         template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_linebreak()
+          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
         ),
         options = list(
           filename = option_pos$new("filename", value = "foo.csv")
@@ -41,8 +40,7 @@ test_that("parse_data_record() works", {
       input = "$data 'foo bar.csv'",
       want = list(
         template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_linebreak()
+          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
         ),
         options = list(
           filename = option_pos$new("filename", value = "'foo bar.csv'")
@@ -53,8 +51,7 @@ test_that("parse_data_record() works", {
       input = '$data "foo bar.csv"',
       want = list(
         template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_linebreak()
+          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
         ),
         options = list(
           filename = option_pos$new("filename", value = '"foo bar.csv"')
