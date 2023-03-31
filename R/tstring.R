@@ -1,3 +1,5 @@
+# TODO: Reconsider whether the template/values split is worth keeping.
+
 tstring <- R6::R6Class(
   "nmrec_tstring",
   public = list(
