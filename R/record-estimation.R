@@ -5,6 +5,8 @@ parse_estimation_record <- function() {
     option_names = estimation_option_names
   )
   rp$process_options()
+  rp$elems_assert_done()
+
   return(list(template = rp$get_template(), options = rp$get_options()))
 }
 

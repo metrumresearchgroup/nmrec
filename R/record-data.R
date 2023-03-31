@@ -53,6 +53,7 @@ parse_data_record <- function() {
   }
 
   rp$process_options()
+  rp$elems_assert_done()
 
   return(list(template = rp$get_template(), options = rp$get_options()))
 }

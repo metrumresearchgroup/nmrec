@@ -56,6 +56,17 @@ record_parser <- R6::R6Class(
     elems_done = function() {
       return(self$idx_e > self$n_elems)
     },
+    elems_assert_done = function() {
+      if (!self$elems_done()) {
+        abort(
+          c(
+            sprintf("Failed to parse %s record.", self$name_raw),
+            paste(self$elems, collapse = "")
+          ),
+          "nmrec_parse_error"
+        )
+      }
+    },
     elems_assert_remaining = function() {
       if (self$elems_done()) {
         abort("All elements already consumed.", "nmrec_dev_error")

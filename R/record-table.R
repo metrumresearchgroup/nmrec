@@ -55,6 +55,7 @@ parse_table_record <- function() {
     rp$gobble()
     rp$process_options(fail_on_unknown = FALSE)
   }
+  rp$elems_assert_done()
 
   return(list(template = rp$get_template(), options = rp$get_options()))
 }

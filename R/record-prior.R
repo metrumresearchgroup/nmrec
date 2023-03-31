@@ -11,18 +11,7 @@ parse_prior_record <- function() {
   }
 
   record_parser_map(rp, parse_prior)
-
-  if (!rp$elems_done()) {
-    abort(
-      c(
-        paste(
-          "Failed to parse prior record:\n",
-          paste(rp$elems, collapse = "")
-        ),
-        "nmrec_parse_error"
-      )
-    )
-  }
+  rp$elems_assert_done()
 
   return(list(template = rp$get_template(), options = rp$get_options()))
 }
