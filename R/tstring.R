@@ -54,10 +54,10 @@ tstring <- R6::R6Class(
       return(paste(parts, collapse = ""))
     },
     get_template = function() {
-      purrr::compact(self$template)
+      self$template[seq_len(self$idx_t - 1)]
     },
     get_values = function() {
-      purrr::compact(self$values)
+      self$values[seq_len(self$idx_v - 1)]
     },
     append_v = function(name, x) {
       self$maybe_grow("values", self$idx_v)

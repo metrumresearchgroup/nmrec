@@ -88,7 +88,7 @@ split_to_elements <- function(lines) {
     elem_idx <- elem_idx + 1
   }
 
-  return(purrr::compact(elems))
+  return(elems[seq_len(elem_idx - 1)])
 }
 
 elem_select <- function(x) {
