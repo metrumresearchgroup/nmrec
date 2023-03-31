@@ -7,7 +7,7 @@ tstring <- R6::R6Class(
     idx_t = 1L,
     values = NULL,
     idx_v = 1L,
-    initialize = function(size_template, size_values) {
+    initialize = function(size_template = 30L, size_values = 10L) {
       self$template <- vector("list", size_template)
       self$values <- vector("list", size_values)
     },
