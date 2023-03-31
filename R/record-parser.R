@@ -246,13 +246,7 @@ process_options <- function(rp, fail_on_unknown = TRUE) {
       }
 
       if (rp$elems_is("paren_open")) {
-        pos <- rp$elems_find_next(~ elem_is(.x, "paren_close"))
-        if (identical(pos, 0L)) {
-          abort(
-            c("Missing closing paren.", paste(rp$elems, collapse = "")),
-            "nmrec_parse_error"
-          )
-        }
+        pos <- find_closing_paren(rp)
         val <- rp$elems_yank_to(pos)
       } else {
         val <- rp$elems_yank(fold_quoted = TRUE)
@@ -292,6 +286,26 @@ find_closing_quote <- function(elems) {
     }
   }
 
+  return(end)
+}
+
+#' Find closing paren
+#'
+#' Abort if no closing paren can be found.
+#'
+#' @param rp `record_parser` object.
+#' @param stop_on_types Element types in addition to "paren_close" to stop on.
+#' @return Returns element index for closing paren.
+#' @noRd
+find_closing_paren <- function(rp, stop_on_types = NULL) {
+  types <- c("paren_close", stop_on_types)
+  end <- rp$elems_find_next(~ elem_is(.x, types))
+  if (identical(end, 0L) || !rp$elems_is("paren_close", pos = end)) {
+    abort(
+      c("Missing closing paren.", paste(rp$elems, collapse = "")),
+      "nmrec_parse_error"
+    )
+  }
   return(end)
 }
 

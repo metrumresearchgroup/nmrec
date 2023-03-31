@@ -39,14 +39,7 @@ parse_data_record <- function() {
     identical(names(prev$options), "filename")
   # (format)
   if (file_only && rp$elems_is("paren_open")) {
-    pos <- rp$elems_find_next(~ elem_is(.x, "paren_close"))
-    if (identical(pos, 0L)) {
-      abort(
-        c("Missing closing paren.", paste(rp$elems, collapse = "")),
-        "nmrec_parse_error"
-      )
-    }
-
+    pos <- find_closing_paren(rp)
     rp$options_append(
       option_pos$new("format", value = rp$elems_yank_to(pos))
     )
