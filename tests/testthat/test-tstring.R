@@ -83,3 +83,32 @@ test_that("tstring$pop_until() works", {
     expect_identical(format(templ), case$want$string)
   }
 })
+
+test_that("tstring grows by doubling if needed", {
+  templ <- tstring$new(4L, 2L)
+
+  templ$append_v("one", "1")
+  expect_length(templ$template, 4)
+  expect_length(templ$values, 2)
+  expect_identical(format(templ), "1")
+
+  templ$append_v("two", "2")
+  expect_length(templ$template, 4)
+  expect_length(templ$values, 2)
+  expect_identical(format(templ), "12")
+
+  templ$append_v("three", "3")
+  expect_length(templ$template, 4)
+  expect_length(templ$values, 4)
+  expect_identical(format(templ), "123")
+
+  templ$append_v("four", "4")
+  expect_length(templ$template, 4)
+  expect_length(templ$values, 4)
+  expect_identical(format(templ), "1234")
+
+  templ$append_v("five", "5")
+  expect_length(templ$template, 8)
+  expect_length(templ$values, 8)
+  expect_identical(format(templ), "12345")
+})

@@ -60,8 +60,11 @@ tstring <- R6::R6Class(
       purrr::compact(self$values)
     },
     append_v = function(name, x) {
+      self$maybe_grow("values", self$idx_v)
       self$values[[self$idx_v]] <- x
       names(self$values)[[self$idx_v]] <- name
+
+      self$maybe_grow("template", self$idx_t)
       self$template[[self$idx_t]] <- self$idx_v
 
       self$tick_v()
@@ -70,9 +73,17 @@ tstring <- R6::R6Class(
       return(invisible(self))
     },
     append_t = function(x) {
+      self$maybe_grow("template", self$idx_t)
       self$template[[self$idx_t]] <- x
       self$tick_t()
       return(invisible(self))
+    },
+    maybe_grow = function(which, idx) {
+      l <- self[[which]]
+      n <- length(l)
+      if (idx > n) {
+        self[[which]] <- c(l, vector("list", n))
+      }
     },
     tick_v = function(n = 1L) {
       self$idx_v <- self$idx_v + n
