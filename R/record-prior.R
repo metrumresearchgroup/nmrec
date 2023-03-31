@@ -10,26 +10,7 @@ parse_prior_record <- function() {
     prev$parse()
   }
 
-  i <- NULL
-  while (!identical(i, rp$idx_e)) {
-    i <- rp$idx_e
-    rp$process_options(fail_on_unknown = FALSE)
-
-    if (rp$elems_is("paren_open")) {
-      pos <- rp$elems_find_next(~ elem_is(.x, "paren_close"))
-      if (identical(pos, 0L)) {
-        abort(
-          c("Missing closing paren.", paste(rp$elems, collapse = "")),
-          "nmrec_parse_error"
-        )
-      }
-
-      rp$options_append(
-        option_pos$new("clause", value = rp$elems_yank_to(pos))
-      )
-      rp$gobble()
-    }
-  }
+  record_parser_map(rp, parse_prior)
 
   if (!rp$elems_done()) {
     abort(
@@ -44,6 +25,25 @@ parse_prior_record <- function() {
   }
 
   return(list(template = rp$get_template(), options = rp$get_options()))
+}
+
+parse_prior <- function(rp) {
+  rp$process_options(fail_on_unknown = FALSE)
+
+  if (rp$elems_is("paren_open")) {
+    pos <- rp$elems_find_next(~ elem_is(.x, "paren_close"))
+    if (identical(pos, 0L)) {
+      abort(
+        c("Missing closing paren.", paste(rp$elems, collapse = "")),
+        "nmrec_parse_error"
+      )
+    }
+
+    rp$options_append(
+      option_pos$new("clause", value = rp$elems_yank_to(pos))
+    )
+    rp$gobble()
+  }
 }
 
 record_prior <- R6::R6Class(

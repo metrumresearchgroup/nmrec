@@ -283,3 +283,26 @@ find_closing_quote <- function(elems) {
 
   return(end)
 }
+
+#' Process record elements with a function
+#'
+#' Call a function with `rp`, stopping once the element index no longer changes
+#' or the index is beyond the last element.
+#'
+#' @param rp `record_parser` object.
+#' @param fn Function to apply. It is called with `rp` as its only argument.
+#'
+#' @noRd
+record_parser_map <- function(rp, fn) {
+  fn <- purrr::as_mapper(fn)
+  i <- NULL
+  while (!identical(i, rp$idx_e)) {
+    i <- rp$idx_e
+
+    if (rp$elems_done()) {
+      break
+    }
+
+    fn(rp)
+  }
+}
