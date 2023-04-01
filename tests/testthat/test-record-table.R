@@ -117,6 +117,7 @@ test_that("parse_table_record() works", {
   for (case in cases) {
     rec <- record_table$new("table", "table", case$input)
     rec$parse()
+    expect_false(is.null(rec$values))
     expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(

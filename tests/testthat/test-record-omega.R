@@ -369,6 +369,7 @@ test_that("parse_omega_record() works", {
   for (case in cases) {
     rec <- record_omega$new("omega", "OMEGA", case$input)
     rec$parse()
+    expect_false(is.null(rec$values))
     expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(

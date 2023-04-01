@@ -21,6 +21,7 @@ test_that("parse_sigma_record() works", {
   for (case in cases) {
     rec <- record_sigma$new("sigma", "SIGMA", case$input)
     rec$parse()
+    expect_false(is.null(rec$values))
     expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(
