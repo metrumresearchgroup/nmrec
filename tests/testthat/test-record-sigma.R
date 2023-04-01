@@ -6,15 +6,13 @@ test_that("parse_sigma_record() works", {
     list(
       input = "$SIGMA 1",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          sigma = option_param$new(
+        values = list(
+          elem_whitespace(" "),
+          option_param$new(
             "sigma",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "1"))
-          )
+            values = list(option_pos$new("init", "1"))
+          ),
+          elem_linebreak()
         )
       )
     )
@@ -23,11 +21,10 @@ test_that("parse_sigma_record() works", {
   for (case in cases) {
     rec <- record_sigma$new("sigma", "SIGMA", case$input)
     rec$parse()
-    expect_identical(rec$template, case$want$template)
-    expect_identical(rec$options, case$want$options)
+    expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("SIGMA", rec$template, rec$options),
+      rec$format(),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"
@@ -48,39 +45,32 @@ test_that("sigma records are combined", {
   recs <- res$records
 
   for (i in c(2, 4)) {
-    expect_null(recs[[i]]$template)
-    expect_null(recs[[i]]$options)
+    expect_null(recs[[i]]$values)
   }
 
   recs[[4]]$parse()
 
   expect_identical(
-    recs[[2]]$template,
-    list("record_name", elem_whitespace(" "), 1L, elem_linebreak())
-  )
-  expect_identical(
-    recs[[2]]$options,
+    recs[[2]]$values,
     list(
-      sigma = option_param$new(
+      elem_whitespace(" "),
+      option_param$new(
         "sigma",
-        template = list(1L),
-        values = list(init = option_pos$new("init", "1"))
-      )
+        values = list(option_pos$new("init", "1"))
+      ),
+      elem_linebreak()
     )
   )
 
   expect_identical(
-    recs[[4]]$template,
-    list("record_name", elem_whitespace(" "), 1L, elem_linebreak())
-  )
-  expect_identical(
-    recs[[4]]$options,
+    recs[[4]]$values,
     list(
-      sigma = option_param$new(
+      elem_whitespace(" "),
+      option_param$new(
         "sigma",
-        template = list(1L),
-        values = list(init = option_pos$new("init", "2"))
-      )
+        values = list(option_pos$new("init", "2"))
+      ),
+      elem_linebreak()
     )
   )
 

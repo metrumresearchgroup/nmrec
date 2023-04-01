@@ -17,23 +17,22 @@ test_that("parse_estimation_record() works", {
         "    nsample= 99"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          elem_comment("; comment"), elem_linebreak(),
-          elem_whitespace("    "),
-          elem_comment("; other comment"), elem_linebreak(),
-          elem_whitespace("    "), 2L, elem_linebreak()
-        ),
-        options = list(
-          maxevals = option_value$new(
+        values = list(
+          elem_whitespace(" "),
+          option_value$new(
             "maxevals",
             name_raw = "max", value = "888", sep = " "
           ),
-          niter = option_value$new(
+          elem_whitespace(" "),
+          elem_comment("; comment"), elem_linebreak(),
+          elem_whitespace("    "),
+          elem_comment("; other comment"), elem_linebreak(),
+          elem_whitespace("    "),
+          option_value$new(
             "niter",
             name_raw = "nsample", value = "99", sep = "= "
-          )
+          ),
+          elem_linebreak()
         )
       )
     )
@@ -42,11 +41,10 @@ test_that("parse_estimation_record() works", {
   for (case in cases) {
     rec <- record_estimation$new("estimation", "est", case$input)
     rec$parse()
-    expect_identical(rec$template, case$want$template)
-    expect_identical(rec$options, case$want$options)
+    expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("est", rec$template, rec$options),
+      rec$format(),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"

@@ -13,7 +13,7 @@ parse_prior_record <- function() {
   record_parser_map(rp, parse_prior)
   rp$elems_assert_done()
 
-  return(list(template = rp$get_template(), options = rp$get_options()))
+  return(rp$get_values())
 }
 
 parse_prior <- function(rp) {
@@ -21,7 +21,7 @@ parse_prior <- function(rp) {
 
   if (rp$elems_is("paren_open")) {
     pos <- find_closing_paren(rp)
-    rp$options_append(
+    rp$append(
       option_pos$new("clause", value = rp$elems_yank_to(pos))
     )
     rp$gobble()

@@ -26,7 +26,7 @@ parse_data_record <- function() {
       )
     }
 
-    rp$options_append(option_pos$new("filename", value = filename))
+    rp$append(option_pos$new("filename", value = filename))
   } else {
     # Parsing the previous $DATA record is necessary to decide how to parse any
     # subsequent ones.
@@ -36,11 +36,11 @@ parse_data_record <- function() {
   rp$gobble()
 
   file_only <- !is.null(filename) ||
-    identical(names(prev$options), "filename")
+    identical(purrr::map_chr(prev$get_options(), "name"), "filename")
   # (format)
   if (file_only && rp$elems_is("paren_open")) {
     pos <- find_closing_paren(rp)
-    rp$options_append(
+    rp$append(
       option_pos$new("format", value = rp$elems_yank_to(pos))
     )
   }
@@ -48,7 +48,7 @@ parse_data_record <- function() {
   rp$process_options()
   rp$elems_assert_done()
 
-  return(list(template = rp$get_template(), options = rp$get_options()))
+  return(rp$get_values())
 }
 
 record_data <- R6::R6Class(

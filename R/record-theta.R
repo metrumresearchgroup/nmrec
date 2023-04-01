@@ -20,7 +20,7 @@ parse_theta_record <- function() {
   })
   rp$elems_assert_done()
 
-  return(list(template = rp$get_template(), options = rp$get_options()))
+  return(rp$get_values())
 }
 
 #' Parse single theta value
@@ -30,44 +30,42 @@ parse_theta_record <- function() {
 #'
 #' @noRd
 parse_theta_value <- function(rp) {
-  templ <- tstring$new()
-  rp$gobble(template = templ)
+  lstr <- lstring$new()
+  rp$gobble(lstr = lstr)
 
   if (rp$elems_is("paren_open")) {
-    parse_theta_paren(rp, templ)
+    parse_theta_paren(rp, lstr)
   } else {
     val <- rp$elems_yank()
     check_for_short_unint(val)
-    templ$append_v(
-      "init", option_pos$new("init", value = val)
-    )
-    rp$gobble(template = templ)
-    process_theta_value_option(rp, templ)
+    lstr$append(option_pos$new("init", value = val))
+    rp$gobble(lstr = lstr)
+    process_theta_value_option(rp, lstr)
   }
 
-  param_append("theta", rp, templ)
+  param_append("theta", rp, lstr)
 }
 
 #' Parse a theta value starting on open paren
 #'
 #' @param rp `record_parser` object.
-#' @param templ `template` object.
+#' @param lstr `lstring` object.
 #' @noRd
-parse_theta_paren <- function(rp, templ) {
-  templ$append_t(rp$elems_yank())
+parse_theta_paren <- function(rp, lstr) {
+  lstr$append(rp$elems_yank())
   pos_end <- find_closing_paren(rp, "linebreak")
-  rp$gobble_one("whitespace", template = templ)
+  rp$gobble_one("whitespace", lstr = lstr)
   valnames <- c("low", "init", "up")
   idx_val <- get_theta_value_idx(rp, pos_end)
 
   while (rp$idx_e < pos_end) {
-    process_theta_value_option(rp, templ)
+    process_theta_value_option(rp, lstr)
     if (rp$idx_e >= pos_end) {
       break
     }
 
     if (rp$elems_is("whitespace")) {
-      templ$append_t(rp$elems_yank())
+      lstr$append(rp$elems_yank())
       next
     }
     if (rp$elems_is("comma")) {
@@ -79,7 +77,7 @@ parse_theta_paren <- function(rp, templ) {
       if (no_init) {
         idx_val <- idx_val + 1L
       }
-      templ$append_t(rp$elems_yank())
+      lstr$append(rp$elems_yank())
       next
     }
 
@@ -108,10 +106,7 @@ parse_theta_paren <- function(rp, templ) {
 
     val <- rp$elems_yank()
     check_for_short_unint(val)
-    templ$append_v(
-      valnames[idx_val],
-      option_pos$new(valnames[idx_val], value = val)
-    )
+    lstr$append(option_pos$new(valnames[idx_val], value = val))
 
     idx_val <- idx_val + 1L
   }
@@ -120,12 +115,12 @@ parse_theta_paren <- function(rp, templ) {
     abort("Bug: should end on closing paren.", "nmrec_dev_error")
   }
 
-  templ$append_t(rp$elems_yank())
-  rp$gobble(template = templ)
-  process_theta_value_option(rp, templ)
-  rp$gobble(template = templ)
+  lstr$append(rp$elems_yank())
+  rp$gobble(lstr = lstr)
+  process_theta_value_option(rp, lstr)
+  rp$gobble(lstr = lstr)
 
-  param_parse_x(rp, templ)
+  param_parse_x(rp, lstr)
 }
 
 check_for_short_unint <- function(x) {
@@ -185,14 +180,14 @@ get_theta_value_idx <- function(rp, pos_end) {
 #' Process options that are tied to a theta initial estimate
 #'
 #' @param rp `record_parser` object.
-#' @param templ Template for theta value.
+#' @param lstr `lstring` object for theta value.
 #' @noRd
-process_theta_value_option <- function(rp, templ) {
+process_theta_value_option <- function(rp, lstr) {
   record_parser_map(rp, function(r) {
     opt <- param_get_value_option(r$elems_current())
     if (!is.null(opt)) {
-      templ$append_v(opt, option_flag$new(opt, r$elems_yank(), TRUE))
-      r$gobble(template = templ)
+      lstr$append(option_flag$new(opt, r$elems_yank(), TRUE))
+      r$gobble(lstr = lstr)
     }
   })
 }

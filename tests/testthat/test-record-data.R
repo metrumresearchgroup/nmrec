@@ -28,49 +28,45 @@ test_that("parse_data_record() works", {
     list(
       input = "$data foo.csv",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          filename = option_pos$new("filename", value = "foo.csv")
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("filename", value = "foo.csv"),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$data 'foo bar.csv'",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          filename = option_pos$new("filename", value = "'foo bar.csv'")
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("filename", value = "'foo bar.csv'"),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = '$data "foo bar.csv"',
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          filename = option_pos$new("filename", value = '"foo bar.csv"')
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("filename", value = '"foo bar.csv"'),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = c("$data foo.csv &  ", "(FE) rec 3"),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "), elem_ampersand(),
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("filename", value = "foo.csv"),
+          elem_whitespace(" "), elem_ampersand(),
           elem_whitespace("  "), elem_linebreak(),
-          2L, elem_whitespace(" "), 3L, elem_linebreak()
-        ),
-        options = list(
-          filename = option_pos$new("filename", value = "foo.csv"),
-          format = option_pos$new("format", value = "(FE)"),
-          records = option_value$new("records", "rec", value = "3", sep = " ")
+          option_pos$new("format", value = "(FE)"),
+          elem_whitespace(" "),
+          option_value$new("records", "rec", value = "3", sep = " "),
+          elem_linebreak()
         )
       )
     ),
@@ -81,24 +77,20 @@ test_that("parse_data_record() works", {
         "\t; trailing comment"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace("    "),
-          1L, elem_whitespace(" "),
+        values = list(
+          elem_whitespace("    "),
+          option_pos$new("filename", value = "foo.csv"),
+          elem_whitespace(" "),
           elem_comment("; a comment"), elem_linebreak(),
-          2L, elem_whitespace(" "), 3L, elem_linebreak(),
-          elem_whitespace("\t"), elem_comment("; trailing comment"),
-          elem_linebreak()
-        ),
-        options = list(
-          filename = option_pos$new("filename", value = "foo.csv"),
-          ignore = option_value$new(
+          option_value$new(
             "ignore",
             name_raw = "IGNORE", value = "( inside paren )", sep = ""
           ),
-          norewind = option_flag$new(
-            "norewind",
-            name_raw = "norew", value = TRUE
-          )
+          elem_whitespace(" "),
+          option_flag$new("norewind", name_raw = "norew", value = TRUE),
+          elem_linebreak(),
+          elem_whitespace("\t"), elem_comment("; trailing comment"),
+          elem_linebreak()
         )
       )
     ),
@@ -109,21 +101,20 @@ test_that("parse_data_record() works", {
         "IGNORE=C IGNORE(foo)"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_linebreak(), elem_comment("; comment"), elem_linebreak(),
-          2L, elem_whitespace(" "), 3L, elem_linebreak()
-        ),
-        options = list(
-          filename = option_pos$new("filename", value = "foo.csv"),
-          ignore = option_value$new(
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("filename", value = "foo.csv"),
+          elem_linebreak(), elem_comment("; comment"), elem_linebreak(),
+          option_value$new(
             "ignore",
             name_raw = "IGNORE", value = "C", sep = "="
           ),
-          ignore = option_value$new(
+          elem_whitespace(" "),
+          option_value$new(
             "ignore",
             name_raw = "IGNORE", value = "(foo)", sep = ""
-          )
+          ),
+          elem_linebreak()
         )
       )
     ),
@@ -135,17 +126,15 @@ test_that("parse_data_record() works", {
         "baz)"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          2L, elem_linebreak()
-        ),
-        options = list(
-          filename = option_pos$new("filename", value = "foo.csv"),
-          ignore = option_value$new(
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("filename", value = "foo.csv"),
+          elem_whitespace(" "),
+          option_value$new(
             "ignore",
             name_raw = "ign", value = "(foo ; bar\nbaz)", sep = " "
-          )
+          ),
+          elem_linebreak()
         )
       )
     )
@@ -154,11 +143,10 @@ test_that("parse_data_record() works", {
   for (case in cases) {
     rec <- record_data$new("data", "data", case$input)
     rec$parse()
-    expect_identical(rec$template, case$want$template)
-    expect_identical(rec$options, case$want$options)
+    expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("data", rec$template, rec$options),
+      rec$format(),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"
@@ -180,40 +168,36 @@ test_that("data records are combined", {
   recs <- res$records
 
   for (i in c(2, 4, 5)) {
-    expect_null(recs[[i]]$template)
-    expect_null(recs[[i]]$options)
+    expect_null(recs[[i]]$values)
   }
 
   recs[[5]]$parse()
 
   expect_identical(
-    recs[[2]]$template,
-    list("record_name", elem_whitespace(" "), 1L, elem_linebreak())
-  )
-  expect_identical(
-    recs[[2]]$options,
-    list(filename = option_pos$new("filename", value = "foo.csv"))
-  )
-
-  expect_identical(
-    recs[[4]]$template,
-    list("record_name", elem_whitespace("\t"), 1L, elem_linebreak())
-  )
-  expect_identical(
-    recs[[4]]$options,
-    list(format = option_pos$new("format", value = "(F )"))
+    recs[[2]]$values,
+    list(
+      elem_whitespace(" "),
+      option_pos$new("filename", value = "foo.csv"),
+      elem_linebreak()
+    )
   )
 
   expect_identical(
-    recs[[5]]$template,
-    list("record_name", elem_whitespace(" "), 1L, elem_linebreak())
+    recs[[4]]$values,
+    list(
+      elem_whitespace("\t"),
+      option_pos$new("format", value = "(F )"),
+      elem_linebreak()
+    )
   )
+
   expect_identical(
-    recs[[5]]$options,
-    list(ignore = option_value$new(
-      "ignore",
-      name_raw = "ign", value = "C", sep = " "
-    ))
+    recs[[5]]$values,
+    list(
+      elem_whitespace(" "),
+      option_value$new("ignore", name_raw = "ign", value = "C", sep = " "),
+      elem_linebreak()
+    )
   )
 
   expect_identical(

@@ -51,13 +51,13 @@ parse_table_record <- function() {
       pos <- pos - 1
     }
 
-    rp$options_append(option_pos$new(what, value = rp$elems_yank_to(pos)))
+    rp$append(option_pos$new(what, value = rp$elems_yank_to(pos)))
     rp$gobble()
     rp$process_options(fail_on_unknown = FALSE)
   }
   rp$elems_assert_done()
 
-  return(list(template = rp$get_template(), options = rp$get_options()))
+  return(rp$get_values())
 }
 
 record_table <- R6::R6Class(

@@ -36,29 +36,29 @@ record <- R6::R6Class(
   "nmrec_record",
   public = list(
     name = NULL,
-    options = NULL,
-    template = NULL,
+    values = NULL,
     initialize = function(name, name_raw, lines, previous_rec = NULL) {
       self$name <- name
       private$name_raw <- name_raw
       private$lines <- lines
       private$previous_rec <- previous_rec
     },
+    get_options = function() {
+      purrr::keep(self$values, ~ inherits(.x, "nmrec_option"))
+    },
     get_lines = function() {
       private$lines
     },
     format = function() {
-      if (is.null(self$template)) {
+      if (is.null(self$values)) {
         paste0(paste(private$lines, collapse = "\n"), "\n")
       } else {
-        format_from_template(private$name_raw, self$template, self$options)
+        paste0("$", private$name_raw, lstr_format(self$values))
       }
     },
     parse = function() {
-      if (is.null(self$template)) {
-        res <- private$parse_fn()
-        self$template <- res[["template"]]
-        self$options <- res[["options"]]
+      if (is.null(self$values)) {
+        self$values <- private$parse_fn()
       }
 
       return(invisible(self))
@@ -84,34 +84,3 @@ record_raw <- R6::R6Class(
   "nmrec_record_raw",
   inherit = record
 )
-
-format_from_template <- function(record_name, template, options) {
-  parts <- purrr::map(template, ~ {
-    if (identical(.x, "record_name")) {
-      value <- paste0("$", record_name)
-    } else if (inherits(.x, "nmrec_element")) {
-      value <- .x
-    } else if (identical(length(.x), 1L) && is.integer(.x)) {
-      opt <- options[[.x]]
-      if (is.null(opt)) {
-        abort(
-          sprintf("Template element %s not found", .x),
-          "nmrec_dev_error"
-        )
-      }
-      value <- opt$format()
-    } else {
-      abort(
-        c(
-          "Got unexpected value for template element.",
-          deparse_string(.x)
-        ),
-        "nmrec_dev_error"
-      )
-    }
-
-    return(value)
-  })
-
-  return(paste(parts, collapse = ""))
-}

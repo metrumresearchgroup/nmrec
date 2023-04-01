@@ -23,131 +23,92 @@ test_that("parse_table_record() works", {
     list(
       input = "$table ID NUM",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          list1 = option_pos$new("list1", value = "ID NUM")
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "ID NUM"),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = c("$table ID NUM ; comment", " PRED  noa,rformat=1"),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace("  "), 2L, elem_comma(), 3L, elem_linebreak()
-        ),
-        options = list(
-          list1 = option_pos$new("list1", value = "ID NUM ; comment\n PRED"),
-          noappend = option_flag$new(
-            "noappend",
-            name_raw = "noa", value = TRUE
-          ),
-          rformat = option_value$new(
-            "rformat",
-            name_raw = "rformat", value = "1"
-          )
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "ID NUM ; comment\n PRED"),
+          elem_whitespace("  "),
+          option_flag$new("noappend", name_raw = "noa", value = TRUE),
+          elem_comma(),
+          option_value$new("rformat", name_raw = "rformat", value = "1"),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$table a EXCLUDE_BY b lasto by c d nop by e",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          2L, elem_whitespace(" "),
-          3L, elem_whitespace(" "),
-          4L, elem_whitespace(" "),
-          5L, elem_whitespace(" "),
-          6L, elem_linebreak()
-        ),
-        options = list(
-          list1 = option_pos$new("list1", value = "a"),
-          exclude_by = option_pos$new(
-            "exclude_by",
-            value = "EXCLUDE_BY b"
-          ),
-          lastonly = option_flag$new(
-            "lastonly",
-            name_raw = "lasto", value = TRUE
-          ),
-          by = option_pos$new("by", value = "by c d"),
-          noprint = option_flag$new(
-            "noprint",
-            name_raw = "nop", value = TRUE
-          ),
-          by = option_pos$new("by", value = "by e")
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "a"),
+          elem_whitespace(" "),
+          option_pos$new("exclude_by", value = "EXCLUDE_BY b"),
+          elem_whitespace(" "),
+          option_flag$new("lastonly", name_raw = "lasto", value = TRUE),
+          elem_whitespace(" "),
+          option_pos$new("by", value = "by c d"),
+          elem_whitespace(" "),
+          option_flag$new("noprint", name_raw = "nop", value = TRUE),
+          elem_whitespace(" "),
+          option_pos$new("by", value = "by e"),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$table id wres",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          list1 = option_pos$new("list1", value = "id wres")
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "id wres"),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$table wres",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          wreschol = option_flag$new(
-            "wreschol",
-            name_raw = "wres", value = TRUE
-          )
+        values = list(
+          elem_whitespace(" "),
+          option_flag$new("wreschol", name_raw = "wres", value = TRUE),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$table id noapp wres",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          2L, elem_whitespace(" "),
-          3L, elem_linebreak()
-        ),
-        options = list(
-          list1 = option_pos$new("list1", value = "id"),
-          noappend = option_flag$new(
-            "noappend",
-            name_raw = "noapp", value = TRUE
-          ),
-          wreschol = option_flag$new(
-            "wreschol",
-            name_raw = "wres", value = TRUE
-          )
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "id"),
+          elem_whitespace(" "),
+          option_flag$new("noappend", name_raw = "noapp", value = TRUE),
+          elem_whitespace(" "),
+          option_flag$new("wreschol", name_raw = "wres", value = TRUE),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$table id noapp file='quo;ted'",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          2L, elem_whitespace(" "),
-          3L, elem_linebreak()
-        ),
-        options = list(
-          list1 = option_pos$new("list1", value = "id"),
-          noappend = option_flag$new(
-            "noappend",
-            name_raw = "noapp", value = TRUE
-          ),
-          file = option_value$new(
-            "file",
-            name_raw = "file", value = "'quo;ted'"
-          )
+        values = list(
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "id"),
+          elem_whitespace(" "),
+          option_flag$new("noappend", name_raw = "noapp", value = TRUE),
+          elem_whitespace(" "),
+          option_value$new("file", name_raw = "file", value = "'quo;ted'"),
+          elem_linebreak()
         )
       )
     )
@@ -156,11 +117,10 @@ test_that("parse_table_record() works", {
   for (case in cases) {
     rec <- record_table$new("table", "table", case$input)
     rec$parse()
-    expect_identical(rec$template, case$want$template)
-    expect_identical(rec$options, case$want$options)
+    expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("table", rec$template, rec$options),
+      format(rec),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"

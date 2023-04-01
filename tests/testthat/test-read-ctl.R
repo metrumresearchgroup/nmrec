@@ -119,12 +119,12 @@ test_that("parse_ctl() works: bayes1", {
   expect_s3_class(rec, "nmrec_record_data")
   expect_identical(rec$name, "data")
   expect_identical(rec$get_lines(), "$DATA example1.csv IGNORE=C")
-  expect_null(rec$options)
+  expect_null(rec$values)
   expect_identical(rec$format(), "$DATA example1.csv IGNORE=C\n")
   rec$parse()
   expect_identical(
-    rec$options$filename,
-    option_pos$new("filename", value = "example1.csv")
+    purrr::map_chr(rec$get_options(), "name"),
+    c("filename", "ignore")
   )
   expect_identical(rec$format(), "$DATA example1.csv IGNORE=C\n")
 })

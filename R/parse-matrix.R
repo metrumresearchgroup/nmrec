@@ -13,7 +13,7 @@ parse_matrix_record <- function(name, rp) {
   record_parser_map(rp, purrr::partial(fn, name = name))
   rp$elems_assert_done()
 
-  return(list(template = rp$get_template(), options = rp$get_options()))
+  return(rp$get_values())
 }
 
 parse_matrix_block <- function(name, rp) {
@@ -58,21 +58,19 @@ parse_matrix_diag_init <- function(name, rp) {
 #' @return A `tstring` object.
 #' @noRd
 parse_matrix_init <- function(rp, opt_fn = NULL) {
-  templ <- tstring$new()
+  lstr <- lstring$new()
   if (rp$elems_is("paren_open")) {
-    templ$append_t(rp$elems_yank())
+    lstr$append(rp$elems_yank())
     pos_end <- find_closing_paren(rp, "linebreak")
-    rp$gobble(template = templ)
+    rp$gobble(lstr = lstr)
     while (rp$idx_e < pos_end) {
       if (!is.null(opt_fn)) {
-        opt_fn(rp, templ)
+        opt_fn(rp, lstr)
       }
 
       if (rp$idx_e < pos_end) {
-        templ$append_v(
-          "init", option_pos$new("init", value = rp$elems_yank())
-        )
-        rp$gobble_one(c("comma", "whitespace"), template = templ)
+        lstr$append(option_pos$new("init", value = rp$elems_yank()))
+        rp$gobble_one(c("comma", "whitespace"), lstr = lstr)
       }
     }
 
@@ -80,26 +78,24 @@ parse_matrix_init <- function(rp, opt_fn = NULL) {
       abort("Bug: should end on closing paren.", "nmrec_dev_error")
     }
 
-    templ$append_t(rp$elems_yank())
-    rp$gobble_one(c("comma", "whitespace"), template = templ)
-    param_parse_x(rp, templ)
+    lstr$append(rp$elems_yank())
+    rp$gobble_one(c("comma", "whitespace"), lstr = lstr)
+    param_parse_x(rp, lstr)
   } else {
-    templ$append_v(
-      "init", option_pos$new("init", value = rp$elems_yank())
-    )
-    rp$gobble(template = templ)
+    lstr$append(option_pos$new("init", value = rp$elems_yank()))
+    rp$gobble(lstr = lstr)
     if (!is.null(opt_fn)) {
-      opt_fn(rp, templ)
+      opt_fn(rp, lstr)
     }
   }
 
-  return(templ)
+  return(lstr)
 }
 
 #' Process matrix prefix such as 'BLOCK(2)'
 #'
 #' @param rp `record_parser` object.
-#' @param templ Template for parameter value.
+#' @param lstr `lstring` object for parameter value.
 #' @noRd
 matrix_process_prefix_option <- function(rp) {
   record_parser_map(rp, function(r) {
@@ -120,16 +116,14 @@ matrix_process_prefix_option <- function(rp) {
     if (has_value) {
       end <- find_closing_paren(rp)
       sep <- if (on_ws) as.character(r$elems_yank()) else ""
-      r$options_append(
+      r$append(
         option_value$new(
           name, name_raw,
           value = r$elems_yank_to(end), sep = sep
         )
       )
     } else {
-      r$options_append(
-        option_flag$new(name, name_raw = name_raw)
-      )
+      r$append(option_flag$new(name, name_raw = name_raw))
     }
     r$gobble()
   })
@@ -155,14 +149,14 @@ matrix_prefix_options <- list(
 #' Process options that are tied to a specific initial estimate
 #'
 #' @param rp `record_parser` object.
-#' @param templ Template for parameter value.
+#' @param lstr `lstring` object for parameter value.
 #' @noRd
-matrix_process_diag_option <- function(rp, templ) {
+matrix_process_diag_option <- function(rp, lstr) {
   record_parser_map(rp, function(r) {
     opt <- get0(tolower(r$elems_current()), envir = diag_option_names)
     if (!is.null(opt)) {
-      templ$append_v(opt, option_flag$new(opt, r$elems_yank(), TRUE))
-      r$gobble_one(c("comma", "whitespace"), template = templ)
+      lstr$append(option_flag$new(opt, r$elems_yank(), TRUE))
+      r$gobble_one(c("comma", "whitespace"), lstr = lstr)
     }
   })
 }

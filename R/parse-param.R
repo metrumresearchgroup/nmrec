@@ -6,7 +6,7 @@
 #' @noRd
 param_parse_label <- function(rp) {
   if (rp$elems_is("equal_sign", pos = rp$idx_e + 1)) {
-    rp$options_append(
+    rp$append(
       option_pos$new("label", value = rp$elems_yank_to(rp$idx_e + 1))
     )
   }
@@ -15,9 +15,9 @@ param_parse_label <- function(rp) {
 #' Parse repeater ("XN") at end value, if any
 #'
 #' @param rp `record_parser` object.
-#' @param templ Template for parameter value.
+#' @param lstr `lstring` object for parameter value.
 #' @noRd
-param_parse_x <- function(rp, templ) {
+param_parse_x <- function(rp, lstr) {
   if (!rp$elems_done()) {
     xcand <- tolower(rp$elems_current())
     if (identical(xcand, "x")) {
@@ -37,8 +37,8 @@ param_parse_x <- function(rp, templ) {
         )
       }
       xval <- rp$elems_yank()
-      templ$append_v(
-        "x", option_value$new(
+      lstr$append(
+        option_value$new(
           "x",
           name_raw = xname, value = xval, sep = sep
         )
@@ -46,8 +46,8 @@ param_parse_x <- function(rp, templ) {
     } else if (isTRUE(grepl("^x[0-9]+$", xcand))) {
       xname <- substr(xcand, 1, 1)
       xval <- substr(xcand, 2, nchar(xcand))
-      templ$append_v(
-        "x", option_value$new(
+      lstr$append(
+        option_value$new(
           "x",
           name_raw = xname, value = xval, sep = ""
         )
@@ -79,27 +79,26 @@ param_get_value_option <- function(x) {
 
 #' Store parameter in record parser
 #'
-#' Parameter values are built up as `template` objects. Once the template is
+#' A parameter value is built up as an `lstring` object. Once the object is
 #' complete, this function adds it to a `record_parser` object.
 #'
 #' @param name Name of parameter (e.g., "theta").
 #' @param rp `record_parser` object.
-#' @param templ Template for parameter value.
+#' @param lstr `lstring` object for parameter value.
 #'
 #' @noRd
-param_append <- function(name, rp, templ) {
-  popped <- templ$pop_until(~ {
-    is.integer(.x) || elem_is(.x, "paren_close")
+param_append <- function(name, rp, lstr) {
+  popped <- lstr$pop_until(~ {
+    inherits(.x, "nmrec_option") || elem_is(.x, "paren_close")
   })
 
   param <- option_param$new(
     name,
-    template = templ$get_template(),
-    values = templ$get_values()
+    values = lstr$get_values()
   )
 
-  rp$options_append(param)
+  rp$append(param)
   for (elem in popped) {
-    rp$template$append_t(elem)
+    rp$append(elem)
   }
 }

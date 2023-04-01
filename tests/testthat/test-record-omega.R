@@ -3,35 +3,31 @@ test_that("parse_omega_record() works", {
     list(
       input = "$OMEGA 1",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak()
-        ),
-        options = list(
-          omega = option_param$new(
+        values = list(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "1"))
-          )
+            values = list(option_pos$new("init", "1"))
+          ),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$OMEGA diag(1) 1",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "), 2L, elem_linebreak()
-        ),
-        options = list(
-          diagonal = option_value$new(
+        values = list(
+          elem_whitespace(" "),
+          option_value$new(
             "diagonal", "diag", "(1)",
             sep = ""
           ),
-          omega = option_param$new(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "1"))
-          )
+            values = list(option_pos$new("init", "1"))
+          ),
+          elem_linebreak()
         )
       )
     ),
@@ -41,152 +37,131 @@ test_that("parse_omega_record() works", {
         "  2"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "), elem_comment("; c"), elem_linebreak(),
-          elem_whitespace("  "), 2L, elem_linebreak()
-        ),
-        options = list(
-          omega = option_param$new(
+        values = list(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(
-              1L, elem_whitespace(" "),
-              2L, elem_whitespace(" "),
-              3L
-            ),
             values = list(
-              init = option_pos$new("init", "1"),
-              fixed = option_flag$new("fixed", "FIX"),
-              standard = option_flag$new("standard", "sd")
+              option_pos$new("init", "1"),
+              elem_whitespace(" "),
+              option_flag$new("fixed", "FIX"),
+              elem_whitespace(" "),
+              option_flag$new("standard", "sd")
             )
           ),
-          omega = option_param$new(
+          elem_whitespace(" "), elem_comment("; c"), elem_linebreak(),
+          elem_whitespace("  "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(
-              init = option_pos$new("init", "2")
-            )
-          )
+            values = list(option_pos$new("init", "2"))
+          ),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$OMEGA 1,(fix 2) (3 uni,SD)",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_comma(),
-          2L, elem_whitespace(" "),
-          3L, elem_linebreak()
-        ),
-        options = list(
-          omega = option_param$new(
+        values = list(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "1"))
+            values = list(option_pos$new("init", "1"))
           ),
-          omega = option_param$new(
+          elem_comma(),
+          option_param$new(
             "omega",
-            template = list(
-              elem_paren_open(), 1L, elem_whitespace(" "),
-              2L, elem_paren_close()
-            ),
             values = list(
-              fixed = option_flag$new("fixed", "fix"),
-              init = option_pos$new("init", "2")
+              elem_paren_open(),
+              option_flag$new("fixed", "fix"),
+              elem_whitespace(" "),
+              option_pos$new("init", "2"),
+              elem_paren_close()
             )
           ),
-          omega = option_param$new(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(
-              elem_paren_open(), 1L, elem_whitespace(" "),
-              2L, elem_comma(),
-              3L, elem_paren_close()
-            ),
             values = list(
-              init = option_pos$new("init", "3"),
-              unint = option_flag$new("unint", "uni"),
-              standard = option_flag$new("standard", "SD")
+              elem_paren_open(),
+              option_pos$new("init", "3"),
+              elem_whitespace(" "),
+              option_flag$new("unint", "uni"),
+              elem_comma(),
+              option_flag$new("standard", "SD"),
+              elem_paren_close()
             )
-          )
+          ),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$OMEGA 1 (2 3) X 4",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          2L, elem_linebreak()
-        ),
-        options = list(
-          omega = option_param$new(
+        values = list(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "1"))
+            values = list(option_pos$new("init", "1"))
           ),
-          omega = option_param$new(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(
-              elem_paren_open(), 1L, elem_whitespace(" "),
-              2L, elem_paren_close(), elem_whitespace(" "),
-              3L
-            ),
             values = list(
-              init = option_pos$new("init", "2"),
-              init = option_pos$new("init", "3"),
-              x = option_value$new("x", "X", "4", sep = " ")
+              elem_paren_open(),
+              option_pos$new("init", "2"),
+              elem_whitespace(" "),
+              option_pos$new("init", "3"),
+              elem_paren_close(), elem_whitespace(" "),
+              option_value$new("x", "X", "4", sep = " ")
             )
-          )
+          ),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$OMEGA bloc(2) SAME",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "), 2L, elem_linebreak()
-        ),
-        options = list(
-          block = option_value$new(
+        values = list(
+          elem_whitespace(" "),
+          option_value$new(
             "block", "bloc", "(2)",
             sep = ""
           ),
-          same = option_flag$new("same", "SAME")
+          elem_whitespace(" "),
+          option_flag$new("same", "SAME"),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$OMEGA BLOCK(2) same(3)",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "), 2L, elem_linebreak()
-        ),
-        options = list(
-          block = option_value$new("block", "BLOCK", "(2)", sep = ""),
-          same = option_value$new("same", "same", "(3)", sep = "")
+        values = list(
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(2)", sep = ""),
+          elem_whitespace(" "),
+          option_value$new("same", "same", "(3)", sep = ""),
+          elem_linebreak()
         )
       )
     ),
     list(
       input = "$OMEGA BLOCK (2) FIX VAL (0.1,0.01)",
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          2L, elem_whitespace(" "),
-          3L, elem_linebreak()
-        ),
-        options = list(
-          block = option_value$new(
+        values = list(
+          elem_whitespace(" "),
+          option_value$new(
             "block", "BLOCK", "(2)",
             sep = " "
           ),
-          fixed = option_flag$new("fixed", "FIX"),
-          values = option_value$new("values", "VAL", "(0.1,0.01)", sep = " ")
+          elem_whitespace(" "),
+          option_flag$new("fixed", "FIX"),
+          elem_whitespace(" "),
+          option_value$new("values", "VAL", "(0.1,0.01)", sep = " "),
+          elem_linebreak()
         )
       )
     ),
@@ -197,33 +172,29 @@ test_that("parse_omega_record() works", {
         "-0.24 0.58"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_whitespace(" "),
-          2L, elem_whitespace(" "),
-          3L, elem_linebreak(),
-          4L, elem_linebreak(),
-          5L, elem_whitespace(" "), 6L, elem_linebreak()
-        ),
-        options = list(
-          standard = option_flag$new("standard", "sd"),
-          correlation = option_flag$new("correlation", "CORRELATION"),
-          block = option_value$new("block", "BLOCK", "(2)", sep = ""),
-          omega = option_param$new(
+        values = list(
+          elem_whitespace(" "),
+          option_flag$new("standard", "sd"),
+          elem_whitespace(" "),
+          option_flag$new("correlation", "CORRELATION"),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(2)", sep = ""),
+          elem_linebreak(),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.8"))
+            values = list(option_pos$new("init", "0.8"))
           ),
-          omega = option_param$new(
+          elem_linebreak(),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "-0.24"))
+            values = list(option_pos$new("init", "-0.24"))
           ),
-          omega = option_param$new(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.58"))
-          )
+            values = list(option_pos$new("init", "0.58"))
+          ),
+          elem_linebreak()
         )
       )
     ),
@@ -234,30 +205,27 @@ test_that("parse_omega_record() works", {
         "bar= (0.2 fix)"
       ),
       want = list(
-        template = list(
-          "record_name", elem_linebreak(),
-          1L, 2L, elem_linebreak(),
-          3L, elem_whitespace(" "), 4L, elem_linebreak()
-        ),
-        options = list(
-          label = option_pos$new("label", value = "foo="),
-          omega = option_param$new(
+        values = list(
+          elem_linebreak(),
+          option_pos$new("label", value = "foo="),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.1"))
+            values = list(option_pos$new("init", "0.1"))
           ),
-          label = option_pos$new("label", value = "bar="),
-          omega = option_param$new(
+          elem_linebreak(),
+          option_pos$new("label", value = "bar="),
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(
-              elem_paren_open(), 1L, elem_whitespace(" "),
-              2L, elem_paren_close()
-            ),
             values = list(
-              init = option_pos$new("init", "0.2"),
-              fixed = option_flag$new("fixed", "fix")
+              elem_paren_open(),
+              option_pos$new("init", "0.2"),
+              elem_whitespace(" "),
+              option_flag$new("fixed", "fix"),
+              elem_paren_close()
             )
-          )
+          ),
+          elem_linebreak()
         )
       )
     ),
@@ -270,73 +238,68 @@ test_that("parse_omega_record() works", {
         "EV2=  0.01 0.01 0.01 0.67"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "), 1L, elem_linebreak(),
-          2L, elem_whitespace("  "), 3L,
+        values = list(
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(4)", sep = ""),
           elem_linebreak(),
-          4L, elem_whitespace("  "), 5L, elem_whitespace(" "), 6L,
+          option_pos$new("label", value = "ECL="),
+          elem_whitespace("  "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.1"))
+          ),
           elem_linebreak(),
-          7L, elem_whitespace("   "), 8L, elem_whitespace(" "), 9L, elem_whitespace(" "), 10L,
+          option_pos$new("label", value = "EV1="),
+          elem_whitespace("  "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.01"))
+          ),
+          elem_whitespace(" "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.35"))
+          ),
           elem_linebreak(),
-          11L, elem_whitespace("  "), 12L, elem_whitespace(" "), 13L, elem_whitespace(" "), 14L, elem_whitespace(" "), 15L,
+          option_pos$new("label", value = "EQ="),
+          elem_whitespace("   "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.01"))
+          ),
+          elem_whitespace(" "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.01"))
+          ),
+          elem_whitespace(" "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.54"))
+          ),
+          elem_linebreak(),
+          option_pos$new("label", value = "EV2="),
+          elem_whitespace("  "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.01"))
+          ),
+          elem_whitespace(" "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.01"))
+          ),
+          elem_whitespace(" "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.01"))
+          ),
+          elem_whitespace(" "),
+          option_param$new(
+            "omega",
+            values = list(option_pos$new("init", "0.67"))
+          ),
           elem_linebreak()
-        ),
-        options = list(
-          block = option_value$new("block", "BLOCK", "(4)", sep = ""),
-          label = option_pos$new("label", value = "ECL="),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.1"))
-          ),
-          label = option_pos$new("label", value = "EV1="),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.01"))
-          ),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.35"))
-          ),
-          label = option_pos$new("label", value = "EQ="),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.01"))
-          ),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.01"))
-          ),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.54"))
-          ),
-          label = option_pos$new("label", value = "EV2="),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.01"))
-          ),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.01"))
-          ),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.01"))
-          ),
-          omega = option_param$new(
-            "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.67"))
-          )
         )
       )
     ),
@@ -349,57 +312,55 @@ test_that("parse_omega_record() works", {
         "(0.01)x3 0.1"
       ),
       want = list(
-        template = list(
-          "record_name", elem_whitespace(" "),
-          1L, elem_linebreak(),
-          2L, elem_linebreak(),
-          3L, elem_whitespace(" "), 4L, elem_linebreak(),
-          5L, elem_whitespace(" "), 6L, elem_linebreak(),
-          7L, elem_whitespace(" "), 8L, elem_linebreak()
-        ),
-        options = list(
-          block = option_value$new("block", "BLOCK", "(4)", sep = ""),
-          omega = option_param$new(
+        values = list(
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(4)", sep = ""),
+          elem_linebreak(),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.1"))
+            values = list(option_pos$new("init", "0.1"))
           ),
-          omega = option_param$new(
+          elem_linebreak(),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.01"))
+            values = list(option_pos$new("init", "0.01"))
           ),
-          omega = option_param$new(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.1"))
+            values = list(option_pos$new("init", "0.1"))
           ),
-          omega = option_param$new(
+          elem_linebreak(),
+          option_param$new(
             "omega",
-            template = list(elem_paren_open(), 1L, elem_paren_close(), 2L),
             values = list(
-              init = option_pos$new("init", "0.01"),
-              x = option_value$new("x", "x", "2", sep = "")
+              elem_paren_open(),
+              option_pos$new("init", "0.01"),
+              elem_paren_close(),
+              option_value$new("x", "x", "2", sep = "")
             )
           ),
-          omega = option_param$new(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.1"))
+            values = list(option_pos$new("init", "0.1"))
           ),
-          omega = option_param$new(
+          elem_linebreak(),
+          option_param$new(
             "omega",
-            template = list(elem_paren_open(), 1L, elem_paren_close(), 2L),
             values = list(
-              init = option_pos$new("init", "0.01"),
-              x = option_value$new("x", "x", "3", sep = "")
+              elem_paren_open(),
+              option_pos$new("init", "0.01"),
+              elem_paren_close(),
+              option_value$new("x", "x", "3", sep = "")
             )
           ),
-          omega = option_param$new(
+          elem_whitespace(" "),
+          option_param$new(
             "omega",
-            template = list(1L),
-            values = list(init = option_pos$new("init", "0.1"))
-          )
+            values = list(option_pos$new("init", "0.1"))
+          ),
+          elem_linebreak()
         )
       )
     )
@@ -408,11 +369,10 @@ test_that("parse_omega_record() works", {
   for (case in cases) {
     rec <- record_omega$new("omega", "OMEGA", case$input)
     rec$parse()
-    expect_identical(rec$template, case$want$template)
-    expect_identical(rec$options, case$want$options)
+    expect_identical(rec$values, case$want$values)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("OMEGA", rec$template, rec$options),
+      rec$format(),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"
@@ -435,55 +395,44 @@ test_that("omega records are combined", {
   recs <- res$records
 
   for (i in c(2, 4)) {
-    expect_null(recs[[i]]$template)
-    expect_null(recs[[i]]$options)
+    expect_null(recs[[i]]$values)
   }
 
   recs[[4]]$parse()
 
   expect_identical(
-    recs[[2]]$template,
-    list("record_name", elem_whitespace(" "), 1L, elem_linebreak())
-  )
-  expect_identical(
-    recs[[2]]$options,
+    recs[[2]]$values,
     list(
-      omega = option_param$new(
+      elem_whitespace(" "),
+      option_param$new(
         "omega",
-        template = list(1L),
-        values = list(init = option_pos$new("init", "1"))
-      )
+        values = list(option_pos$new("init", "1"))
+      ),
+      elem_linebreak()
     )
   )
 
   expect_identical(
-    recs[[4]]$template,
+    recs[[4]]$values,
     list(
-      "record_name", elem_whitespace(" "),
-      1L, elem_linebreak(),
-      2L, elem_linebreak(),
-      3L, elem_whitespace(" "), 4L, elem_linebreak()
-    )
-  )
-  expect_identical(
-    recs[[4]]$options,
-    list(
-      block = option_value$new("block", "block", "(2)", sep = ""),
-      omega = option_param$new(
+      elem_whitespace(" "),
+      option_value$new("block", "block", "(2)", sep = ""),
+      elem_linebreak(),
+      option_param$new(
         "omega",
-        template = list(1L),
-        values = list(init = option_pos$new("init", "0.1"))
+        values = list(option_pos$new("init", "0.1"))
       ),
-      omega = option_param$new(
+      elem_linebreak(),
+      option_param$new(
         "omega",
-        template = list(1L),
-        values = list(init = option_pos$new("init", "0.01"))
+        values = list(option_pos$new("init", "0.01"))
       ),
-      omega = option_param$new(
+      elem_whitespace(" "),
+      option_param$new(
         "omega",
-        template = list(1L),
-        values = list(init = option_pos$new("init", "0.2"))
-      )
+        values = list(option_pos$new("init", "0.2"))
+      ),
+      elem_linebreak()
     )
   )
 

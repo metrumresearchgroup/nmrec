@@ -12,7 +12,7 @@ record_parser <- R6::R6Class(
     elems = NULL,
     n_elems = NULL,
     idx_e = 1L,
-    template = NULL,
+    lstr = NULL,
     initialize = function(name_raw, lines,
                           option_types = NULL,
                           option_names = NULL) {
@@ -23,7 +23,7 @@ record_parser <- R6::R6Class(
 
       self$elems <- split_to_elements(lines)
       self$n_elems <- length(self$elems)
-      self$template <- tstring$new(self$n_elems * 2, self$n_elems)
+      self$lstr <- lstring$new(self$n_elems)
 
       self$gobble_one("whitespace")
 
@@ -37,17 +37,13 @@ record_parser <- R6::R6Class(
           "nmrec_dev_error"
         )
       }
-      self$template$append_t("record_name")
       self$gobble_one("whitespace")
     },
-    get_template = function() {
-      self$template$get_template()
+    get_values = function() {
+      self$lstr$get_values()
     },
-    get_options = function() {
-      self$template$get_values()
-    },
-    options_append = function(x) {
-      self$template$append_v(x$name, x)
+    append = function(x) {
+      self$lstr$append(x)
       return(invisible(self))
     },
     resolve_option = function(x) {
@@ -134,15 +130,15 @@ record_parser <- R6::R6Class(
 
       return(pos)
     },
-    gobble_one = function(types, template = NULL) {
-      templ <- template %||% self$template
+    gobble_one = function(types, lstr = NULL) {
+      lstr <- lstr %||% self$lstr
       if (self$elems_is(types)) {
-        templ$append_t(self$elems_yank())
+        lstr$append(self$elems_yank())
       }
       return(invisible(self))
     },
-    gobble_comment = function(template = NULL) {
-      templ <- template %||% self$template
+    gobble_comment = function(lstr = NULL) {
+      lstr <- lstr %||% self$lstr
       if (self$elems_is("semicolon")) {
         beg <- self$idx_e
         lb <- self$elems_find_next(~ elem_is(.x, "linebreak"))
@@ -155,21 +151,21 @@ record_parser <- R6::R6Class(
         comment <- elem_comment(
           paste0(self$elems[beg:(lb - 1)], collapse = "")
         )
-        templ$append_t(comment)
-        templ$append_t(self$elems[[lb]])
+        lstr$append(comment)
+        lstr$append(self$elems[[lb]])
         self$idx_e <- lb + 1
       }
       return(invisible(self))
     },
-    gobble = function(template = NULL) {
-      templ <- template %||% self$template
+    gobble = function(lstr = NULL) {
+      lstr <- lstr %||% self$lstr
       uninteresting <- c(
         "ampersand", "comma", "comment", "equal_sign",
         "linebreak", "whitespace"
       )
       while (!self$elems_done()) {
         if (self$elems_is("semicolon")) {
-          self$gobble_comment(template = templ)
+          self$gobble_comment(lstr = lstr)
           next
         }
         if (self$elems_is("ampersand")) {
@@ -185,7 +181,7 @@ record_parser <- R6::R6Class(
           break
         }
 
-        templ$append_t(self$elems_yank())
+        lstr$append(self$elems_yank())
       }
       return(invisible(self))
     },
@@ -222,7 +218,7 @@ process_options <- function(rp, fail_on_unknown = TRUE) {
     }
 
     if (identical(kind, "flag")) {
-      rp$options_append(option_flag$new(opt, opt_raw, TRUE))
+      rp$append(option_flag$new(opt, opt_raw, TRUE))
       rp$gobble()
     } else if (identical(kind, "value")) {
       if (rp$elems_is("paren_open")) {
@@ -251,7 +247,7 @@ process_options <- function(rp, fail_on_unknown = TRUE) {
       } else {
         val <- rp$elems_yank(fold_quoted = TRUE)
       }
-      rp$options_append(
+      rp$append(
         option_value$new(opt, opt_raw, value = val, sep = sep)
       )
       rp$gobble()
