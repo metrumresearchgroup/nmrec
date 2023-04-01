@@ -41,12 +41,12 @@ test_that("parse_estimation_record() works", {
 
   for (case in cases) {
     rec <- record_estimation$new("estimation", "est", case$input)
-    res <- rec$parse()
-    expect_identical(res$template, case$want$template)
-    expect_identical(res$options, case$want$options)
+    rec$parse()
+    expect_identical(rec$template, case$want$template)
+    expect_identical(rec$options, case$want$options)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("est", res$template, res$options),
+      format_from_template("est", rec$template, rec$options),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"

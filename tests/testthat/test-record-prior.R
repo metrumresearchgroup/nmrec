@@ -85,12 +85,12 @@ test_that("parse_prior_record() works", {
 
   for (case in cases) {
     rec <- record_prior$new("prior", "PRIOR", case$input)
-    res <- rec$parse()
-    expect_identical(res$template, case$want$template)
-    expect_identical(res$options, case$want$options)
+    rec$parse()
+    expect_identical(rec$template, case$want$template)
+    expect_identical(rec$options, case$want$options)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("PRIOR", res$template, res$options),
+      format_from_template("PRIOR", rec$template, rec$options),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"

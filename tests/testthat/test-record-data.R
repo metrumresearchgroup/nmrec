@@ -153,12 +153,12 @@ test_that("parse_data_record() works", {
 
   for (case in cases) {
     rec <- record_data$new("data", "data", case$input)
-    res <- rec$parse()
-    expect_identical(res$template, case$want$template)
-    expect_identical(res$options, case$want$options)
+    rec$parse()
+    expect_identical(rec$template, case$want$template)
+    expect_identical(rec$options, case$want$options)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("data", res$template, res$options),
+      format_from_template("data", rec$template, rec$options),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"

@@ -407,12 +407,12 @@ test_that("parse_omega_record() works", {
 
   for (case in cases) {
     rec <- record_omega$new("omega", "OMEGA", case$input)
-    res <- rec$parse()
-    expect_identical(res$template, case$want$template)
-    expect_identical(res$options, case$want$options)
+    rec$parse()
+    expect_identical(rec$template, case$want$template)
+    expect_identical(rec$options, case$want$options)
     # Inputs and results match when rendered as string.
     expect_identical(
-      format_from_template("OMEGA", res$template, res$options),
+      format_from_template("OMEGA", rec$template, rec$options),
       paste0(
         paste0(case$input, collapse = "\n"),
         "\n"
