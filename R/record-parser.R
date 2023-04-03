@@ -1,6 +1,3 @@
-# TODO: Implement parsing for a few records and then revisit interface (to
-# simplify, extract, rename, ...).
-
 #' Split record into elements and process into an lstring object
 #'
 #' Fields
