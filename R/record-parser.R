@@ -97,6 +97,10 @@ record_parser <- R6::R6Class(
 
       return(x)
     },
+    tick_e = function(n = 1L) {
+      self$idx_e <- self$idx_e + n
+      return(invisible(self))
+    },
     elems_current = function() {
       return(self$elems[[self$idx_e]])
     },
@@ -175,10 +179,6 @@ record_parser <- R6::R6Class(
 
         lstr$append(self$elems_yank())
       }
-      return(invisible(self))
-    },
-    tick_e = function(n = 1L) {
-      self$idx_e <- self$idx_e + n
       return(invisible(self))
     }
   )
