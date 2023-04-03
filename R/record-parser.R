@@ -1,7 +1,79 @@
 # TODO: Implement parsing for a few records and then revisit interface (to
 # simplify, extract, rename, ...).
 
-# TODO: Document.
+#' Split record into elements and process into an lstring object
+#'
+#' Fields
+#' ------
+#'
+#'  * name_raw: the name of the record as specified in the control stream.
+#'
+#'  * elems: list of `nmrec_element` objects and plain strings derived by
+#'    passing the `lines` argument to `split_to_elements()`.
+#'
+#'  * n_elems: the length of `elems`
+#'
+#'  * idx_e: position of next element to process.
+#'
+#'  * lstr: an `lstring` object containing the processed values.
+#'
+#' Methods
+#' -------
+#'
+#'  * format(): render `elems` as a string.
+#'
+#'  * get_values(): get list of values from `lstr`.
+#'
+#'  * append(): append an element to `lstr`.
+#'
+#'  * done(): return `TRUE` if `idx_e` is beyond the last item in `elems`.
+#'
+#'  * assert_done(): signal a parse error if `idx_e` is not beyond the last item
+#'    in `elems`.
+#'
+#'  * assert_remaining(): signal a dev error if `idx_e` is beyond the last item
+#'    in `elems`.
+#'
+#'  * yank_to(pos): extract `elems` from `idx_e` to `pos` and return the
+#'    rendered string, moving `idx_e` to the element after `pos`.
+#'
+#'  * yank(): extract the `elems` item at `idx_e` and increment `idx_e`. If
+#'    `fold_quoted` is `TRUE`, check whether the current element is an
+#'    `nmrec_quote` object and extract up to the closing quote.
+#'
+#'  * tick_e(n): increment `idx_e` by `n` (1 by default).
+#'
+#'  * current(): return `elems` item at `idx_e`. Unlike `yank()`, this does not
+#'    move `idx_e`.
+#'
+#'  * is(types, pos): return `TRUE` if the `elems` item at `pos` (defaults to
+#'    `idx_e`) is an `nmrec_element` type specified in `types`.
+#'
+#'  * find_next(pred): return the position of the next `elems` item (starting
+#'    search at `idx_e`) for which `pred` returns `TRUE`. Return 0L if there is
+#'    no match.
+#'
+#' Gobble methods are used to yank items from `elems` and store them in `lstr`.
+#' All the gobble methods accept an optional `lstr` to use instead of the
+#' instances `lstr` field.
+#'
+#'  * gobble_one(types, lstr): if the current `elems` item is one of the
+#'    `nmrec_element` types specified by `types`, yank it from `elems` and store
+#'    it as is in `lstr`.
+#'
+#'  * gobble_comment(lstr): if the current `elems` item is an `nmrec_semicolon`
+#'    element, yank the rest of the line from `elems` and store it as an
+#'    `nmrec_comment` element in `lstr`.
+#'
+#'  * gobble(lstr): yank `elems` items and store them in `lstr` until an
+#'    "interesting" type is reached. The following objects are always considered
+#'    uninteresting: `nmrec_comma`, `nmrec_equal_sign`, `nmrec_linebreak`, and
+#'    `nmrec_whitespace`. An `nmrec_ampersand` object is considered
+#'    uninteresting if it looks like a line continuation marker. If a
+#'    `nmrec_semicolon` object is encountered, `gobble_comment()` is used to
+#'    store an `nmrec_comment` object. Otherwise the elements are stored as is.
+#'
+#' @noRd
 record_parser <- R6::R6Class(
   "nmrec_record_parser",
   public = list(
