@@ -35,9 +35,9 @@ parse_data_record <- function() {
     identical(purrr::map_chr(prev$get_options(), "name"), "filename")
   # (format)
   if (file_only && rp$is("paren_open")) {
-    pos <- rp$find_closing_paren()
+    end <- rp$find_closing_paren()
     rp$append(
-      option_pos$new("format", value = rp$yank_to(pos))
+      option_pos$new("format", value = rp$yank_to(end))
     )
   }
 

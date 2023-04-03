@@ -18,10 +18,10 @@ parse_prior <- function(rp) {
     fail_on_unknown = FALSE
   )
 
-  pos <- rp$find_closing_paren()
-  if (!identical(pos, 0L)) {
+  end <- rp$find_closing_paren()
+  if (!identical(end, 0L)) {
     rp$append(
-      option_pos$new("clause", value = rp$yank_to(pos))
+      option_pos$new("clause", value = rp$yank_to(end))
     )
     rp$gobble()
   }

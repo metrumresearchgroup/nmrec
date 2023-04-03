@@ -59,16 +59,16 @@ parse_matrix_diag_init <- function(name, rp) {
 #' @noRd
 parse_matrix_init <- function(rp, opt_fn = NULL) {
   lstr <- lstring$new()
-  pos_end <- rp$find_closing_paren("linebreak")
-  if (!identical(pos_end, 0L)) {
+  end <- rp$find_closing_paren("linebreak")
+  if (!identical(end, 0L)) {
     lstr$append(rp$yank())
     rp$gobble(lstr = lstr)
-    while (rp$idx_e < pos_end) {
+    while (rp$idx_e < end) {
       if (!is.null(opt_fn)) {
         opt_fn(rp, lstr)
       }
 
-      if (rp$idx_e < pos_end) {
+      if (rp$idx_e < end) {
         lstr$append(option_pos$new("init", value = rp$yank()))
         rp$gobble_one(c("comma", "whitespace"), lstr = lstr)
       }

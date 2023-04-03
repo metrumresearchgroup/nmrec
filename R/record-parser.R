@@ -167,16 +167,16 @@ record_parser <- R6::R6Class(
     yank = function(fold_quoted = FALSE) {
       self$assert_remaining()
 
-      pos <- 0L
+      end <- 0L
       if (identical(fold_quoted, TRUE)) {
-        pos <- self$find_closing_quote()
+        end <- self$find_closing_quote()
       }
 
-      if (identical(pos, 0L)) {
+      if (identical(end, 0L)) {
         x <- self$elems[[self$idx_e]]
         self$tick_e()
       } else {
-        x <- self$yank_to(pos)
+        x <- self$yank_to(end)
       }
 
       return(x)
