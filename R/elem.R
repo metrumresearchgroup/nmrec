@@ -111,13 +111,11 @@ elem_select <- function(x) {
 #' @param types Short labels for `nmrec_element` class names (e.g., "whitespace"
 #'   for `nmrec_whitespace`). These will be transformed to a class name to pass
 #'   to the `what` argument of [inherits()].
-#' @param which Relayed to [inherits()].
-#' @return Same form returned by [inherits()] (boolean if `which` is `FALSE` and
-#'   integer vector otherwise).
+#' @return Boolean.
 #' @noRd
-elem_is <- function(e, types, which = FALSE) {
+elem_is <- function(e, types) {
   classes <- purrr::map_chr(types, elem_get_class)
-  return(inherits(e, classes, which = which))
+  return(inherits(e, classes))
 }
 
 elem_get_class <- function(x) {

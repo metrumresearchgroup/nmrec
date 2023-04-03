@@ -104,12 +104,12 @@ record_parser <- R6::R6Class(
     elems_current = function() {
       return(self$elems[[self$idx_e]])
     },
-    elems_is = function(types, pos = NULL, which = FALSE) {
+    elems_is = function(types, pos = NULL) {
       pos <- pos %||% self$idx_e
       if (pos > self$n_elems) {
         return(FALSE)
       }
-      return(elem_is(self$elems[[pos]], types, which = which))
+      return(elem_is(self$elems[[pos]], types))
     },
     elems_find_next = function(pred) {
       beg <- self$idx_e + 1
