@@ -1,13 +1,9 @@
 parse_table_record <- function() {
-  rp <- record_parser$new(
-    private$name_raw, private$lines,
-    option_types = table_option_types,
-    option_names = table_option_names
-  )
+  rp <- record_parser$new(private$name_raw, private$lines)
 
   is_table_list_element <- function(x) {
     lc <- tolower(x)
-    if (!is.null(rp$resolve_option(x))) {
+    if (!is.null(resolve_option(x, table_option_names))) {
       # This can be in list{1,2,3} and collide with option abbreviations.
       return(!(identical(lc, "npd") || identical(lc, "wres")))
     }
@@ -16,7 +12,11 @@ parse_table_record <- function() {
 
   # Based on NM-TRAN testing, a leading WRES/NPD is treated as the
   # WRESCHOL/NPDTYPE options, not list1 elements, so don't guard this next call.
-  rp$process_options(fail_on_unknown = FALSE)
+  process_options(
+    rp, table_option_types, table_option_names,
+    fail_on_unknown = FALSE
+  )
+
   saw_list1 <- FALSE
   while (!rp$elems_done()) {
     curr <- tolower(rp$elems_current())
@@ -53,7 +53,10 @@ parse_table_record <- function() {
 
     rp$append(option_pos$new(what, value = rp$elems_yank_to(pos)))
     rp$gobble()
-    rp$process_options(fail_on_unknown = FALSE)
+    process_options(
+      rp, table_option_types, table_option_names,
+      fail_on_unknown = FALSE
+    )
   }
   rp$elems_assert_done()
 

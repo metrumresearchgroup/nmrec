@@ -1,9 +1,5 @@
 parse_sigma_record <- function() {
-  rp <- record_parser$new(
-    private$name_raw, private$lines,
-    option_types = matrix_option_types,
-    option_names = matrix_option_names
-  )
+  rp <- record_parser$new(private$name_raw, private$lines)
 
   prev <- private$previous_rec
   if (!is.null(prev)) {

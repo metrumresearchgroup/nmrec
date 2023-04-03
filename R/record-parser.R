@@ -7,19 +7,13 @@ record_parser <- R6::R6Class(
   public = list(
     name_raw = NULL,
     lines = NULL,
-    option_types = NULL,
-    option_names = NULL,
     elems = NULL,
     n_elems = NULL,
     idx_e = 1L,
     lstr = NULL,
-    initialize = function(name_raw, lines,
-                          option_types = NULL,
-                          option_names = NULL) {
+    initialize = function(name_raw, lines) {
       self$name_raw <- name_raw
       self$lines <- lines
-      self$option_types <- option_types
-      self$option_names <- option_names
 
       self$elems <- split_to_elements(lines)
       self$n_elems <- length(self$elems)
@@ -45,9 +39,6 @@ record_parser <- R6::R6Class(
     append = function(x) {
       self$lstr$append(x)
       return(invisible(self))
-    },
-    resolve_option = function(x) {
-      get0(tolower(x), self$option_names)
     },
     elems_done = function() {
       return(self$idx_e > self$n_elems)
@@ -185,79 +176,12 @@ record_parser <- R6::R6Class(
       }
       return(invisible(self))
     },
-    process_options = function(fail_on_unknown = TRUE) {
-      process_options(self, fail_on_unknown = fail_on_unknown)
-      return(invisible(self))
-    },
     tick_e = function(n = 1L) {
       self$idx_e <- self$idx_e + n
       return(invisible(self))
     }
   )
 )
-
-process_options <- function(rp, fail_on_unknown = TRUE) {
-  rp$gobble()
-  while (!rp$elems_done()) {
-    opt_raw <- rp$elems_current()
-    opt <- rp$resolve_option(opt_raw)
-    if (is.null(opt)) {
-      if (fail_on_unknown) {
-        abort(
-          sprintf("Unknown option for $%s: %s", rp$name_raw, opt_raw),
-          c("nmrec_unknown_option", "nmrec_parse_error")
-        )
-      }
-      break
-    }
-    rp$tick_e()
-
-    kind <- rp$option_types[[opt]]
-    if (is.null(kind)) {
-      abort(paste("No type defined for", opt), "nmrec_dev_error")
-    }
-
-    if (identical(kind, "flag")) {
-      rp$append(option_flag$new(opt, opt_raw, TRUE))
-      rp$gobble()
-    } else if (identical(kind, "value")) {
-      if (rp$elems_is("paren_open")) {
-        sep <- ""
-      } else {
-        beg <- rp$idx_e
-        idx_sep <- purrr::detect_index(
-          rp$elems[beg:rp$n_elems],
-          ~ !elem_is(.x, c("whitespace", "equal_sign"))
-        )
-        if (idx_sep < 2) {
-          abort(
-            c(
-              paste("Missing value for", opt_raw),
-              paste(rp$elems, collapse = "")
-            ),
-            "nmrec_parse_error"
-          )
-        }
-        sep <- rp$elems_yank_to(beg + idx_sep - 2)
-      }
-
-      if (rp$elems_is("paren_open")) {
-        pos <- find_closing_paren(rp)
-        val <- rp$elems_yank_to(pos)
-      } else {
-        val <- rp$elems_yank(fold_quoted = TRUE)
-      }
-      rp$append(
-        option_value$new(opt, opt_raw, value = val, sep = sep)
-      )
-      rp$gobble()
-    } else {
-      abort(paste("Unrecognized type for", opt), "nmrec_dev_error")
-    }
-  }
-
-  return(invisible(rp))
-}
 
 find_closing_quote <- function(elems) {
   n_elems <- length(elems)

@@ -1,9 +1,5 @@
 parse_theta_record <- function() {
-  rp <- record_parser$new(
-    private$name_raw, private$lines,
-    option_types = theta_option_types,
-    option_names = theta_option_names
-  )
+  rp <- record_parser$new(private$name_raw, private$lines)
 
   prev <- private$previous_rec
   if (!is.null(prev)) {
@@ -11,7 +7,11 @@ parse_theta_record <- function() {
   }
 
   record_parser_walk(rp, function(r) {
-    r$process_options(fail_on_unknown = FALSE)
+    process_options(
+      r, theta_option_types, theta_option_names,
+      fail_on_unknown = FALSE
+    )
+
     if (!r$elems_done()) {
       param_parse_label(r)
       r$gobble_one("whitespace")

@@ -4,7 +4,7 @@ parse_matrix_record <- function(name, rp) {
   })
 
   if (is_block) {
-    rp$process_options(fail_on_unknown = FALSE)
+    process_matrix_options(rp, fail_on_unknown = FALSE)
   }
   matrix_process_prefix_option(rp)
   rp$gobble()
@@ -18,12 +18,12 @@ parse_matrix_record <- function(name, rp) {
 
 parse_matrix_block <- function(name, rp) {
   record_parser_walk(rp, function(r) {
-    r$process_options(fail_on_unknown = FALSE)
+    process_matrix_options(r, fail_on_unknown = FALSE)
     param_parse_label(r)
-    r$process_options(fail_on_unknown = FALSE)
+    process_matrix_options(r, fail_on_unknown = FALSE)
     if (!r$elems_done()) {
       parse_matrix_block_init(name, r)
-      r$process_options(fail_on_unknown = FALSE)
+      process_matrix_options(r, fail_on_unknown = FALSE)
     }
   })
 }

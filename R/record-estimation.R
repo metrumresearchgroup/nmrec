@@ -1,10 +1,6 @@
 parse_estimation_record <- function() {
-  rp <- record_parser$new(
-    private$name_raw, private$lines,
-    option_types = estimation_option_types,
-    option_names = estimation_option_names
-  )
-  rp$process_options()
+  rp <- record_parser$new(private$name_raw, private$lines)
+  process_options(rp, estimation_option_types, estimation_option_names)
   rp$elems_assert_done()
 
   return(rp$get_values())

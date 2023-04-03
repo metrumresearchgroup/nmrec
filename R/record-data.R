@@ -1,11 +1,7 @@
 # TODO: Document parse_* functions somewhere.
 
 parse_data_record <- function() {
-  rp <- record_parser$new(
-    private$name_raw, private$lines,
-    option_types = data_option_types,
-    option_names = data_option_names
-  )
+  rp <- record_parser$new(private$name_raw, private$lines)
 
   prev <- private$previous_rec
   filename <- NULL
@@ -45,7 +41,7 @@ parse_data_record <- function() {
     )
   }
 
-  rp$process_options()
+  process_options(rp, data_option_types, data_option_names)
   rp$elems_assert_done()
 
   return(rp$get_values())
