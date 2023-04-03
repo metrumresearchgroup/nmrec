@@ -159,4 +159,6 @@ matrix_process_diag_option <- function(rp, lstr) {
       r$gobble_one(c("comma", "whitespace"), lstr = lstr)
     }
   })
+
+  return(invisible(rp))
 }

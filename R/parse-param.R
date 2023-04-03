@@ -55,6 +55,8 @@ param_parse_x <- function(rp, lstr) {
       rp$tick_e()
     }
   }
+
+  return(invisible(rp))
 }
 
 param_option_names <- list2env(
@@ -101,4 +103,6 @@ param_append <- function(name, rp, lstr) {
   for (elem in popped) {
     rp$append(elem)
   }
+
+  return(invisible(rp))
 }

@@ -255,6 +255,8 @@ process_options <- function(rp, fail_on_unknown = TRUE) {
       abort(paste("Unrecognized type for", opt), "nmrec_dev_error")
     }
   }
+
+  return(invisible(rp))
 }
 
 find_closing_quote <- function(elems) {
@@ -326,4 +328,6 @@ record_parser_map <- function(rp, fn) {
 
     fn(rp)
   }
+
+  return(invisible(rp))
 }
