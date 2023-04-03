@@ -68,7 +68,7 @@ record_parser <- R6::R6Class(
       if (!isTRUE(pos >= beg)) {
         abort(
           sprintf(
-            "pos (%s) must be at value of current position (%s)",
+            "pos (%s) must be at least value of current position (%s)",
             pos, beg
           ),
           "nmrec_dev_error"
