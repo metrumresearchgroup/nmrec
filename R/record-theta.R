@@ -6,7 +6,7 @@ parse_theta_record <- function() {
     prev$parse()
   }
 
-  record_parser_walk(rp, function(r) {
+  rp$walk(function(r) {
     process_options(
       r, theta_option_types, theta_option_names,
       fail_on_unknown = FALSE
@@ -52,7 +52,7 @@ parse_theta_value <- function(rp) {
 #' @param lstr `lstring` object.
 #' @noRd
 parse_theta_paren <- function(rp, lstr) {
-  pos_end <- find_closing_paren(rp, "linebreak")
+  pos_end <- rp$find_closing_paren("linebreak")
   lstr$append(rp$yank())
   rp$gobble_one("whitespace", lstr = lstr)
   valnames <- c("low", "init", "up")
@@ -183,7 +183,7 @@ get_theta_value_idx <- function(rp, pos_end) {
 #' @param lstr `lstring` object for theta value.
 #' @noRd
 process_theta_value_option <- function(rp, lstr) {
-  record_parser_walk(rp, function(r) {
+  rp$walk(function(r) {
     opt <- param_get_value_option(r$current())
     if (!is.null(opt)) {
       lstr$append(option_flag$new(opt, r$yank(), TRUE))

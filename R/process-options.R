@@ -68,7 +68,7 @@ process_options <- function(rp,
         sep <- rp$yank_to(beg + idx_sep - 2)
       }
 
-      pos <- find_closing_paren(rp)
+      pos <- rp$find_closing_paren()
       if (!identical(pos, 0L)) {
         val <- rp$yank_to(pos)
       } else {

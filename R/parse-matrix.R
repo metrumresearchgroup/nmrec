@@ -10,14 +10,14 @@ parse_matrix_record <- function(name, rp) {
   rp$gobble()
 
   fn <- if (is_block) parse_matrix_block else parse_matrix_diag
-  record_parser_walk(rp, purrr::partial(fn, name = name))
+  rp$walk(purrr::partial(fn, name = name))
   rp$assert_done()
 
   return(rp$get_values())
 }
 
 parse_matrix_block <- function(name, rp) {
-  record_parser_walk(rp, function(r) {
+  rp$walk(function(r) {
     process_matrix_options(r, fail_on_unknown = FALSE)
     param_parse_label(r)
     process_matrix_options(r, fail_on_unknown = FALSE)
@@ -33,7 +33,7 @@ parse_matrix_block_init <- function(name, rp) {
 }
 
 parse_matrix_diag <- function(name, rp) {
-  record_parser_walk(rp, function(r) {
+  rp$walk(function(r) {
     param_parse_label(r)
     r$gobble_one("whitespace")
     parse_matrix_diag_init(name, r)
@@ -59,7 +59,7 @@ parse_matrix_diag_init <- function(name, rp) {
 #' @noRd
 parse_matrix_init <- function(rp, opt_fn = NULL) {
   lstr <- lstring$new()
-  pos_end <- find_closing_paren(rp, "linebreak")
+  pos_end <- rp$find_closing_paren("linebreak")
   if (!identical(pos_end, 0L)) {
     lstr$append(rp$yank())
     rp$gobble(lstr = lstr)
@@ -98,7 +98,7 @@ parse_matrix_init <- function(rp, opt_fn = NULL) {
 #' @param lstr `lstring` object for parameter value.
 #' @noRd
 matrix_process_prefix_option <- function(rp) {
-  record_parser_walk(rp, function(r) {
+  rp$walk(function(r) {
     # Note: NM-TRAN allows value "(N)" to come on next line, but that's not
     # accounted for here.
     name_raw <- r$current()
@@ -115,7 +115,7 @@ matrix_process_prefix_option <- function(rp) {
       (on_ws && r$is("paren_open", pos = r$idx_e + 1))
     if (has_value) {
       sep <- if (on_ws) as.character(r$yank()) else ""
-      end <- find_closing_paren(rp)
+      end <- rp$find_closing_paren()
       r$append(
         option_value$new(
           name, name_raw,
@@ -152,7 +152,7 @@ matrix_prefix_options <- list(
 #' @param lstr `lstring` object for parameter value.
 #' @noRd
 matrix_process_diag_option <- function(rp, lstr) {
-  record_parser_walk(rp, function(r) {
+  rp$walk(function(r) {
     opt <- get0(tolower(r$current()), envir = diag_option_names)
     if (!is.null(opt)) {
       lstr$append(option_flag$new(opt, r$yank(), TRUE))

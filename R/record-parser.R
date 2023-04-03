@@ -49,9 +49,21 @@
 #'  * is(types, pos): return `TRUE` if the `elems` item at `pos` (defaults to
 #'    `idx_e`) is an `nmrec_element` type specified in `types`.
 #'
+#' Methods for finding the position of a downstream element:
+#'
 #'  * find_next(pred): return the position of the next `elems` item (starting
 #'    search at `idx_e`) for which `pred` returns `TRUE`. Return 0L if there is
 #'    no match.
+#'
+#'  * find_closing_quote(): return position of closing quote. If the closing
+#'    quote is not found on the current line, signal a parse error. If the
+#'    current element is not an `nmrec_quote` object (i.e. there's no opening
+#'    quote), return 0L.
+#'
+#'  * find_closing_paren(stop_on_types): return position of closing parenthesis.
+#'    If `stop_on_types` is specified, stop searching if one of these types is
+#'    encountered. Signal a parse error if the closing parenthesis is not found.
+#'    If the current element is not an `nmrec_paren_open` object, return 0L.
 #'
 #' Gobble methods are used to yank items from `elems` and store them in `lstr`.
 #' All the gobble methods accept an optional `lstr` to use instead of the
@@ -157,7 +169,7 @@ record_parser <- R6::R6Class(
 
       pos <- 0L
       if (identical(fold_quoted, TRUE)) {
-        pos <- find_closing_quote(self)
+        pos <- self$find_closing_quote()
       }
 
       if (identical(pos, 0L)) {
@@ -197,6 +209,49 @@ record_parser <- R6::R6Class(
       }
 
       return(pos)
+    },
+    find_closing_quote = function() {
+      end <- 0L
+      if (self$idx_e < self$n_elems && self$is("quote")) {
+        quote_type <- if (self$is("quote_single")) {
+          "quote_single"
+        } else {
+          "quote_double"
+        }
+        # TODO: Does NONMEM support escaping the quote character?
+
+        end <- self$find_next(~ elem_is(.x, c(quote_type, "linebreak")))
+        if (identical(end, 0L) || !self$is(quote_type, pos = end)) {
+          abort(c("Missing closing quote:", self$format()), "nmrec_parse_error")
+        }
+      }
+
+      return(end)
+    },
+    find_closing_paren = function(stop_on_types = NULL) {
+      end <- 0L
+      if (self$idx_e < self$n_elems && self$is("paren_open")) {
+        types <- c("paren_close", stop_on_types)
+        end <- self$find_next(~ elem_is(.x, types))
+        if (identical(end, 0L) || !self$is("paren_close", pos = end)) {
+          abort(c("Missing closing paren.", self$format()), "nmrec_parse_error")
+        }
+      }
+
+      return(end)
+    },
+    walk = function(fn) {
+      fn <- purrr::as_mapper(fn)
+      i <- NULL
+      while (!identical(i, self$idx_e)) {
+        i <- self$idx_e
+
+        if (self$done()) {
+          break
+        }
+
+        fn(self)
+      }
     },
     gobble_one = function(types, lstr = NULL) {
       lstr <- lstr %||% self$lstr
@@ -255,75 +310,3 @@ record_parser <- R6::R6Class(
     }
   )
 )
-
-#' Find closing quote
-#'
-#' Abort if no closing quote can be found.
-#'
-#' @param rp `record_parser` object.
-#' @return Returns element index for closing quote.
-#' @noRd
-find_closing_quote <- function(rp) {
-  end <- 0L
-  if (rp$idx_e < rp$n_elems && rp$is("quote")) {
-    quote_type <- if (rp$is("quote_single")) {
-      "quote_single"
-    } else {
-      "quote_double"
-    }
-    # TODO: Does NONMEM support escaping the quote character?
-
-    end <- rp$find_next(~ elem_is(.x, c(quote_type, "linebreak")))
-    if (identical(end, 0L) || !rp$is(quote_type, pos = end)) {
-      abort(c("Missing closing quote:", rp$format()), "nmrec_parse_error")
-    }
-  }
-
-  return(end)
-}
-
-#' Find closing paren
-#'
-#' Abort if no closing paren can be found.
-#'
-#' @param rp `record_parser` object.
-#' @param stop_on_types Element types in addition to "paren_close" to stop on.
-#' @return Returns element index for closing paren.
-#' @noRd
-find_closing_paren <- function(rp, stop_on_types = NULL) {
-  end <- 0L
-  if (rp$idx_e < rp$n_elems && rp$is("paren_open")) {
-    types <- c("paren_close", stop_on_types)
-    end <- rp$find_next(~ elem_is(.x, types))
-    if (identical(end, 0L) || !rp$is("paren_close", pos = end)) {
-      abort(c("Missing closing paren.", rp$format()), "nmrec_parse_error")
-    }
-  }
-
-  return(end)
-}
-
-#' Process record elements with a function
-#'
-#' Call a function with `rp`, stopping once the element index no longer changes
-#' or the index is beyond the last element.
-#'
-#' @param rp `record_parser` object.
-#' @param fn Function to apply. It is called with `rp` as its only argument.
-#'
-#' @noRd
-record_parser_walk <- function(rp, fn) {
-  fn <- purrr::as_mapper(fn)
-  i <- NULL
-  while (!identical(i, rp$idx_e)) {
-    i <- rp$idx_e
-
-    if (rp$done()) {
-      break
-    }
-
-    fn(rp)
-  }
-
-  return(invisible(rp))
-}
