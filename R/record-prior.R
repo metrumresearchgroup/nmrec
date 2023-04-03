@@ -7,7 +7,7 @@ parse_prior_record <- function() {
   }
 
   record_parser_walk(rp, parse_prior)
-  rp$elems_assert_done()
+  rp$assert_done()
 
   return(rp$get_values())
 }
@@ -18,10 +18,10 @@ parse_prior <- function(rp) {
     fail_on_unknown = FALSE
   )
 
-  if (rp$elems_is("paren_open")) {
+  if (rp$is("paren_open")) {
     pos <- find_closing_paren(rp)
     rp$append(
-      option_pos$new("clause", value = rp$elems_yank_to(pos))
+      option_pos$new("clause", value = rp$yank_to(pos))
     )
     rp$gobble()
   }

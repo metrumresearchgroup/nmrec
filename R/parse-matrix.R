@@ -11,7 +11,7 @@ parse_matrix_record <- function(name, rp) {
 
   fn <- if (is_block) parse_matrix_block else parse_matrix_diag
   record_parser_walk(rp, purrr::partial(fn, name = name))
-  rp$elems_assert_done()
+  rp$assert_done()
 
   return(rp$get_values())
 }
@@ -21,7 +21,7 @@ parse_matrix_block <- function(name, rp) {
     process_matrix_options(r, fail_on_unknown = FALSE)
     param_parse_label(r)
     process_matrix_options(r, fail_on_unknown = FALSE)
-    if (!r$elems_done()) {
+    if (!r$done()) {
       parse_matrix_block_init(name, r)
       process_matrix_options(r, fail_on_unknown = FALSE)
     }
@@ -59,8 +59,8 @@ parse_matrix_diag_init <- function(name, rp) {
 #' @noRd
 parse_matrix_init <- function(rp, opt_fn = NULL) {
   lstr <- lstring$new()
-  if (rp$elems_is("paren_open")) {
-    lstr$append(rp$elems_yank())
+  if (rp$is("paren_open")) {
+    lstr$append(rp$yank())
     pos_end <- find_closing_paren(rp, "linebreak")
     rp$gobble(lstr = lstr)
     while (rp$idx_e < pos_end) {
@@ -69,20 +69,20 @@ parse_matrix_init <- function(rp, opt_fn = NULL) {
       }
 
       if (rp$idx_e < pos_end) {
-        lstr$append(option_pos$new("init", value = rp$elems_yank()))
+        lstr$append(option_pos$new("init", value = rp$yank()))
         rp$gobble_one(c("comma", "whitespace"), lstr = lstr)
       }
     }
 
-    if (!rp$elems_is("paren_close")) {
+    if (!rp$is("paren_close")) {
       abort("Bug: should end on closing paren.", "nmrec_dev_error")
     }
 
-    lstr$append(rp$elems_yank())
+    lstr$append(rp$yank())
     rp$gobble_one(c("comma", "whitespace"), lstr = lstr)
     param_parse_x(rp, lstr)
   } else {
-    lstr$append(option_pos$new("init", value = rp$elems_yank()))
+    lstr$append(option_pos$new("init", value = rp$yank()))
     rp$gobble(lstr = lstr)
     if (!is.null(opt_fn)) {
       opt_fn(rp, lstr)
@@ -101,7 +101,7 @@ matrix_process_prefix_option <- function(rp) {
   record_parser_walk(rp, function(r) {
     # Note: NM-TRAN allows value "(N)" to come on next line, but that's not
     # accounted for here.
-    name_raw <- r$elems_current()
+    name_raw <- r$current()
     name <- matrix_get_prefix_option(name_raw)
 
     if (is.null(name)) {
@@ -110,16 +110,16 @@ matrix_process_prefix_option <- function(rp) {
 
     r$tick_e()
 
-    on_ws <- r$elems_is("whitespace")
-    has_value <- r$elems_is("paren_open") ||
-      (on_ws && r$elems_is("paren_open", pos = r$idx_e + 1))
+    on_ws <- r$is("whitespace")
+    has_value <- r$is("paren_open") ||
+      (on_ws && r$is("paren_open", pos = r$idx_e + 1))
     if (has_value) {
       end <- find_closing_paren(rp)
-      sep <- if (on_ws) as.character(r$elems_yank()) else ""
+      sep <- if (on_ws) as.character(r$yank()) else ""
       r$append(
         option_value$new(
           name, name_raw,
-          value = r$elems_yank_to(end), sep = sep
+          value = r$yank_to(end), sep = sep
         )
       )
     } else {
@@ -153,9 +153,9 @@ matrix_prefix_options <- list(
 #' @noRd
 matrix_process_diag_option <- function(rp, lstr) {
   record_parser_walk(rp, function(r) {
-    opt <- get0(tolower(r$elems_current()), envir = diag_option_names)
+    opt <- get0(tolower(r$current()), envir = diag_option_names)
     if (!is.null(opt)) {
-      lstr$append(option_flag$new(opt, r$elems_yank(), TRUE))
+      lstr$append(option_flag$new(opt, r$yank(), TRUE))
       r$gobble_one(c("comma", "whitespace"), lstr = lstr)
     }
   })

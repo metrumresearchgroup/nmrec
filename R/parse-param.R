@@ -5,9 +5,9 @@
 #' @param rp `record_parser` object.
 #' @noRd
 param_parse_label <- function(rp) {
-  if (rp$elems_is("equal_sign", pos = rp$idx_e + 1)) {
+  if (rp$is("equal_sign", pos = rp$idx_e + 1)) {
     rp$append(
-      option_pos$new("label", value = rp$elems_yank_to(rp$idx_e + 1))
+      option_pos$new("label", value = rp$yank_to(rp$idx_e + 1))
     )
   }
 }
@@ -18,25 +18,25 @@ param_parse_label <- function(rp) {
 #' @param lstr `lstring` object for parameter value.
 #' @noRd
 param_parse_x <- function(rp, lstr) {
-  if (!rp$elems_done()) {
-    xcand <- tolower(rp$elems_current())
+  if (!rp$done()) {
+    xcand <- tolower(rp$current())
     if (identical(xcand, "x")) {
-      xname <- rp$elems_yank()
-      if (rp$elems_is("whitespace")) {
-        sep <- as.character(rp$elems_yank())
+      xname <- rp$yank()
+      if (rp$is("whitespace")) {
+        sep <- as.character(rp$yank())
       } else {
         abort(
           c(
             sprintf(
               "Unexpected element (%s) following X.",
-              rp$elems_current()
+              rp$current()
             ),
             rp$format()
           ),
           "nmrec_parse_error"
         )
       }
-      xval <- rp$elems_yank()
+      xval <- rp$yank()
       lstr$append(
         option_value$new(
           "x",

@@ -12,13 +12,13 @@ parse_theta_record <- function() {
       fail_on_unknown = FALSE
     )
 
-    if (!r$elems_done()) {
+    if (!r$done()) {
       param_parse_label(r)
       r$gobble_one("whitespace")
       parse_theta_value(r)
     }
   })
-  rp$elems_assert_done()
+  rp$assert_done()
 
   return(rp$get_values())
 }
@@ -33,10 +33,10 @@ parse_theta_value <- function(rp) {
   lstr <- lstring$new()
   rp$gobble(lstr = lstr)
 
-  if (rp$elems_is("paren_open")) {
+  if (rp$is("paren_open")) {
     parse_theta_paren(rp, lstr)
   } else {
-    val <- rp$elems_yank()
+    val <- rp$yank()
     check_for_short_unint(val)
     lstr$append(option_pos$new("init", value = val))
     rp$gobble(lstr = lstr)
@@ -52,7 +52,7 @@ parse_theta_value <- function(rp) {
 #' @param lstr `lstring` object.
 #' @noRd
 parse_theta_paren <- function(rp, lstr) {
-  lstr$append(rp$elems_yank())
+  lstr$append(rp$yank())
   pos_end <- find_closing_paren(rp, "linebreak")
   rp$gobble_one("whitespace", lstr = lstr)
   valnames <- c("low", "init", "up")
@@ -64,29 +64,29 @@ parse_theta_paren <- function(rp, lstr) {
       break
     }
 
-    if (rp$elems_is("whitespace")) {
-      lstr$append(rp$elems_yank())
+    if (rp$is("whitespace")) {
+      lstr$append(rp$yank())
       next
     }
-    if (rp$elems_is("comma")) {
+    if (rp$is("comma")) {
       # (low,,up) form
       no_init <- identical(idx_val, 2L) &&
-        rp$elems_is("comma", pos = rp$idx_e + 1) ||
-        (rp$elems_is("whitespace", pos = rp$idx_e + 1) &&
-          rp$elems_is("whitespace", pos = rp$idx_e + 2))
+        rp$is("comma", pos = rp$idx_e + 1) ||
+        (rp$is("whitespace", pos = rp$idx_e + 1) &&
+          rp$is("whitespace", pos = rp$idx_e + 2))
       if (no_init) {
         idx_val <- idx_val + 1L
       }
-      lstr$append(rp$elems_yank())
+      lstr$append(rp$yank())
       next
     }
 
-    if (inherits(rp$elems_current(), "nmrec_element")) {
+    if (inherits(rp$current(), "nmrec_element")) {
       abort(
         c(
           sprintf(
             "Unexpected element (%s) with parens.",
-            rp$elems_current()
+            rp$current()
           ),
           rp$format()
         ),
@@ -104,18 +104,18 @@ parse_theta_paren <- function(rp, lstr) {
       )
     }
 
-    val <- rp$elems_yank()
+    val <- rp$yank()
     check_for_short_unint(val)
     lstr$append(option_pos$new(valnames[idx_val], value = val))
 
     idx_val <- idx_val + 1L
   }
 
-  if (!rp$elems_is("paren_close")) {
+  if (!rp$is("paren_close")) {
     abort("Bug: should end on closing paren.", "nmrec_dev_error")
   }
 
-  lstr$append(rp$elems_yank())
+  lstr$append(rp$yank())
   rp$gobble(lstr = lstr)
   process_theta_value_option(rp, lstr)
   rp$gobble(lstr = lstr)
@@ -184,9 +184,9 @@ get_theta_value_idx <- function(rp, pos_end) {
 #' @noRd
 process_theta_value_option <- function(rp, lstr) {
   record_parser_walk(rp, function(r) {
-    opt <- param_get_value_option(r$elems_current())
+    opt <- param_get_value_option(r$current())
     if (!is.null(opt)) {
-      lstr$append(option_flag$new(opt, r$elems_yank(), TRUE))
+      lstr$append(option_flag$new(opt, r$yank(), TRUE))
       r$gobble(lstr = lstr)
     }
   })

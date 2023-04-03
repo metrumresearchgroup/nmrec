@@ -18,8 +18,8 @@ parse_table_record <- function() {
   )
 
   saw_list1 <- FALSE
-  while (!rp$elems_done()) {
-    curr <- tolower(rp$elems_current())
+  while (!rp$done()) {
+    curr <- tolower(rp$current())
     if (identical(curr, "by")) {
       what <- "by"
     } else if (identical(curr, "exclude_by")) {
@@ -38,27 +38,27 @@ parse_table_record <- function() {
       saw_list1 <- TRUE
     }
 
-    opt_idx <- rp$elems_find_next(is_table_list_element)
+    opt_idx <- rp$find_next(is_table_list_element)
     if (identical(opt_idx, 0L)) {
       pos <- rp$n_elems
     } else {
       pos <- opt_idx - 1
     }
-    if (rp$elems_is(c("whitespace", "linebreak"), pos = pos)) {
+    if (rp$is(c("whitespace", "linebreak"), pos = pos)) {
       # Although for most cases we just absorb elements (e.g., line breaks and
       # trailing comments) into the list value, handle the common case of one
       # trailing space or newline.
       pos <- pos - 1
     }
 
-    rp$append(option_pos$new(what, value = rp$elems_yank_to(pos)))
+    rp$append(option_pos$new(what, value = rp$yank_to(pos)))
     rp$gobble()
     process_options(
       rp, table_option_types, table_option_names,
       fail_on_unknown = FALSE
     )
   }
-  rp$elems_assert_done()
+  rp$assert_done()
 
   return(rp$get_values())
 }

@@ -25,8 +25,8 @@ process_options <- function(rp,
                             option_types, option_names,
                             fail_on_unknown = TRUE) {
   rp$gobble()
-  while (!rp$elems_done()) {
-    opt_raw <- rp$elems_current()
+  while (!rp$done()) {
+    opt_raw <- rp$current()
     opt <- resolve_option(opt_raw, option_names)
     if (is.null(opt)) {
       if (fail_on_unknown) {
@@ -48,7 +48,7 @@ process_options <- function(rp,
       rp$append(option_flag$new(opt, opt_raw, TRUE))
       rp$gobble()
     } else if (identical(kind, "value")) {
-      if (rp$elems_is("paren_open")) {
+      if (rp$is("paren_open")) {
         sep <- ""
       } else {
         beg <- rp$idx_e
@@ -65,14 +65,14 @@ process_options <- function(rp,
             "nmrec_parse_error"
           )
         }
-        sep <- rp$elems_yank_to(beg + idx_sep - 2)
+        sep <- rp$yank_to(beg + idx_sep - 2)
       }
 
-      if (rp$elems_is("paren_open")) {
+      if (rp$is("paren_open")) {
         pos <- find_closing_paren(rp)
-        val <- rp$elems_yank_to(pos)
+        val <- rp$yank_to(pos)
       } else {
-        val <- rp$elems_yank(fold_quoted = TRUE)
+        val <- rp$yank(fold_quoted = TRUE)
       }
       rp$append(
         option_value$new(opt, opt_raw, value = val, sep = sep)

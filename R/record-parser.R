@@ -19,7 +19,7 @@ record_parser <- R6::R6Class(
 
       self$gobble_one("whitespace")
 
-      rn <- self$elems_yank()
+      rn <- self$yank()
       if (!identical(rn, paste0("$", name_raw))) {
         abort(
           c(
@@ -41,11 +41,11 @@ record_parser <- R6::R6Class(
       self$lstr$append(x)
       return(invisible(self))
     },
-    elems_done = function() {
+    done = function() {
       return(self$idx_e > self$n_elems)
     },
-    elems_assert_done = function() {
-      if (!self$elems_done()) {
+    assert_done = function() {
+      if (!self$done()) {
         abort(
           c(
             sprintf("Failed to parse %s record.", self$name_raw),
@@ -55,14 +55,14 @@ record_parser <- R6::R6Class(
         )
       }
     },
-    elems_assert_remaining = function() {
-      if (self$elems_done()) {
+    assert_remaining = function() {
+      if (self$done()) {
         abort("All elements already consumed.", "nmrec_dev_error")
       }
       return(invisible(self))
     },
-    elems_yank_to = function(pos) {
-      self$elems_assert_remaining()
+    yank_to = function(pos) {
+      self$assert_remaining()
       beg <- self$idx_e
 
       if (!isTRUE(pos >= beg)) {
@@ -80,8 +80,8 @@ record_parser <- R6::R6Class(
 
       return(x)
     },
-    elems_yank = function(fold_quoted = FALSE) {
-      self$elems_assert_remaining()
+    yank = function(fold_quoted = FALSE) {
+      self$assert_remaining()
 
       pos <- 0L
       if (identical(fold_quoted, TRUE)) {
@@ -92,7 +92,7 @@ record_parser <- R6::R6Class(
         x <- self$elems[[self$idx_e]]
         self$tick_e()
       } else {
-        x <- self$elems_yank_to(pos)
+        x <- self$yank_to(pos)
       }
 
       return(x)
@@ -101,17 +101,17 @@ record_parser <- R6::R6Class(
       self$idx_e <- self$idx_e + n
       return(invisible(self))
     },
-    elems_current = function() {
+    current = function() {
       return(self$elems[[self$idx_e]])
     },
-    elems_is = function(types, pos = NULL) {
+    is = function(types, pos = NULL) {
       pos <- pos %||% self$idx_e
       if (pos > self$n_elems) {
         return(FALSE)
       }
       return(elem_is(self$elems[[pos]], types))
     },
-    elems_find_next = function(pred) {
+    find_next = function(pred) {
       beg <- self$idx_e + 1
       n_elems <- self$n_elems
       if (beg > n_elems) {
@@ -128,16 +128,16 @@ record_parser <- R6::R6Class(
     },
     gobble_one = function(types, lstr = NULL) {
       lstr <- lstr %||% self$lstr
-      if (self$elems_is(types)) {
-        lstr$append(self$elems_yank())
+      if (self$is(types)) {
+        lstr$append(self$yank())
       }
       return(invisible(self))
     },
     gobble_comment = function(lstr = NULL) {
       lstr <- lstr %||% self$lstr
-      if (self$elems_is("semicolon")) {
+      if (self$is("semicolon")) {
         beg <- self$idx_e
-        lb <- self$elems_find_next(~ elem_is(.x, "linebreak"))
+        lb <- self$find_next(~ elem_is(.x, "linebreak"))
         if (identical(lb, 0L)) {
           abort(
             "Record must end with linebreak element",
@@ -159,25 +159,25 @@ record_parser <- R6::R6Class(
         "ampersand", "comma", "comment", "equal_sign",
         "linebreak", "whitespace"
       )
-      while (!self$elems_done()) {
-        if (self$elems_is("semicolon")) {
+      while (!self$done()) {
+        if (self$is("semicolon")) {
           self$gobble_comment(lstr = lstr)
           next
         }
-        if (self$elems_is("ampersand")) {
+        if (self$is("ampersand")) {
           idx <- self$idx_e
-          is_cont <- self$elems_is("linebreak", pos = idx + 1) ||
-            (self$elems_is("whitespace", pos = idx + 1) &&
-              self$elems_is("linebreak", pos = idx + 2))
+          is_cont <- self$is("linebreak", pos = idx + 1) ||
+            (self$is("whitespace", pos = idx + 1) &&
+              self$is("linebreak", pos = idx + 2))
           if (!is_cont) {
             break
           }
         }
-        if (!self$elems_is(uninteresting)) {
+        if (!self$is(uninteresting)) {
           break
         }
 
-        lstr$append(self$elems_yank())
+        lstr$append(self$yank())
       }
       return(invisible(self))
     }
@@ -193,16 +193,16 @@ record_parser <- R6::R6Class(
 #' @noRd
 find_closing_quote <- function(rp) {
   end <- 0L
-  if (rp$idx_e < rp$n_elems && rp$elems_is("quote")) {
-    quote_type <- if (rp$elems_is("quote_single")) {
+  if (rp$idx_e < rp$n_elems && rp$is("quote")) {
+    quote_type <- if (rp$is("quote_single")) {
       "quote_single"
     } else {
       "quote_double"
     }
     # TODO: Does NONMEM support escaping the quote character?
 
-    end <- rp$elems_find_next(~ elem_is(.x, c(quote_type, "linebreak")))
-    if (identical(end, 0L) || !rp$elems_is(quote_type, pos = end)) {
+    end <- rp$find_next(~ elem_is(.x, c(quote_type, "linebreak")))
+    if (identical(end, 0L) || !rp$is(quote_type, pos = end)) {
       abort(c("Missing closing quote:", rp$format()), "nmrec_parse_error")
     }
   }
@@ -220,8 +220,8 @@ find_closing_quote <- function(rp) {
 #' @noRd
 find_closing_paren <- function(rp, stop_on_types = NULL) {
   types <- c("paren_close", stop_on_types)
-  end <- rp$elems_find_next(~ elem_is(.x, types))
-  if (identical(end, 0L) || !rp$elems_is("paren_close", pos = end)) {
+  end <- rp$find_next(~ elem_is(.x, types))
+  if (identical(end, 0L) || !rp$is("paren_close", pos = end)) {
     abort(c("Missing closing paren.", rp$format()), "nmrec_parse_error")
   }
   return(end)
@@ -242,7 +242,7 @@ record_parser_walk <- function(rp, fn) {
   while (!identical(i, rp$idx_e)) {
     i <- rp$idx_e
 
-    if (rp$elems_done()) {
+    if (rp$done()) {
       break
     }
 

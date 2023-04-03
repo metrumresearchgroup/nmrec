@@ -6,7 +6,7 @@ parse_data_record <- function() {
   prev <- private$previous_rec
   filename <- NULL
   if (is.null(prev)) {
-    filename <- rp$elems_yank(fold_quoted = TRUE)
+    filename <- rp$yank(fold_quoted = TRUE)
 
     if (elem_is(filename, c("linebreak", "semicolon"))) {
       abort(
@@ -34,15 +34,15 @@ parse_data_record <- function() {
   file_only <- !is.null(filename) ||
     identical(purrr::map_chr(prev$get_options(), "name"), "filename")
   # (format)
-  if (file_only && rp$elems_is("paren_open")) {
+  if (file_only && rp$is("paren_open")) {
     pos <- find_closing_paren(rp)
     rp$append(
-      option_pos$new("format", value = rp$elems_yank_to(pos))
+      option_pos$new("format", value = rp$yank_to(pos))
     )
   }
 
   process_options(rp, data_option_types, data_option_names)
-  rp$elems_assert_done()
+  rp$assert_done()
 
   return(rp$get_values())
 }
