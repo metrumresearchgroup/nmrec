@@ -31,7 +31,7 @@ param_parse_x <- function(rp, lstr) {
               "Unexpected element (%s) following X.",
               rp$elems_current()
             ),
-            paste(rp$elems, collapse = "")
+            rp$format()
           ),
           "nmrec_parse_error"
         )

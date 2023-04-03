@@ -33,6 +33,9 @@ record_parser <- R6::R6Class(
       }
       self$gobble_one("whitespace")
     },
+    format = function() {
+      paste(self$elems, collapse = "")
+    },
     get_values = function() {
       self$lstr$get_values()
     },
@@ -48,7 +51,7 @@ record_parser <- R6::R6Class(
         abort(
           c(
             sprintf("Failed to parse %s record.", self$name_raw),
-            paste(self$elems, collapse = "")
+            self$format()
           ),
           "nmrec_parse_error"
         )
@@ -202,13 +205,7 @@ find_closing_quote <- function(rp) {
 
     end <- rp$elems_find_next(~ elem_is(.x, c(quote_type, "linebreak")))
     if (identical(end, 0L) || !rp$elems_is(quote_type, pos = end)) {
-      abort(
-        paste(
-          "Missing closing quote:",
-          deparse_string(paste0(rp$elems, collapse = ""))
-        ),
-        "nmrec_parse_error"
-      )
+      abort(c("Missing closing quote:", rp$format()), "nmrec_parse_error")
     }
   }
 
@@ -227,10 +224,7 @@ find_closing_paren <- function(rp, stop_on_types = NULL) {
   types <- c("paren_close", stop_on_types)
   end <- rp$elems_find_next(~ elem_is(.x, types))
   if (identical(end, 0L) || !rp$elems_is("paren_close", pos = end)) {
-    abort(
-      c("Missing closing paren.", paste(rp$elems, collapse = "")),
-      "nmrec_parse_error"
-    )
+    abort(c("Missing closing paren.", rp$format()), "nmrec_parse_error")
   }
   return(end)
 }

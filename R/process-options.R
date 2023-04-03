@@ -60,7 +60,7 @@ process_options <- function(rp,
           abort(
             c(
               paste("Missing value for", opt_raw),
-              paste(rp$elems, collapse = "")
+              rp$format()
             ),
             "nmrec_parse_error"
           )

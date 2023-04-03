@@ -30,7 +30,7 @@ parse_table_record <- function() {
         abort(
           c(
             "list1 repeated in table",
-            paste(rp$elems, collapse = "")
+            rp$format()
           ),
           "nmrec_parse_error"
         )

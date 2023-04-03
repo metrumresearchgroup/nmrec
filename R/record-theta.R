@@ -88,7 +88,7 @@ parse_theta_paren <- function(rp, lstr) {
             "Unexpected element (%s) with parens.",
             rp$elems_current()
           ),
-          paste(rp$elems, collapse = "")
+          rp$format()
         ),
         "nmrec_parse_error"
       )
@@ -98,7 +98,7 @@ parse_theta_paren <- function(rp, lstr) {
       abort(
         c(
           "Bug: there should be no more than 3 values.",
-          paste(rp$elems, collapse = "")
+          rp$format()
         ),
         "nmrec_dev_error"
       )
@@ -152,7 +152,7 @@ get_theta_value_idx <- function(rp, pos_end) {
     abort(
       c(
         "Did not find theta value.",
-        paste(rp$elems, collapse = "")
+        rp$format()
       ),
       "nmrec_parse_error"
     )
@@ -162,7 +162,7 @@ get_theta_value_idx <- function(rp, pos_end) {
     abort(
       c(
         "More than three theta values specified.",
-        paste(rp$elems, collapse = "")
+        rp$format()
       ),
       "nmrec_parse_error"
     )
