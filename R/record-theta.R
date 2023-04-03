@@ -52,8 +52,8 @@ parse_theta_value <- function(rp) {
 #' @param lstr `lstring` object.
 #' @noRd
 parse_theta_paren <- function(rp, lstr) {
-  lstr$append(rp$yank())
   pos_end <- find_closing_paren(rp, "linebreak")
+  lstr$append(rp$yank())
   rp$gobble_one("whitespace", lstr = lstr)
   valnames <- c("low", "init", "up")
   idx_val <- get_theta_value_idx(rp, pos_end)

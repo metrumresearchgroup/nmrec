@@ -59,9 +59,9 @@ parse_matrix_diag_init <- function(name, rp) {
 #' @noRd
 parse_matrix_init <- function(rp, opt_fn = NULL) {
   lstr <- lstring$new()
-  if (rp$is("paren_open")) {
+  pos_end <- find_closing_paren(rp, "linebreak")
+  if (!identical(pos_end, 0L)) {
     lstr$append(rp$yank())
-    pos_end <- find_closing_paren(rp, "linebreak")
     rp$gobble(lstr = lstr)
     while (rp$idx_e < pos_end) {
       if (!is.null(opt_fn)) {
@@ -114,8 +114,8 @@ matrix_process_prefix_option <- function(rp) {
     has_value <- r$is("paren_open") ||
       (on_ws && r$is("paren_open", pos = r$idx_e + 1))
     if (has_value) {
-      end <- find_closing_paren(rp)
       sep <- if (on_ws) as.character(r$yank()) else ""
+      end <- find_closing_paren(rp)
       r$append(
         option_value$new(
           name, name_raw,

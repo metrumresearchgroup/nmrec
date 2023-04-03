@@ -68,8 +68,8 @@ process_options <- function(rp,
         sep <- rp$yank_to(beg + idx_sep - 2)
       }
 
-      if (rp$is("paren_open")) {
-        pos <- find_closing_paren(rp)
+      pos <- find_closing_paren(rp)
+      if (!identical(pos, 0L)) {
         val <- rp$yank_to(pos)
       } else {
         val <- rp$yank(fold_quoted = TRUE)

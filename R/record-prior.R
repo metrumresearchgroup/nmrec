@@ -18,8 +18,8 @@ parse_prior <- function(rp) {
     fail_on_unknown = FALSE
   )
 
-  if (rp$is("paren_open")) {
-    pos <- find_closing_paren(rp)
+  pos <- find_closing_paren(rp)
+  if (!identical(pos, 0L)) {
     rp$append(
       option_pos$new("clause", value = rp$yank_to(pos))
     )

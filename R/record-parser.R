@@ -291,11 +291,15 @@ find_closing_quote <- function(rp) {
 #' @return Returns element index for closing paren.
 #' @noRd
 find_closing_paren <- function(rp, stop_on_types = NULL) {
-  types <- c("paren_close", stop_on_types)
-  end <- rp$find_next(~ elem_is(.x, types))
-  if (identical(end, 0L) || !rp$is("paren_close", pos = end)) {
-    abort(c("Missing closing paren.", rp$format()), "nmrec_parse_error")
+  end <- 0L
+  if (rp$idx_e < rp$n_elems && rp$is("paren_open")) {
+    types <- c("paren_close", stop_on_types)
+    end <- rp$find_next(~ elem_is(.x, types))
+    if (identical(end, 0L) || !rp$is("paren_close", pos = end)) {
+      abort(c("Missing closing paren.", rp$format()), "nmrec_parse_error")
+    }
   }
+
   return(end)
 }
 
