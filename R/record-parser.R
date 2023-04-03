@@ -6,14 +6,12 @@ record_parser <- R6::R6Class(
   "nmrec_record_parser",
   public = list(
     name_raw = NULL,
-    lines = NULL,
     elems = NULL,
     n_elems = NULL,
     idx_e = 1L,
     lstr = NULL,
     initialize = function(name_raw, lines) {
       self$name_raw <- name_raw
-      self$lines <- lines
 
       self$elems <- split_to_elements(lines)
       self$n_elems <- length(self$elems)
