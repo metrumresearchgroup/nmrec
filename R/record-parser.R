@@ -316,7 +316,7 @@ find_closing_paren <- function(rp, stop_on_types = NULL) {
 #' @param fn Function to apply. It is called with `rp` as its only argument.
 #'
 #' @noRd
-record_parser_map <- function(rp, fn) {
+record_parser_walk <- function(rp, fn) {
   fn <- purrr::as_mapper(fn)
   i <- NULL
   while (!identical(i, rp$idx_e)) {

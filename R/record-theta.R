@@ -10,7 +10,7 @@ parse_theta_record <- function() {
     prev$parse()
   }
 
-  record_parser_map(rp, function(r) {
+  record_parser_walk(rp, function(r) {
     r$process_options(fail_on_unknown = FALSE)
     if (!r$elems_done()) {
       param_parse_label(r)
@@ -183,7 +183,7 @@ get_theta_value_idx <- function(rp, pos_end) {
 #' @param lstr `lstring` object for theta value.
 #' @noRd
 process_theta_value_option <- function(rp, lstr) {
-  record_parser_map(rp, function(r) {
+  record_parser_walk(rp, function(r) {
     opt <- param_get_value_option(r$elems_current())
     if (!is.null(opt)) {
       lstr$append(option_flag$new(opt, r$elems_yank(), TRUE))

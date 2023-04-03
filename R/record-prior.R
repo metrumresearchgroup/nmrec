@@ -10,7 +10,7 @@ parse_prior_record <- function() {
     prev$parse()
   }
 
-  record_parser_map(rp, parse_prior)
+  record_parser_walk(rp, parse_prior)
   rp$elems_assert_done()
 
   return(rp$get_values())
