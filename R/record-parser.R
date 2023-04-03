@@ -82,16 +82,16 @@ record_parser <- R6::R6Class(
     elems_yank = function(fold_quoted = FALSE) {
       self$elems_assert_remaining()
 
-      offset <- 1L
+      pos <- 0L
       if (identical(fold_quoted, TRUE)) {
-        offset <- find_closing_quote(self$elems[self$idx_e:self$n_elems])
+        pos <- find_closing_quote(self)
       }
 
-      if (identical(offset, 1L)) {
+      if (identical(pos, 0L)) {
         x <- self$elems[[self$idx_e]]
         self$tick_e()
       } else {
-        x <- self$elems_yank_to(self$idx_e + offset - 1L)
+        x <- self$elems_yank_to(pos)
       }
 
       return(x)
@@ -183,25 +183,29 @@ record_parser <- R6::R6Class(
   )
 )
 
-find_closing_quote <- function(elems) {
-  n_elems <- length(elems)
-  end <- 1L
-  if (n_elems > 1 && elem_is(elems[[1]], "quote")) {
-    quote_type <- if (elem_is(elems[[1]], "quote_single")) {
+#' Find closing quote
+#'
+#' Abort if no closing quote can be found.
+#'
+#' @param rp `record_parser` object.
+#' @return Returns element index for closing quote.
+#' @noRd
+find_closing_quote <- function(rp) {
+  end <- 0L
+  if (rp$idx_e < rp$n_elems && rp$elems_is("quote")) {
+    quote_type <- if (rp$elems_is("quote_single")) {
       "quote_single"
     } else {
       "quote_double"
     }
     # TODO: Does NONMEM support escaping the quote character?
-    end <- 1 + purrr::detect_index(
-      elems[2:n_elems],
-      ~ elem_is(.x, c(quote_type, "linebreak"))
-    )
-    if (identical(end, 1L) || !elem_is(elems[[end]], quote_type)) {
+
+    end <- rp$elems_find_next(~ elem_is(.x, c(quote_type, "linebreak")))
+    if (identical(end, 0L) || !rp$elems_is(quote_type, pos = end)) {
       abort(
         paste(
           "Missing closing quote:",
-          deparse_string(paste0(elems[seq_len(end)], collapse = ""))
+          deparse_string(paste0(rp$elems, collapse = ""))
         ),
         "nmrec_parse_error"
       )
