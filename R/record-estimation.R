@@ -260,6 +260,7 @@ estimation_option_names <- list2env(
     "lapl" = "laplacian",
     "lapla" = "laplacian",
     "laplac" = "laplacian",
+    "laplace" = "laplacian",
     "laplaci" = "laplacian",
     "laplacia" = "laplacian",
     "laplacian" = "laplacian",
