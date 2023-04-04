@@ -8,7 +8,8 @@
 #' @param name Get records of this type. This may be spelled any way that's
 #'   accepted in the control stream.
 #' @return A list of `nmrec_record` objects.
-#' @seealso [read_ctl()] for reading records from a file.
+#' @seealso [read_ctl()] for reading records from a file, [get_record_option()]
+#'   for extracting an option from a record.
 #' @examples
 #' recs <- parse_ctl(get("control3", envir = nmrec_examples))
 #' # Get all "$ESTIMATION" records.

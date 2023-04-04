@@ -27,5 +27,6 @@ select_records(recs, "est")
 
 }
 \seealso{
-\code{\link[=read_ctl]{read_ctl()}} for reading records from a file.
+\code{\link[=read_ctl]{read_ctl()}} for reading records from a file, \code{\link[=get_record_option]{get_record_option()}}
+for extracting an option from a record.
 }
