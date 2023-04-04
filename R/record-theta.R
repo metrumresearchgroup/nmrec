@@ -85,7 +85,7 @@ parse_theta_paren <- function(rp, lstr) {
       abort(
         c(
           sprintf(
-            "Unexpected element (%s) with parens.",
+            "Unexpected element (%s) within parens.",
             rp$current()
           ),
           rp$format()
