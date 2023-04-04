@@ -3,7 +3,7 @@
 \docType{data}
 \name{nmrec_examples}
 \alias{nmrec_examples}
-\title{Environment of containing control streams examples}
+\title{Environment containing control stream examples}
 \format{
 An object of class \code{environment} of length 4.
 }

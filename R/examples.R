@@ -1,4 +1,4 @@
-#' Environment of containing control streams examples
+#' Environment containing control stream examples
 #'
 #' These are selected from NONMEM 7.5 examples. Some comments and blank lines
 #' have been removed.
