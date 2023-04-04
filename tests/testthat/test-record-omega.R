@@ -375,6 +375,27 @@ test_that("parse_omega_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$OMEGA (0.0225 UNINT)X4",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_param$new(
+            "omega",
+            values = list(
+              elem_paren_open(),
+              option_pos$new("init", "0.0225"),
+              elem_whitespace(" "),
+              option_flag$new("unint", "UNINT"),
+              elem_paren_close(),
+              option_value$new("x", "X", "4", sep = "")
+            )
+          ),
+          elem_linebreak()
+        )
+      )
     )
   )
 
