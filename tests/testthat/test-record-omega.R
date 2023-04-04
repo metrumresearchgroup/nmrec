@@ -320,7 +320,7 @@ test_that("parse_omega_record() works", {
         "0.1",
         "0.01 0.1",
         "(0.01)x2 0.1",
-        "(0.01)x3 0.1"
+        "(0.01)X3 0.1"
       ),
       want = list(
         values = list(
@@ -364,7 +364,7 @@ test_that("parse_omega_record() works", {
               elem_paren_open(),
               option_pos$new("init", "0.01"),
               elem_paren_close(),
-              option_value$new("x", "x", "3", sep = "")
+              option_value$new("x", "X", "3", sep = "")
             )
           ),
           elem_whitespace(" "),

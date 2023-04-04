@@ -19,8 +19,8 @@ param_parse_label <- function(rp) {
 #' @noRd
 param_parse_x <- function(rp, lstr) {
   if (!rp$done()) {
-    xcand <- tolower(rp$current())
-    if (identical(xcand, "x")) {
+    xcand <- rp$current()
+    if (identical(tolower(xcand), "x")) {
       xname <- rp$yank()
       if (rp$is("whitespace")) {
         sep <- as.character(rp$yank())
@@ -43,7 +43,7 @@ param_parse_x <- function(rp, lstr) {
           name_raw = xname, value = xval, sep = sep
         )
       )
-    } else if (isTRUE(grepl("^x[0-9]+$", xcand))) {
+    } else if (isTRUE(grepl("^x[0-9]+$", xcand, ignore.case = TRUE))) {
       xname <- substr(xcand, 1, 1)
       xval <- substr(xcand, 2, nchar(xcand))
       lstr$append(
