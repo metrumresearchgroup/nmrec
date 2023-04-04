@@ -21,6 +21,14 @@ An \code{nmrec_ctl_records} object.
 \code{read_ctl()} parses records from a file, and \code{parse_ctl()} parses them from a
 character vector.
 }
+\examples{
+lines <- get("bayes1", envir = nmrec_examples)
+head(lines)
+ctl <- parse_ctl(lines)
+names(ctl)
+head(ctl$records, n = 2)
+
+}
 \seealso{
 \code{\link[=write_ctl]{write_ctl()}} for writing records to a file.
 }

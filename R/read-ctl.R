@@ -6,6 +6,12 @@
 #' @param path Path to NONMEM control stream.
 #' @return An `nmrec_ctl_records` object.
 #' @seealso [write_ctl()] for writing records to a file.
+#' @examples
+#' lines <- get("bayes1", envir = nmrec_examples)
+#' head(lines)
+#' ctl <- parse_ctl(lines)
+#' names(ctl)
+#' head(ctl$records, n = 2)
 #'
 #' @export
 read_ctl <- function(path) {
