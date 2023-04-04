@@ -14,6 +14,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA 1",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -27,6 +28,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA  (1,2,3)",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
           option_param$new(
             "theta",
@@ -48,6 +50,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA  (1,2  3)",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
           option_param$new(
             "theta",
@@ -69,6 +72,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA 1 fix",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -86,6 +90,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA 1 uni",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -103,6 +108,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA 1 unint, fixed",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -125,6 +131,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA  (1,,3)",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
           option_param$new(
             "theta",
@@ -144,6 +151,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA (FIX 2)",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -163,6 +171,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA  (1,2,3 fixed)",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
           option_param$new(
             "theta",
@@ -189,6 +198,7 @@ test_that("parse_theta_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -213,6 +223,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA (1,2,3) fixed numberpts=3",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -245,6 +256,7 @@ test_that("parse_theta_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -287,6 +299,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA foo=1",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_pos$new("label", value = "foo="),
           option_param$new(
@@ -301,6 +314,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA foo= 1",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_pos$new("label", value = "foo="),
           elem_whitespace(" "),
@@ -316,6 +330,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA foo=(1,2)",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_pos$new("label", value = "foo="),
           option_param$new(
@@ -336,6 +351,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA NAMES(V1,CL,Q,V2) (0.0,5.0) (0.0,6.0) (0.0,7.0) 8",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_value$new(
             "names",
@@ -387,6 +403,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA (1,2,3)x3",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -409,6 +426,7 @@ test_that("parse_theta_record() works", {
       input = "$THETA (1,2,3) X 3",
       want = list(
         values = list(
+          option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_param$new(
             "theta",
@@ -465,6 +483,7 @@ test_that("theta records are combined", {
   expect_identical(
     recs[[2]]$values,
     list(
+      option_record_name$new("theta", "theta"),
       elem_whitespace(" "),
       option_param$new(
         "theta",
@@ -477,6 +496,7 @@ test_that("theta records are combined", {
   expect_identical(
     recs[[4]]$values,
     list(
+      option_record_name$new("theta", "theta"),
       elem_whitespace(" "),
       option_param$new(
         "theta",

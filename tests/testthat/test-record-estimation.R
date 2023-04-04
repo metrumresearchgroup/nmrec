@@ -18,6 +18,7 @@ test_that("parse_estimation_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("estimation", "est"),
           elem_whitespace(" "),
           option_value$new(
             "maxevals",

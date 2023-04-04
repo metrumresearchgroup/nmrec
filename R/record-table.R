@@ -1,5 +1,5 @@
 parse_table_record <- function() {
-  rp <- record_parser$new(private$name_raw, private$lines)
+  rp <- record_parser$new("table", private$name_raw, private$lines)
 
   is_table_list_element <- function(x) {
     lc <- tolower(x)

@@ -31,7 +31,10 @@ process_options <- function(rp,
     if (is.null(opt)) {
       if (fail_on_unknown) {
         abort(
-          sprintf("Unknown option for $%s: %s", rp$name_raw, opt_raw),
+          c(
+            paste("Unknown option:", deparse_string(as.character(opt_raw))),
+            format(rp)
+          ),
           c("nmrec_unknown_option", "nmrec_parse_error")
         )
       }

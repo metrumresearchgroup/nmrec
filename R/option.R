@@ -70,6 +70,16 @@ option_value <- R6::R6Class(
   )
 )
 
+option_record_name <- R6::R6Class(
+  "option_record_name",
+  inherit = option_flag,
+  public = list(
+    format = function() {
+      paste0("$", self$name_raw)
+    }
+  )
+)
+
 option_param <- R6::R6Class(
   "nmrec_option_param",
   inherit = option_pos,

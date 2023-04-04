@@ -17,6 +17,7 @@ test_that("parse_prior_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("prior", "PRIOR"),
           elem_whitespace(" "),
           option_flag$new("tnpri", name_raw = "TNPRI", value = TRUE),
           elem_whitespace(" "),
@@ -38,6 +39,7 @@ test_that("parse_prior_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("prior", "PRIOR"),
           elem_whitespace(" "),
           option_flag$new("tnpri", name_raw = "TNPRI", value = TRUE),
           elem_whitespace(" "),
@@ -59,6 +61,7 @@ test_that("parse_prior_record() works", {
       input = "$PRIOR nwpri ntheta=1 neta=2 nthp=3 netp=4 npexp=5",
       want = list(
         values = list(
+          option_record_name$new("prior", "PRIOR"),
           elem_whitespace(" "),
           option_flag$new("nwpri", name_raw = "nwpri", value = TRUE),
           elem_whitespace(" "),
@@ -113,6 +116,7 @@ test_that("prior records are combined", {
   expect_identical(
     recs[[2]]$values,
     list(
+      option_record_name$new("prior", "PRIOR"),
       elem_whitespace(" "),
       option_flag$new("nwpri", name_raw = "nwpri", value = TRUE),
       elem_whitespace(" "),
@@ -124,6 +128,7 @@ test_that("prior records are combined", {
   expect_identical(
     recs[[4]]$values,
     list(
+      option_record_name$new("prior", "prior"),
       elem_whitespace(" "),
       option_value$new("neta", name_raw = "neta", value = "2"),
       elem_linebreak()

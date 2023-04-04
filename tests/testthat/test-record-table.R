@@ -24,6 +24,7 @@ test_that("parse_table_record() works", {
       input = "$table ID NUM",
       want = list(
         values = list(
+          option_record_name$new("table", "table"),
           elem_whitespace(" "),
           option_pos$new("list1", value = "ID NUM"),
           elem_linebreak()
@@ -34,6 +35,7 @@ test_that("parse_table_record() works", {
       input = c("$table ID NUM ; comment", " PRED  noa,rformat=1"),
       want = list(
         values = list(
+          option_record_name$new("table", "table"),
           elem_whitespace(" "),
           option_pos$new("list1", value = "ID NUM ; comment\n PRED"),
           elem_whitespace("  "),
@@ -48,6 +50,7 @@ test_that("parse_table_record() works", {
       input = "$table a EXCLUDE_BY b lasto by c d nop by e",
       want = list(
         values = list(
+          option_record_name$new("table", "table"),
           elem_whitespace(" "),
           option_pos$new("list1", value = "a"),
           elem_whitespace(" "),
@@ -68,6 +71,7 @@ test_that("parse_table_record() works", {
       input = "$table id wres",
       want = list(
         values = list(
+          option_record_name$new("table", "table"),
           elem_whitespace(" "),
           option_pos$new("list1", value = "id wres"),
           elem_linebreak()
@@ -78,6 +82,7 @@ test_that("parse_table_record() works", {
       input = "$table wres",
       want = list(
         values = list(
+          option_record_name$new("table", "table"),
           elem_whitespace(" "),
           option_flag$new("wreschol", name_raw = "wres", value = TRUE),
           elem_linebreak()
@@ -88,6 +93,7 @@ test_that("parse_table_record() works", {
       input = "$table id noapp wres",
       want = list(
         values = list(
+          option_record_name$new("table", "table"),
           elem_whitespace(" "),
           option_pos$new("list1", value = "id"),
           elem_whitespace(" "),
@@ -102,6 +108,7 @@ test_that("parse_table_record() works", {
       input = "$table id noapp file='quo;ted'",
       want = list(
         values = list(
+          option_record_name$new("table", "table"),
           elem_whitespace(" "),
           option_pos$new("list1", value = "id"),
           elem_whitespace(" "),

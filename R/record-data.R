@@ -1,7 +1,7 @@
 # TODO: Document parse_* functions somewhere.
 
 parse_data_record <- function() {
-  rp <- record_parser$new(private$name_raw, private$lines)
+  rp <- record_parser$new("data", private$name_raw, private$lines)
 
   prev <- private$previous_rec
   filename <- NULL
@@ -32,7 +32,7 @@ parse_data_record <- function() {
   rp$gobble()
 
   file_only <- !is.null(filename) ||
-    identical(purrr::map_chr(prev$get_options(), "name"), "filename")
+    identical(purrr::pluck(prev$get_options(), -1, "name"), "filename")
   # (format)
   if (file_only && rp$is("paren_open")) {
     end <- rp$find_closing_paren()

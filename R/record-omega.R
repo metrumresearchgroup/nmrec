@@ -1,5 +1,5 @@
 parse_omega_record <- function() {
-  rp <- record_parser$new(private$name_raw, private$lines)
+  rp <- record_parser$new("omega", private$name_raw, private$lines)
 
   prev <- private$previous_rec
   if (!is.null(prev)) {

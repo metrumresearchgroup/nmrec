@@ -124,7 +124,7 @@ test_that("parse_ctl() works: bayes1", {
   rec$parse()
   expect_identical(
     purrr::map_chr(rec$get_options(), "name"),
-    c("filename", "ignore")
+    c("data", "filename", "ignore")
   )
   expect_identical(rec$format(), "$DATA example1.csv IGNORE=C\n")
 })

@@ -4,6 +4,7 @@ test_that("parse_omega_record() works", {
       input = "$OMEGA 1",
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_param$new(
             "omega",
@@ -17,6 +18,7 @@ test_that("parse_omega_record() works", {
       input = "$OMEGA diag(1) 1",
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new(
             "diagonal", "diag", "(1)",
@@ -38,6 +40,7 @@ test_that("parse_omega_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_param$new(
             "omega",
@@ -63,6 +66,7 @@ test_that("parse_omega_record() works", {
       input = "$OMEGA 1,(fix 2) (3 uni,SD)",
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_param$new(
             "omega",
@@ -100,6 +104,7 @@ test_that("parse_omega_record() works", {
       input = "$OMEGA 1 (2 3) X 4",
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_param$new(
             "omega",
@@ -125,6 +130,7 @@ test_that("parse_omega_record() works", {
       input = "$OMEGA bloc(2) SAME",
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new(
             "block", "bloc", "(2)",
@@ -140,6 +146,7 @@ test_that("parse_omega_record() works", {
       input = "$OMEGA BLOCK(2) same(3)",
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new("block", "BLOCK", "(2)", sep = ""),
           elem_whitespace(" "),
@@ -152,6 +159,7 @@ test_that("parse_omega_record() works", {
       input = "$OMEGA BLOCK (2) FIX VAL (0.1,0.01)",
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new(
             "block", "BLOCK", "(2)",
@@ -173,6 +181,7 @@ test_that("parse_omega_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_flag$new("standard", "sd"),
           elem_whitespace(" "),
@@ -206,6 +215,7 @@ test_that("parse_omega_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_linebreak(),
           option_pos$new("label", value = "foo="),
           option_param$new(
@@ -239,6 +249,7 @@ test_that("parse_omega_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new("block", "BLOCK", "(4)", sep = ""),
           elem_linebreak(),
@@ -313,6 +324,7 @@ test_that("parse_omega_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new("block", "BLOCK", "(4)", sep = ""),
           elem_linebreak(),
@@ -404,6 +416,7 @@ test_that("omega records are combined", {
   expect_identical(
     recs[[2]]$values,
     list(
+      option_record_name$new("omega", "omega"),
       elem_whitespace(" "),
       option_param$new(
         "omega",
@@ -416,6 +429,7 @@ test_that("omega records are combined", {
   expect_identical(
     recs[[4]]$values,
     list(
+      option_record_name$new("omega", "omega"),
       elem_whitespace(" "),
       option_value$new("block", "block", "(2)", sep = ""),
       elem_linebreak(),

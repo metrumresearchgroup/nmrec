@@ -3,8 +3,6 @@
 #' Fields
 #' ------
 #'
-#'  * name_raw: the name of the record as specified in the control stream.
-#'
 #'  * elems: list of `nmrec_element` objects and plain strings derived by
 #'    passing the `lines` argument to `split_to_elements()`.
 #'
@@ -86,30 +84,29 @@
 record_parser <- R6::R6Class(
   "nmrec_record_parser",
   public = list(
-    name_raw = NULL,
     elems = NULL,
     n_elems = NULL,
     idx_e = 1L,
     lstr = NULL,
-    initialize = function(name_raw, lines) {
-      self$name_raw <- name_raw
-
+    initialize = function(name, name_raw, lines) {
       self$elems <- split_to_elements(lines)
       self$n_elems <- length(self$elems)
       self$lstr <- lstring$new(self$n_elems)
 
       self$gobble_one("whitespace")
 
+      rn_opt <- option_record_name$new(name, name_raw)
       rn <- self$yank()
-      if (!identical(rn, paste0("$", name_raw))) {
+      if (!identical(rn, format(rn_opt))) {
         abort(
           c(
-            paste("First element must be", name_raw),
+            paste("First element must be", rn_opt),
             paste("got:", rn)
           ),
           "nmrec_dev_error"
         )
       }
+      self$append(rn_opt)
       self$gobble_one("whitespace")
     },
     format = function() {
@@ -127,13 +124,7 @@ record_parser <- R6::R6Class(
     },
     assert_done = function() {
       if (!self$done()) {
-        abort(
-          c(
-            sprintf("Failed to parse %s record.", self$name_raw),
-            self$format()
-          ),
-          "nmrec_parse_error"
-        )
+        abort(c("Failed to parse record.", self$format()), "nmrec_parse_error")
       }
     },
     assert_remaining = function() {

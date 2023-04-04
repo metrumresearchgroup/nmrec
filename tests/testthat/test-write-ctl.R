@@ -24,3 +24,16 @@ test_that("format.nmrec_ctl_records() works", {
     expect_identical(readLines(tfile), ex)
   }
 })
+
+test_that("format() method preserves whitespace before records", {
+  lines <- c(
+    "$prob p",
+    " \t  $data a.csv"
+  )
+  ctl <- parse_ctl(lines)
+
+  expected <- paste0(paste(lines, collapse = "\n"), "\n")
+  expect_identical(format(ctl), expected)
+  ctl$records[[2]]$parse()
+  expect_identical(format(ctl), expected)
+})

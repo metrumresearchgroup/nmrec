@@ -7,6 +7,7 @@ test_that("parse_sigma_record() works", {
       input = "$SIGMA 1",
       want = list(
         values = list(
+          option_record_name$new("sigma", "SIGMA"),
           elem_whitespace(" "),
           option_param$new(
             "sigma",
@@ -39,7 +40,7 @@ test_that("sigma records are combined", {
     "$prob",
     "$sigma 1",
     "$data foo.csv",
-    "$sigma 2"
+    "  $sigma 2"
   )
 
   res <- parse_ctl(lines)
@@ -54,6 +55,7 @@ test_that("sigma records are combined", {
   expect_identical(
     recs[[2]]$values,
     list(
+      option_record_name$new("sigma", "sigma"),
       elem_whitespace(" "),
       option_param$new(
         "sigma",
@@ -66,6 +68,8 @@ test_that("sigma records are combined", {
   expect_identical(
     recs[[4]]$values,
     list(
+      elem_whitespace("  "),
+      option_record_name$new("sigma", "sigma"),
       elem_whitespace(" "),
       option_param$new(
         "sigma",

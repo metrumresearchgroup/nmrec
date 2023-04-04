@@ -53,7 +53,7 @@ record <- R6::R6Class(
       if (is.null(self$values)) {
         paste0(paste(private$lines, collapse = "\n"), "\n")
       } else {
-        paste0("$", private$name_raw, lstr_format(self$values))
+        lstr_format(self$values)
       }
     },
     parse = function() {

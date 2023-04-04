@@ -29,6 +29,7 @@ test_that("parse_data_record() works", {
       input = "$data foo.csv",
       want = list(
         values = list(
+          option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = "foo.csv"),
           elem_linebreak()
@@ -39,6 +40,7 @@ test_that("parse_data_record() works", {
       input = "$data 'foo bar.csv'",
       want = list(
         values = list(
+          option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = "'foo bar.csv'"),
           elem_linebreak()
@@ -49,6 +51,7 @@ test_that("parse_data_record() works", {
       input = '$data "foo bar.csv"',
       want = list(
         values = list(
+          option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = '"foo bar.csv"'),
           elem_linebreak()
@@ -59,6 +62,7 @@ test_that("parse_data_record() works", {
       input = c("$data foo.csv &  ", "(FE) rec 3"),
       want = list(
         values = list(
+          option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = "foo.csv"),
           elem_whitespace(" "), elem_ampersand(),
@@ -78,6 +82,7 @@ test_that("parse_data_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("data", "data"),
           elem_whitespace("    "),
           option_pos$new("filename", value = "foo.csv"),
           elem_whitespace(" "),
@@ -102,6 +107,7 @@ test_that("parse_data_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = "foo.csv"),
           elem_linebreak(), elem_comment("; comment"), elem_linebreak(),
@@ -127,6 +133,7 @@ test_that("parse_data_record() works", {
       ),
       want = list(
         values = list(
+          option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = "foo.csv"),
           elem_whitespace(" "),
@@ -177,6 +184,7 @@ test_that("data records are combined", {
   expect_identical(
     recs[[2]]$values,
     list(
+      option_record_name$new("data", "data"),
       elem_whitespace(" "),
       option_pos$new("filename", value = "foo.csv"),
       elem_linebreak()
@@ -186,6 +194,7 @@ test_that("data records are combined", {
   expect_identical(
     recs[[4]]$values,
     list(
+      option_record_name$new("data", "data"),
       elem_whitespace("\t"),
       option_pos$new("format", value = "(F )"),
       elem_linebreak()
@@ -195,6 +204,7 @@ test_that("data records are combined", {
   expect_identical(
     recs[[5]]$values,
     list(
+      option_record_name$new("data", "DAT"),
       elem_whitespace(" "),
       option_value$new("ignore", name_raw = "ign", value = "C", sep = " "),
       elem_linebreak()
