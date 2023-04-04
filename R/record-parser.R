@@ -74,11 +74,10 @@
 #'
 #'  * gobble(lstr): yank `elems` items and store them in `lstr` until an
 #'    "interesting" type is reached. The following objects are always considered
-#'    uninteresting: `nmrec_comma`, `nmrec_equal_sign`, `nmrec_linebreak`, and
-#'    `nmrec_whitespace`. An `nmrec_ampersand` object is considered
-#'    uninteresting if it looks like a line continuation marker. If a
-#'    `nmrec_semicolon` object is encountered, `gobble_comment()` is used to
-#'    store an `nmrec_comment` object. Otherwise the elements are stored as is.
+#'    uninteresting: `nmrec_ampersand`, `nmrec_comma`, `nmrec_equal_sign`,
+#'    `nmrec_linebreak`, and `nmrec_whitespace`. If a `nmrec_semicolon` object
+#'    is encountered, `gobble_comment()` is used to store an `nmrec_comment`
+#'    object. Otherwise the elements are stored as is.
 #'
 #' @noRd
 record_parser <- R6::R6Class(
@@ -163,6 +162,11 @@ record_parser <- R6::R6Class(
       if (identical(end, 0L)) {
         x <- self$elems[[self$idx_e]]
         self$tick_e()
+
+        if (should_absorb_amp(self)) {
+          x <- paste0(x, self$elems[[self$idx_e]])
+          self$tick_e()
+        }
       } else {
         x <- self$yank_to(end)
       }
@@ -279,15 +283,7 @@ record_parser <- R6::R6Class(
           self$gobble_comment(lstr = lstr)
           next
         }
-        if (self$is("ampersand")) {
-          idx <- self$idx_e
-          is_cont <- self$is("linebreak", pos = idx + 1) ||
-            (self$is("whitespace", pos = idx + 1) &&
-              self$is("linebreak", pos = idx + 2))
-          if (!is_cont) {
-            break
-          }
-        }
+
         if (!self$is(uninteresting)) {
           break
         }
@@ -298,3 +294,26 @@ record_parser <- R6::R6Class(
     }
   )
 )
+
+#' Return `TRUE` if the ampersand at point does _not_ look like a continuation
+#' and should be absorbed into the last yanked value.
+#' @noRd
+should_absorb_amp <- function(rp) {
+  if (!rp$is("ampersand")) {
+    return(FALSE)
+  }
+
+  if (rp$is(c("paren_close", "quote"), pos = rp$idx_e - 1)) {
+    return(FALSE)
+  }
+
+  pos <- rp$find_next(~ elem_is(.x, c("semicolon", "linebreak")))
+  if (identical(pos, 0L)) {
+    abort(
+      "Record must end with linebreak element",
+      "nmrec_dev_error"
+    )
+  }
+
+  return(rp$is("semicolon", pos = pos))
+}
