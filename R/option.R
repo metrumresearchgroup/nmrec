@@ -71,7 +71,7 @@ option_value <- R6::R6Class(
 )
 
 option_record_name <- R6::R6Class(
-  "option_record_name",
+  "nmrec_option_record_name",
   inherit = option_flag,
   public = list(
     format = function() {
