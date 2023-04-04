@@ -1,8 +1,8 @@
 #' Write records to a file
 #'
-#' Generate a new control stream from a `nmrec_ctl_records` object.
+#' Generate a new control stream from an `nmrec_ctl_records` object.
 #'
-#' @param records A `nmrec_ctl_records` object.
+#' @param records An `nmrec_ctl_records` object.
 #' @param path File to write records to.
 #' @return `records`, unmodified and invisibly.
 #' @seealso [read_ctl()] for reading records from a file.

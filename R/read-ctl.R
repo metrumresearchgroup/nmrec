@@ -4,7 +4,7 @@
 #' character vector.
 #'
 #' @param path Path to NONMEM control stream.
-#' @return A `nmrec_ctl_records` object.
+#' @return An `nmrec_ctl_records` object.
 #' @seealso [write_ctl()] for writing records to a file.
 #'
 #' @export
