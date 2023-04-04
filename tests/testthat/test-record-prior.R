@@ -104,8 +104,8 @@ test_that("prior records are combined", {
     "$prior neta=2"
   )
 
-  res <- parse_ctl(lines)
-  recs <- res$records
+  ctl <- parse_ctl(lines)
+  recs <- ctl$records
 
   for (i in c(2, 4)) {
     expect_null(recs[[i]]$values)
@@ -136,7 +136,7 @@ test_that("prior records are combined", {
   )
 
   expect_identical(
-    format(res),
+    format(ctl),
     paste0(paste0(lines, collapse = "\n"), "\n")
   )
 })

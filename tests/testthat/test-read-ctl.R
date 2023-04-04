@@ -66,9 +66,9 @@ test_that("parse_ctl() aborts when INCLUDE is used", {
 })
 
 test_that("parse_ctl() works: control 3", {
-  res <- parse_ctl(nmex_control3)
-  expect_s3_class(res, "nmrec_ctl_records")
-  records <- res$records
+  ctl <- parse_ctl(nmex_control3)
+  expect_s3_class(ctl, "nmrec_ctl_records")
+  records <- ctl$records
   expect_length(records, 13)
   for (i in seq_along(records)) {
     expect_s3_class(records[[!!i]], "nmrec_record")
@@ -89,9 +89,9 @@ test_that("parse_ctl() works: control 3", {
 })
 
 test_that("parse_ctl() works: ccontrs", {
-  res <- parse_ctl(nmex_ccontrs)
-  expect_s3_class(res, "nmrec_ctl_records")
-  records <- res$records
+  ctl <- parse_ctl(nmex_ccontrs)
+  expect_s3_class(ctl, "nmrec_ctl_records")
+  records <- ctl$records
   expect_length(records, 10)
   for (i in seq_along(records)) {
     expect_s3_class(records[[!!i]], "nmrec_record")
@@ -107,9 +107,9 @@ test_that("parse_ctl() works: ccontrs", {
 })
 
 test_that("parse_ctl() works: bayes1", {
-  res <- parse_ctl(nmex_bayes1)
-  expect_s3_class(res, "nmrec_ctl_records")
-  records <- res$records
+  ctl <- parse_ctl(nmex_bayes1)
+  expect_s3_class(ctl, "nmrec_ctl_records")
+  records <- ctl$records
   expect_length(records, 25)
   for (i in seq_along(records)) {
     expect_s3_class(records[[!!i]], "nmrec_record")
