@@ -69,7 +69,7 @@ parse_matrix_init <- function(rp, opt_fn = NULL) {
       }
 
       if (rp$idx_e < end) {
-        lstr$append(option_pos$new("init", value = rp$yank()))
+        param_append_num_opt(lstr, "init", rp$yank())
         rp$gobble_one(c("comma", "whitespace"), lstr = lstr)
       }
     }
@@ -82,7 +82,7 @@ parse_matrix_init <- function(rp, opt_fn = NULL) {
     rp$gobble_one(c("comma", "whitespace"), lstr = lstr)
     param_parse_x(rp, lstr)
   } else {
-    lstr$append(option_pos$new("init", value = rp$yank()))
+    param_append_num_opt(lstr, "init", rp$yank())
     rp$gobble(lstr = lstr)
     if (!is.null(opt_fn)) {
       opt_fn(rp, lstr)

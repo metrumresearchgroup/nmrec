@@ -38,7 +38,7 @@ parse_theta_value <- function(rp) {
   } else {
     val <- rp$yank()
     check_for_short_unint(val)
-    lstr$append(option_pos$new("init", value = val))
+    param_append_num_opt(lstr, "init", val)
     rp$gobble(lstr = lstr)
     process_theta_value_option(rp, lstr)
   }
@@ -106,7 +106,7 @@ parse_theta_paren <- function(rp, lstr) {
 
     val <- rp$yank()
     check_for_short_unint(val)
-    lstr$append(option_pos$new(valnames[idx_val], value = val))
+    param_append_num_opt(lstr, valnames[idx_val], val)
 
     idx_val <- idx_val + 1L
   }

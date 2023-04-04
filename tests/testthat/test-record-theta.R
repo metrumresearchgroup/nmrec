@@ -327,6 +327,20 @@ test_that("parse_theta_record() works", {
       )
     ),
     list(
+      input = "$THETA 1E-3",
+      want = list(
+        values = list(
+          option_record_name$new("theta", "THETA"),
+          elem_whitespace(" "),
+          option_param$new(
+            "theta",
+            values = list(option_pos$new("init", "1E-3"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
       input = "$THETA foo=(1,2)",
       want = list(
         values = list(
@@ -518,4 +532,16 @@ test_that("theta records are combined", {
     format(ctl),
     paste0(paste0(lines, collapse = "\n"), "\n")
   )
+})
+
+test_that("parsing theta value aborts if string value doesn't look like number", {
+  cases <- list(
+    "$theta THETA1",
+    "$theta 1 THETA2 = THETA(1)",
+    "$theta 1 (N)"
+  )
+  for (case in cases) {
+    rec <- record_theta$new("theta", "theta", case)
+    expect_error(rec$parse(), class = "nmrec_parse_error")
+  }
 })

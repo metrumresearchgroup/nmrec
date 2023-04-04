@@ -59,6 +59,21 @@ param_parse_x <- function(rp, lstr) {
   return(invisible(rp))
 }
 
+# TODO: Revisit if nmrec gains support for parsing parameter string values to
+# numeric values.
+param_append_num_opt <- function(lstr, name, value) {
+  if (!grepl("^[0-9e.+-]+$", value, ignore.case = TRUE)) {
+    abort(
+      sprintf(
+        "Expected numeric value for %s, got %s",
+        name, deparse_string(value)
+      ),
+      "nmrec_parse_error"
+    )
+  }
+  lstr$append(option_pos$new(name, value = value))
+}
+
 param_option_names <- list2env(
   list(
     "fix" = "fixed",
