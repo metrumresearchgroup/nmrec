@@ -11,9 +11,9 @@
 #' @seealso [read_ctl()] for reading records from a file, [get_record_option()]
 #'   for extracting an option from a record.
 #' @examples
-#' recs <- parse_ctl(get("control3", envir = nmrec_examples))
+#' ctl <- parse_ctl(get("control3", envir = nmrec_examples))
 #' # Get all "$ESTIMATION" records.
-#' select_records(recs, "est")
+#' select_records(ctl, "est")
 #'
 #' @export
 select_records <- function(records, name) {

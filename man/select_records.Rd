@@ -21,9 +21,9 @@ its "records" field. This function is a convenience wrapper for selecting
 records of a given type (e.g., "theta").
 }
 \examples{
-recs <- parse_ctl(get("control3", envir = nmrec_examples))
+ctl <- parse_ctl(get("control3", envir = nmrec_examples))
 # Get all "$ESTIMATION" records.
-select_records(recs, "est")
+select_records(ctl, "est")
 
 }
 \seealso{

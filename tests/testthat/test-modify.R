@@ -4,11 +4,11 @@ test_that("can modify control stream", {
     "$est meth=bayes niter=5 print=1"
   )
 
-  recs <- parse_ctl(lines)
-  est <- select_records(recs, "est")[[1]]
+  ctl <- parse_ctl(lines)
+  est <- select_records(ctl, "est")[[1]]
 
   expect_identical(
-    format(recs),
+    format(ctl),
     "$prob p\n$est meth=bayes niter=5 print=1\n"
   )
 
@@ -16,7 +16,7 @@ test_that("can modify control stream", {
   niter$value <- 200
 
   expect_identical(
-    format(recs),
+    format(ctl),
     "$prob p\n$est meth=bayes niter=200 print=1\n"
   )
 
@@ -25,7 +25,7 @@ test_that("can modify control stream", {
   method$sep <- " "
 
   expect_identical(
-    format(recs),
+    format(ctl),
     "$prob p\n$est METHOD bayes niter=200 print=1\n"
   )
 
@@ -37,7 +37,7 @@ test_that("can modify control stream", {
   est$values[[idx_last_space]] <- elem_linebreak()
 
   expect_identical(
-    format(recs),
+    format(ctl),
     "$prob p\n$est METHOD bayes niter=200\nprint=1\n"
   )
 })
