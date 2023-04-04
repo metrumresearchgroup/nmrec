@@ -1,6 +1,19 @@
-# Control streams from NONMEM 7.5 examples
-#
-# These match the examples, minus some comments and blank lines.
+#' Environment of containing control streams examples
+#'
+#' These are selected from NONMEM 7.5 examples. Some comments and blank lines
+#' have been removed.
+#'
+#' @examples
+#'
+#' # Get list of available examples.
+#' ls(nmrec_examples)
+#'
+#' # Parse an example into an `nmrec_ctl_records` object.
+#' ctl <- parse_ctl(get("bayes1", envir = nmrec_examples))
+#' head(ctl$records)
+#'
+#' @name nmrec_examples
+NULL
 
 nmex_control3 <- c(
   "$PROBLEM  THEOPHYLLINE   SINGLE SUBJECT DATA",
@@ -209,4 +222,16 @@ nmex_a_uflg <- c(
   "",
   "$EST METHOD=1 INTERACTION PRINT=1 NOABORT NOPRIOR=1 SIGL=6 MAXEVAL=0 NSIG=2 MCETA=10",
   "     NOTHETABOUNDTEST NOOMEGABOUNDTEST NOSIGMABOUNDTEST FAST"
+)
+
+#' @rdname nmrec_examples
+#' @export
+nmrec_examples <- list2env(
+  list(
+    "a_uflg" = nmex_a_uflg,
+    "bayes1" = nmex_bayes1,
+    "ccontrs" = nmex_ccontrs,
+    "control3" = nmex_control3
+  ),
+  parent = emptyenv()
 )

@@ -2,6 +2,7 @@
 
 S3method(format,nmrec_ctl_records)
 S3method(print,nmrec_ctl_records)
+export(nmrec_examples)
 export(parse_ctl)
 export(read_ctl)
 export(write_ctl)
