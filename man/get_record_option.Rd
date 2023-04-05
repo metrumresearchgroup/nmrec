@@ -7,23 +7,23 @@
 get_record_option(record, name)
 }
 \arguments{
-\item{record}{An \code{nmrec_record} object.}
+\item{record}{An \link{nmrec_record} object.}
 
 \item{name}{Name of record to select. Any valid spelling of the option name
 is allowed.}
 }
 \value{
-An \code{nmrec_option} object.
+An \link{nmrec_option} object.
 }
 \description{
-A parsed \code{nmrec_record} object has a populated "values" field that includes
-\code{nmrec_option} objects. This function is a convenience wrapper for grabbing a
+A parsed \link{nmrec_record} object has a populated "values" field that includes
+\link{nmrec_option} objects. This function is a convenience wrapper for grabbing a
 specified option. If the option occurs multiple times in the record, an error
 is signaled.
 }
 \details{
 Note that a record also stores the record type (e.g., "$EST") as an
-\code{nmrec_option} object (specifically an \code{nmrec_option_record_name} object).
+\link{nmrec_option} object (specifically an \code{nmrec_option_record_name} object).
 This "option" won't usually be of interest, but, if you do want to grab it
 with \code{get_record_option()}, you need to pass the full type as \code{name} (e.g.,
 "estimation" rather than "est").

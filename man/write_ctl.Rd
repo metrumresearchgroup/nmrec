@@ -7,7 +7,7 @@
 write_ctl(records, path)
 }
 \arguments{
-\item{records}{An \code{nmrec_ctl_records} object.}
+\item{records}{An \link{nmrec_ctl_records} object.}
 
 \item{path}{File to write records to.}
 }
@@ -15,7 +15,7 @@ write_ctl(records, path)
 \code{records}, unmodified and invisibly.
 }
 \description{
-Generate a new control stream from an \code{nmrec_ctl_records} object.
+Generate a new control stream from an \link{nmrec_ctl_records} object.
 }
 \seealso{
 \code{\link[=read_ctl]{read_ctl()}} for reading records from a file.

@@ -1,13 +1,13 @@
 #' Select records of the specified type
 #'
-#' An `nmrec_ctl_records` object has all the records of a control stream under
+#' An [nmrec_ctl_records] object has all the records of a control stream under
 #' its "records" field. This function is a convenience wrapper for selecting
 #' records of a given type (e.g., "theta").
 #'
-#' @param records An `nmrec_ctl_records` object.
-#' @param name Get records of this type. This may be spelled any way that's
-#'   accepted in the control stream.
-#' @return A list of `nmrec_record` objects.
+#' @param records An [nmrec_ctl_records] object.
+#' @param name Get [record] objects of this type. This may be spelled any way
+#'   that's accepted in the control stream.
+#' @return A list of [nmrec_record] objects.
 #' @seealso [read_ctl()] for reading records from a file, [get_record_option()]
 #'   for extracting an option from a record.
 #' @examples

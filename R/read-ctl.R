@@ -1,10 +1,25 @@
+#' NONMEM control records object
+#'
+#' @description
+#'
+#' S3 object representing a NONMEM control stream.  This has two fields:
+#'
+#'  * `frontmatter`: a character vector of lines, if any, before the first
+#'     record
+#'
+#'  * `records`: a list of [record] objects
+#
+#' @name nmrec_ctl_records
+#' @aliases ctl_records
+NULL
+
 #' Read records from a NONMEM control stream
 #'
 #' `read_ctl()` parses records from a file, and `parse_ctl()` parses them from a
 #' character vector.
 #'
 #' @param path Path to NONMEM control stream.
-#' @return An `nmrec_ctl_records` object.
+#' @return An [nmrec_ctl_records] object.
 #' @seealso [write_ctl()] for writing records to a file.
 #' @examples
 #' lines <- get("bayes1", envir = nmrec_examples)

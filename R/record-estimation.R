@@ -6,6 +6,7 @@ parse_estimation_record <- function() {
   return(rp$get_values())
 }
 
+#' @rdname record
 record_estimation <- R6::R6Class(
   "nmrec_record_estimation",
   inherit = record

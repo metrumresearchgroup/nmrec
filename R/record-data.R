@@ -45,6 +45,7 @@ parse_data_record <- function() {
   return(rp$get_values())
 }
 
+#' @rdname record
 record_data <- R6::R6Class(
   "nmrec_record_data",
   inherit = record

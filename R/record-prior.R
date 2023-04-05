@@ -27,6 +27,7 @@ parse_prior <- function(rp) {
   }
 }
 
+#' @rdname record
 record_prior <- R6::R6Class(
   "nmrec_record_prior",
   inherit = record

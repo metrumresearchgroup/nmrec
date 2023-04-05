@@ -9,6 +9,7 @@ parse_sigma_record <- function() {
   return(parse_matrix_record("sigma", rp))
 }
 
+#' @rdname record
 record_sigma <- R6::R6Class(
   "nmrec_record_sigma",
   inherit = record

@@ -192,6 +192,7 @@ process_theta_value_option <- function(rp, lstr) {
   })
 }
 
+#' @rdname record
 record_theta <- R6::R6Class(
   "nmrec_record_theta",
   inherit = record

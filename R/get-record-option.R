@@ -1,20 +1,20 @@
 #' Extract an option from a record
 #'
-#' A parsed `nmrec_record` object has a populated "values" field that includes
-#' `nmrec_option` objects. This function is a convenience wrapper for grabbing a
+#' A parsed [nmrec_record] object has a populated "values" field that includes
+#' [nmrec_option] objects. This function is a convenience wrapper for grabbing a
 #' specified option. If the option occurs multiple times in the record, an error
 #' is signaled.
 #'
 #' Note that a record also stores the record type (e.g., "$EST") as an
-#' `nmrec_option` object (specifically an `nmrec_option_record_name` object).
+#' [nmrec_option] object (specifically an `nmrec_option_record_name` object).
 #' This "option" won't usually be of interest, but, if you do want to grab it
 #' with `get_record_option()`, you need to pass the full type as `name` (e.g.,
 #' "estimation" rather than "est").
 #'
-#' @param record An `nmrec_record` object.
+#' @param record An [nmrec_record] object.
 #' @param name Name of record to select. Any valid spelling of the option name
 #'   is allowed.
-#' @return An `nmrec_option` object.
+#' @return An [nmrec_option] object.
 #' @seealso [select_records()] selecting records of a given type.
 #' @examples
 #' ctl <- parse_ctl(get("bayes1", envir = nmrec_examples))

@@ -15,7 +15,7 @@ parse_ctl(lines)
 \item{lines}{Lines from a NONMEM control stream.}
 }
 \value{
-An \code{nmrec_ctl_records} object.
+An \link{nmrec_ctl_records} object.
 }
 \description{
 \code{read_ctl()} parses records from a file, and \code{parse_ctl()} parses them from a

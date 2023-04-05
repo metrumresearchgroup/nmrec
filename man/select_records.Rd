@@ -7,16 +7,16 @@
 select_records(records, name)
 }
 \arguments{
-\item{records}{An \code{nmrec_ctl_records} object.}
+\item{records}{An \link{nmrec_ctl_records} object.}
 
-\item{name}{Get records of this type. This may be spelled any way that's
-accepted in the control stream.}
+\item{name}{Get \link{record} objects of this type. This may be spelled any way
+that's accepted in the control stream.}
 }
 \value{
-A list of \code{nmrec_record} objects.
+A list of \link{nmrec_record} objects.
 }
 \description{
-An \code{nmrec_ctl_records} object has all the records of a control stream under
+An \link{nmrec_ctl_records} object has all the records of a control stream under
 its "records" field. This function is a convenience wrapper for selecting
 records of a given type (e.g., "theta").
 }
