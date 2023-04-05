@@ -7,6 +7,7 @@ Packages:
   - DT
   - covr
   - devtools
+  - pkgdown
   - styler
 
 Repos:

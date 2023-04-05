@@ -8,6 +8,8 @@ help:
 	$(info cov: run tests and display coverage report)
 	$(info )
 	$(info fmt: run styler::style_pkg())
+	$(info )
+	$(info site: build site under docs/)
 	@:
 
 .PHONY: check
@@ -36,6 +38,9 @@ cov:
 fmt:
 	Rscript -e 'styler::style_pkg()'
 
+.PHONY: site
+site:
+	Rscript -e 'pkgdown::build_site()'
 
 .PHONY: renv
 renv:

@@ -1,0 +1,31 @@
+url: ~
+template:
+  params:
+    bootswatch: flatly
+navbar:
+  type: inverse
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/metrumresearchgroup/nmrec
+
+reference:
+
+- title: Reading and writing control streams
+  contents:
+    - read_ctl
+    - write_ctl
+
+- title: Selection helpers
+  contents:
+    - select_records
+    - get_record_option
+
+- title: Primary objects
+  contents:
+    - nmrec_ctl_records
+    - record
+    - option
+
+- title: Miscellaneous
+  contents:
+    - nmrec_examples
