@@ -1,5 +1,3 @@
-# TODO: Document parse_* functions somewhere.
-
 parse_data_record <- function() {
   rp <- record_parser$new("data", private$name_raw, private$lines)
 

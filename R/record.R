@@ -68,6 +68,8 @@ record <- R6::R6Class(
     name_raw = NULL,
     lines = NULL,
     previous_rec = NULL,
+    # `parse_fn` is defined by derived classes. It should return a list of
+    # nmrec_option and nmrec_element objects to assign to the `values` field.
     parse_fn = function() {
       abort(
         sprintf(
