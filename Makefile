@@ -3,6 +3,7 @@
 help:
 	$(info renv: initiate renv and install packages)
 	$(info )
+	$(info check-all: devtools::check() and pkgdown::check_pkgdown())
 	$(info check, test, document: run devtools::*())
 	$(info check-quick: devtools::check() with no tests or vignettes)
 	$(info cov: run tests and display coverage report)
@@ -11,6 +12,10 @@ help:
 	$(info )
 	$(info site: build site under docs/)
 	@:
+
+.PHONY: check-all
+check-all: check
+	Rscript -e 'pkgdown::check_pkgdown()'
 
 .PHONY: check
 check:
