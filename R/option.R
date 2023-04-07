@@ -46,11 +46,22 @@
 option <- R6::R6Class(
   "nmrec_option",
   public = list(
-    name = NULL,
     name_raw = NULL,
     value = NULL,
     initialize = function(name, ...) {
-      self$name <- name
+      private$.name <- name
+    }
+  ),
+  private = list(
+    .name = NULL
+  ),
+  active = list(
+    name = function(value) {
+      if (missing(value)) {
+        private$.name
+      } else {
+        abort("`name` is read-only", "nmrec_error")
+      }
     }
   )
 )

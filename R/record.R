@@ -70,10 +70,9 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
 record <- R6::R6Class(
   "nmrec_record",
   public = list(
-    name = NULL,
     values = NULL,
     initialize = function(name, name_raw, lines, previous_rec = NULL) {
-      self$name <- name
+      private$.name <- name
       private$name_raw <- name_raw
       private$lines <- lines
       private$previous_rec <- previous_rec
@@ -100,6 +99,7 @@ record <- R6::R6Class(
     }
   ),
   private = list(
+    .name = NULL,
     name_raw = NULL,
     lines = NULL,
     previous_rec = NULL,
@@ -113,6 +113,15 @@ record <- R6::R6Class(
         ),
         "nmrec_unsupported"
       )
+    }
+  ),
+  active = list(
+    name = function(value) {
+      if (missing(value)) {
+        private$.name
+      } else {
+        abort("`name` is read-only", "nmrec_error")
+      }
     }
   )
 )
