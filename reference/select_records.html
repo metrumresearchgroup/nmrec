@@ -82,7 +82,7 @@ for extracting an option from a record.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ctl</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_ctl.html">parse_ctl</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"control3"</span>, envir <span class="op">=</span> <span class="va">nmrec_examples</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ctl</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_ctl.html">parse_ctl</a></span><span class="op">(</span><span class="va">nmrec_examples</span><span class="op">[[</span><span class="st">"control3"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Get all "$ESTIMATION" records.</span></span></span>
 <span class="r-in"><span><span class="fu">select_records</span><span class="op">(</span><span class="va">ctl</span>, <span class="st">"est"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
