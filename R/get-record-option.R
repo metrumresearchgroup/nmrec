@@ -17,7 +17,7 @@
 #' @return An [nmrec_option] object.
 #' @seealso [select_records()] selecting records of a given type.
 #' @examples
-#' ctl <- parse_ctl(get("bayes1", envir = nmrec_examples))
+#' ctl <- parse_ctl(nmrec_examples[["bayes1"]])
 #' ests <- select_records(ctl, "est")
 #' # Get methods for all estimation records.
 #' meth1 <- get_record_option(ests[[1]], "meth")

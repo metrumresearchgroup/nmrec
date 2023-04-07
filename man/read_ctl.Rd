@@ -22,7 +22,7 @@ An \link{nmrec_ctl_records} object.
 character vector.
 }
 \examples{
-lines <- get("bayes1", envir = nmrec_examples)
+lines <- nmrec_examples[["bayes1"]]
 head(lines)
 ctl <- parse_ctl(lines)
 names(ctl)

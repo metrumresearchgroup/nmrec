@@ -29,7 +29,7 @@ with \code{get_record_option()}, you need to pass the full type as \code{name} (
 "estimation" rather than "est").
 }
 \examples{
-ctl <- parse_ctl(get("bayes1", envir = nmrec_examples))
+ctl <- parse_ctl(nmrec_examples[["bayes1"]])
 ests <- select_records(ctl, "est")
 # Get methods for all estimation records.
 meth1 <- get_record_option(ests[[1]], "meth")

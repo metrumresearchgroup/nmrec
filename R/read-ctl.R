@@ -22,7 +22,7 @@ NULL
 #' @return An [nmrec_ctl_records] object.
 #' @seealso [write_ctl()] for writing records to a file.
 #' @examples
-#' lines <- get("bayes1", envir = nmrec_examples)
+#' lines <- nmrec_examples[["bayes1"]]
 #' head(lines)
 #' ctl <- parse_ctl(lines)
 #' names(ctl)
