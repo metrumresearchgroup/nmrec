@@ -9,7 +9,7 @@ test_that("parse_sigma_record() works", {
         values = list(
           option_record_name$new("sigma", "SIGMA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "sigma",
             values = list(option_pos$new("init", "1"))
           ),
@@ -57,7 +57,7 @@ test_that("sigma records are combined", {
     list(
       option_record_name$new("sigma", "sigma"),
       elem_whitespace(" "),
-      option_param$new(
+      option_nested$new(
         "sigma",
         values = list(option_pos$new("init", "1"))
       ),
@@ -71,7 +71,7 @@ test_that("sigma records are combined", {
       elem_whitespace("  "),
       option_record_name$new("sigma", "sigma"),
       elem_whitespace(" "),
-      option_param$new(
+      option_nested$new(
         "sigma",
         values = list(option_pos$new("init", "2"))
       ),

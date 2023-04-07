@@ -109,7 +109,7 @@ param_append <- function(name, rp, lstr) {
     inherits(.x, "nmrec_option") || elem_is(.x, "paren_close")
   })
 
-  param <- option_param$new(
+  param <- option_nested$new(
     name,
     values = lstr$get_values()
   )

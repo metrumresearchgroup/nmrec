@@ -80,8 +80,8 @@ option_record_name <- R6::R6Class(
   )
 )
 
-option_param <- R6::R6Class(
-  "nmrec_option_param",
+option_nested <- R6::R6Class(
+  "nmrec_option_nested",
   inherit = option_pos,
   public = list(
     values = NULL,

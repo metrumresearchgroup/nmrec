@@ -16,7 +16,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(option_pos$new("init", "1"))
           ),
@@ -30,7 +30,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -52,7 +52,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -74,7 +74,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               option_pos$new("init", "1"),
@@ -92,7 +92,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               option_pos$new("init", "1"),
@@ -110,7 +110,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               option_pos$new("init", "1"),
@@ -133,7 +133,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -153,7 +153,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -173,7 +173,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -200,7 +200,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -225,7 +225,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -258,7 +258,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -271,7 +271,7 @@ test_that("parse_theta_record() works", {
             )
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               option_pos$new("init", "4"),
@@ -281,7 +281,7 @@ test_that("parse_theta_record() works", {
             )
           ),
           elem_linebreak(),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -302,7 +302,7 @@ test_that("parse_theta_record() works", {
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_pos$new("label", value = "foo="),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(option_pos$new("init", "1"))
           ),
@@ -318,7 +318,7 @@ test_that("parse_theta_record() works", {
           elem_whitespace(" "),
           option_pos$new("label", value = "foo="),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(option_pos$new("init", "1"))
           ),
@@ -332,7 +332,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(option_pos$new("init", "1E-3"))
           ),
@@ -347,7 +347,7 @@ test_that("parse_theta_record() works", {
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
           option_pos$new("label", value = "foo="),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -372,7 +372,7 @@ test_that("parse_theta_record() works", {
             name_raw = "NAMES", value = "(V1,CL,Q,V2)", sep = ""
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -383,7 +383,7 @@ test_that("parse_theta_record() works", {
             )
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -394,7 +394,7 @@ test_that("parse_theta_record() works", {
             )
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -405,7 +405,7 @@ test_that("parse_theta_record() works", {
             )
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(option_pos$new("init", value = "8"))
           ),
@@ -419,7 +419,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -442,7 +442,7 @@ test_that("parse_theta_record() works", {
         values = list(
           option_record_name$new("theta", "THETA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "theta",
             values = list(
               elem_paren_open(),
@@ -499,7 +499,7 @@ test_that("theta records are combined", {
     list(
       option_record_name$new("theta", "theta"),
       elem_whitespace(" "),
-      option_param$new(
+      option_nested$new(
         "theta",
         values = list(option_pos$new("init", "1"))
       ),
@@ -512,7 +512,7 @@ test_that("theta records are combined", {
     list(
       option_record_name$new("theta", "theta"),
       elem_whitespace(" "),
-      option_param$new(
+      option_nested$new(
         "theta",
         values = list(
           elem_paren_open(),

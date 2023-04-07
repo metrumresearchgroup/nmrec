@@ -6,7 +6,7 @@ test_that("parse_omega_record() works", {
         values = list(
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "1"))
           ),
@@ -25,7 +25,7 @@ test_that("parse_omega_record() works", {
             sep = ""
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "1"))
           ),
@@ -42,7 +42,7 @@ test_that("parse_omega_record() works", {
         values = list(
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               option_pos$new("init", "1"),
@@ -54,7 +54,7 @@ test_that("parse_omega_record() works", {
           ),
           elem_whitespace(" "), elem_comment("; c"), elem_linebreak(),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "2"))
           ),
@@ -68,12 +68,12 @@ test_that("parse_omega_record() works", {
         values = list(
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "1"))
           ),
           elem_comma(),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               elem_paren_open(),
@@ -84,7 +84,7 @@ test_that("parse_omega_record() works", {
             )
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               elem_paren_open(),
@@ -106,12 +106,12 @@ test_that("parse_omega_record() works", {
         values = list(
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "1"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               elem_paren_open(),
@@ -189,17 +189,17 @@ test_that("parse_omega_record() works", {
           elem_whitespace(" "),
           option_value$new("block", "BLOCK", "(2)", sep = ""),
           elem_linebreak(),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.8"))
           ),
           elem_linebreak(),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "-0.24"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.58"))
           ),
@@ -218,14 +218,14 @@ test_that("parse_omega_record() works", {
           option_record_name$new("omega", "OMEGA"),
           elem_linebreak(),
           option_pos$new("label", value = "foo="),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.1"))
           ),
           elem_linebreak(),
           option_pos$new("label", value = "bar="),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               elem_paren_open(),
@@ -255,58 +255,58 @@ test_that("parse_omega_record() works", {
           elem_linebreak(),
           option_pos$new("label", value = "ECL="),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.1"))
           ),
           elem_linebreak(),
           option_pos$new("label", value = "EV1="),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.01"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.35"))
           ),
           elem_linebreak(),
           option_pos$new("label", value = "EQ="),
           elem_whitespace("   "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.01"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.01"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.54"))
           ),
           elem_linebreak(),
           option_pos$new("label", value = "EV2="),
           elem_whitespace("  "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.01"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.01"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.01"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.67"))
           ),
@@ -328,22 +328,22 @@ test_that("parse_omega_record() works", {
           elem_whitespace(" "),
           option_value$new("block", "BLOCK", "(4)", sep = ""),
           elem_linebreak(),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.1"))
           ),
           elem_linebreak(),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.01"))
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.1"))
           ),
           elem_linebreak(),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               elem_paren_open(),
@@ -353,12 +353,12 @@ test_that("parse_omega_record() works", {
             )
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.1"))
           ),
           elem_linebreak(),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               elem_paren_open(),
@@ -368,7 +368,7 @@ test_that("parse_omega_record() works", {
             )
           ),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(option_pos$new("init", "0.1"))
           ),
@@ -382,7 +382,7 @@ test_that("parse_omega_record() works", {
         values = list(
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
-          option_param$new(
+          option_nested$new(
             "omega",
             values = list(
               elem_paren_open(),
@@ -439,7 +439,7 @@ test_that("omega records are combined", {
     list(
       option_record_name$new("omega", "omega"),
       elem_whitespace(" "),
-      option_param$new(
+      option_nested$new(
         "omega",
         values = list(option_pos$new("init", "1"))
       ),
@@ -454,17 +454,17 @@ test_that("omega records are combined", {
       elem_whitespace(" "),
       option_value$new("block", "block", "(2)", sep = ""),
       elem_linebreak(),
-      option_param$new(
+      option_nested$new(
         "omega",
         values = list(option_pos$new("init", "0.1"))
       ),
       elem_linebreak(),
-      option_param$new(
+      option_nested$new(
         "omega",
         values = list(option_pos$new("init", "0.01"))
       ),
       elem_whitespace(" "),
-      option_param$new(
+      option_nested$new(
         "omega",
         values = list(option_pos$new("init", "0.2"))
       ),
