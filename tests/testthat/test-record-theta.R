@@ -534,7 +534,7 @@ test_that("theta records are combined", {
   )
 })
 
-test_that("parsing theta value aborts if string value doesn't look like number", {
+test_that("parsing theta aborts if value doesn't look like number", {
   cases <- list(
     "$theta THETA1",
     "$theta 1 THETA2 = THETA(1)",
