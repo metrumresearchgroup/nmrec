@@ -25,10 +25,19 @@
     <loc>/reference/nmrec-package.html</loc>
   </url>
   <url>
+    <loc>/reference/nmrec_ctl_records.html</loc>
+  </url>
+  <url>
     <loc>/reference/nmrec_examples.html</loc>
   </url>
   <url>
+    <loc>/reference/option.html</loc>
+  </url>
+  <url>
     <loc>/reference/read_ctl.html</loc>
+  </url>
+  <url>
+    <loc>/reference/record.html</loc>
   </url>
   <url>
     <loc>/reference/select_records.html</loc>

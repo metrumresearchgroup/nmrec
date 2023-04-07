@@ -49,8 +49,8 @@ is signaled.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
     </div>
 
     <div class="ref-description">
-    <p>A parsed <code>nmrec_record</code> object has a populated "values" field that includes
-<code>nmrec_option</code> objects. This function is a convenience wrapper for grabbing a
+    <p>A parsed <a href="record.html">nmrec_record</a> object has a populated "values" field that includes
+<a href="option.html">nmrec_option</a> objects. This function is a convenience wrapper for grabbing a
 specified option. If the option occurs multiple times in the record, an error
 is signaled.</p>
     </div>
@@ -62,7 +62,7 @@ is signaled.</p>
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>record</dt>
-<dd><p>An <code>nmrec_record</code> object.</p></dd>
+<dd><p>An <a href="record.html">nmrec_record</a> object.</p></dd>
 
 
 <dt>name</dt>
@@ -74,12 +74,12 @@ is allowed.</p></dd>
     <h2>Value</h2>
     
 
-<p>An <code>nmrec_option</code> object.</p>
+<p>An <a href="option.html">nmrec_option</a> object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>Note that a record also stores the record type (e.g., "$EST") as an
-<code>nmrec_option</code> object (specifically an <code>nmrec_option_record_name</code> object).
+<a href="option.html">nmrec_option</a> object (specifically an <code>nmrec_option_record_name</code> object).
 This "option" won't usually be of interest, but, if you do want to grab it
 with <code>get_record_option()</code>, you need to pass the full type as <code>name</code> (e.g.,
 "estimation" rather than "est").</p>
