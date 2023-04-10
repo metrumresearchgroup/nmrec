@@ -78,6 +78,7 @@ record <- R6::R6Class(
       private$previous_rec <- previous_rec
     },
     get_options = function() {
+      self$parse()
       purrr::keep(self$values, ~ inherits(.x, "nmrec_option"))
     },
     get_lines = function() {
