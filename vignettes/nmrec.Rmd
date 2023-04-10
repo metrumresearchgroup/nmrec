@@ -1,0 +1,136 @@
+---
+title: "Introduction to nmrec"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to nmrec}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+nmrec is an R package for reading records from a NONMEM control
+stream, parsing and modifying records of interest, and writing the
+result.
+
+## Reading a control stream
+
+`read_ctl()` reads the NONMEM control stream from the specified path.
+Or, if you've already read in the lines as a character vector, you can
+use `parse_ctl()`.
+
+```{r}
+lines <- nmrec::nmrec_examples[["bayes1"]]
+head(lines, 4)
+
+ctl <- nmrec::parse_ctl(lines)
+```
+
+The result is an `?nmrec_ctl_records` list of two items, "frontmatter"
+(any lines before the first record) and "records".
+
+```{r}
+ctl$frontmatter
+
+length(ctl$records)
+head(ctl$records, 3)
+```
+
+## Record objects
+
+The list of records contains `?nmrec_record` objects.
+
+```{r}
+purrr::map_chr(ctl$records, "name")
+unique(purrr::map_chr(ctl$records, is))
+
+class(ctl$records[[17]])
+```
+
+If nmrec doesn't support parsing _within_ a given record type, the
+record type will be `nmrec_record_raw`.  Otherwise, the record type
+will be `nmrec_record_{name}`, where `name` is the standardized record
+name in lower case.
+
+You can use `select_records()` to extract records of a given type.
+This is a simple wrapper around `purrr::keep()` that standardizes the
+input name (e.g., "est" to "estimation").
+
+```{r}
+ests <- nmrec::select_records(ctl, "est")
+head(ests, 2)
+```
+
+The `?record` object is an R6 object.
+
+```{r}
+est1 <- ests[[1]]
+ls(est1)
+```
+
+The primary method of interest is `$parse()`, which parses the record
+lines and populates the `$values` field.  This field is a list of
+elements (things like spaces and new lines) and `?nmrec_option`
+objects.  Once an record is parsed, the `$values` field fully controls
+how it will be rendered.
+
+```{r}
+est1$values
+
+est1$parse()
+
+length(est1$values)
+head(est1$values, 3)
+```
+
+## Option objects
+
+You can grab an option of interest from a record with
+`get_record_option()`.
+
+```{r}
+est1_meth <- nmrec::get_record_option(est1, "meth")
+ls(est1_meth)
+```
+
+`?nmrec_option` objects, like `?nmrec_record` objects, are R6 objects.
+The fields of interest depend on the option type.  Here are the
+important fields for the selected method option of the first
+estimation record:
+
+```{r}
+est1_meth$name
+est1_meth$name_raw
+est1_meth$value
+est1_meth$sep
+```
+
+## Modifying options and records
+
+A key feature of option and records objects is that, as R6 objects,
+they have **reference semantics** (see `vignette("Introduction",
+"R6")`).  For example, you could mutate `NSIG=2` to `NSIG=3` in the
+`est1` record like so:
+
+```{r}
+est1_nsig <- nmrec::get_record_option(est1, "sig")
+est1_nsig$name
+est1_nsig$value
+est1_nsig$value <- 3
+
+est1_nsig
+est1
+```
+
+If you print `ctl` (the original `nmrec_ctl_records`), you'll notice
+that all of the changes above are reflected there.  You can write the
+changes to a file with `write_ctl()`.
+
+```{r, eval = FALSE}
+write_ctl(ctl, "modified.ctl")
+```

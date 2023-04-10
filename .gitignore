@@ -6,5 +6,8 @@
 /.Rprofile
 /coverage/
 /docs/
+/inst/doc
 /renv.lock
 /renv/
+/vignettes/*.R
+/vignettes/*.html
