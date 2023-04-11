@@ -16,6 +16,7 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
   rec <- switch(name,
     data = record_data,
     estimation = record_estimation,
+    input = record_input,
     omega = record_omega,
     prior = record_prior,
     sigma = record_sigma,
