@@ -129,10 +129,11 @@ vector, you can use <code><a href="../reference/read_ctl.html">parse_ctl()</a></
 <span><span class="co">#&gt; [16] "sigmapd"     "estimation"  "estimation"  "estimation"  "estimation" </span></span>
 <span><span class="co">#&gt; [21] "estimation"  "covariance"  "table"       "table"       "table"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">ctl</span><span class="op">$</span><span class="va">records</span>, <span class="va">is</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nmrec_record_raw"        "nmrec_record_data"      </span></span>
-<span><span class="co">#&gt; [3] "nmrec_record_theta"      "nmrec_record_omega"     </span></span>
-<span><span class="co">#&gt; [5] "nmrec_record_sigma"      "nmrec_record_prior"     </span></span>
-<span><span class="co">#&gt; [7] "nmrec_record_estimation" "nmrec_record_table"</span></span>
+<span><span class="co">#&gt; [1] "nmrec_record_raw"        "nmrec_record_input"     </span></span>
+<span><span class="co">#&gt; [3] "nmrec_record_data"       "nmrec_record_theta"     </span></span>
+<span><span class="co">#&gt; [5] "nmrec_record_omega"      "nmrec_record_sigma"     </span></span>
+<span><span class="co">#&gt; [7] "nmrec_record_prior"      "nmrec_record_estimation"</span></span>
+<span><span class="co">#&gt; [9] "nmrec_record_table"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">ctl</span><span class="op">$</span><span class="va">records</span><span class="op">[[</span><span class="fl">17</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "nmrec_record_estimation" "nmrec_record"           </span></span>
