@@ -158,7 +158,7 @@ that standardizes the input name (e.g., “est” to “estimation”).</p>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; $EST METHOD=SAEM INTERACTION NBURN=3000 NITER=500 PRINT=100</span></span>
 <span><span class="co">#&gt;      SEED=1556678 ISAMPLE=2</span></span></code></pre></div>
-<p>The <code><a href="../reference/record.html">?record</a></code> object is an R6 object.</p>
+<p>The <code><a href="../reference/record.html">?record</a></code> object is an <a href="https://r6.r-lib.org/" class="external-link">R6</a> object.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est1</span> <span class="op">&lt;-</span> <span class="va">ests</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="va">est1</span><span class="op">)</span></span>
@@ -200,9 +200,9 @@ field is a list of elements (things like spaces and new lines) and
 <span><span class="co">#&gt; [1] "clone"      "format"     "initialize" "name"       "name_raw"  </span></span>
 <span><span class="co">#&gt; [6] "sep"        "value"</span></span></code></pre></div>
 <p><code><a href="../reference/option.html">?nmrec_option</a></code> objects, like <code><a href="../reference/record.html">?nmrec_record</a></code>
-objects, are R6 objects. The fields of interest depend on the option
-type. Here are the important fields for the selected method option of
-the first estimation record:</p>
+objects, are <a href="https://r6.r-lib.org/" class="external-link">R6</a> objects. The fields
+of interest depend on the option type. Here are the important fields for
+the selected method option of the first estimation record:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est1_meth</span><span class="op">$</span><span class="va">name</span></span>
 <span><span class="co">#&gt; [1] "method"</span></span>
@@ -216,11 +216,10 @@ the first estimation record:</p>
 <div class="section level2">
 <h2 id="modifying-options-and-records">Modifying options and records<a class="anchor" aria-label="anchor" href="#modifying-options-and-records"></a>
 </h2>
-<p>A key feature of option and records objects is that, as R6 objects,
-they have <strong>reference semantics</strong> (see
-<code><a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">vignette("Introduction", "R6")</a></code>). For example, you could
-mutate <code>NSIG=2</code> to <code>NSIG=3</code> in the
-<code>est1</code> record like so:</p>
+<p>A key feature of option and records objects is that, as <a href="https://r6.r-lib.org/" class="external-link">R6</a> objects, they have <strong>reference
+semantics</strong> (see <code><a href="https://r6.r-lib.org/articles/Introduction.html" class="external-link">vignette("Introduction", "R6")</a></code>).
+For example, you could mutate <code>NSIG=2</code> to <code>NSIG=3</code>
+in the <code>est1</code> record like so:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est1_nsig</span> <span class="op">&lt;-</span> <span class="fu">nmrec</span><span class="fu">::</span><span class="fu"><a href="../reference/get_record_option.html">get_record_option</a></span><span class="op">(</span><span class="va">est1</span>, <span class="st">"sig"</span><span class="op">)</span></span>
 <span><span class="va">est1_nsig</span><span class="op">$</span><span class="va">name</span></span>
@@ -236,9 +235,9 @@ mutate <code>NSIG=2</code> to <code>NSIG=3</code> in the
 <span><span class="co">#&gt;      PRINT=5 NOABORT SIGL=4 CTYPE=3 CITER=10</span></span>
 <span><span class="co">#&gt;      CALPHA=0.05 NOPRIOR=1 NSIG=3</span></span></code></pre></div>
 <p>If you print <code>ctl</code> (the original
-<code>nmrec_ctl_records</code>), you’ll notice that all of the changes
-above are reflected there. You can write the changes to a file with
-<code><a href="../reference/write_ctl.html">write_ctl()</a></code>.</p>
+<code>nmrec_ctl_records</code> object), you’ll notice that all of the
+changes above are reflected there. You can write the changes to a file
+with <code><a href="../reference/write_ctl.html">write_ctl()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_ctl.html">write_ctl</a></span><span class="op">(</span><span class="va">ctl</span>, <span class="st">"modified.ctl"</span><span class="op">)</span></span></code></pre></div>
 </div>
