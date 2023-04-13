@@ -235,9 +235,9 @@ in the <code>est1</code> record like so:</p>
 <span><span class="co">#&gt;      PRINT=5 NOABORT SIGL=4 CTYPE=3 CITER=10</span></span>
 <span><span class="co">#&gt;      CALPHA=0.05 NOPRIOR=1 NSIG=3</span></span></code></pre></div>
 <p>If you print <code>ctl</code> (the original
-<code>nmrec_ctl_records</code> object), you’ll notice that all of the
-changes above are reflected there. You can write the changes to a file
-with <code><a href="../reference/write_ctl.html">write_ctl()</a></code>.</p>
+<code>nmrec_ctl_records</code> object), you’ll notice that the
+<code>NSIG</code> change is reflected there. You can write the modified
+result to a file with <code><a href="../reference/write_ctl.html">write_ctl()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_ctl.html">write_ctl</a></span><span class="op">(</span><span class="va">ctl</span>, <span class="st">"modified.ctl"</span><span class="op">)</span></span></code></pre></div>
 </div>
