@@ -66,7 +66,7 @@ ests <- nmrec::select_records(ctl, "est")
 head(ests, 2)
 ```
 
-The `?record` object is an R6 object.
+The `?record` object is an [R6] object.
 
 ```{r}
 est1 <- ests[[1]]
@@ -98,9 +98,9 @@ est1_meth <- nmrec::get_record_option(est1, "meth")
 ls(est1_meth)
 ```
 
-`?nmrec_option` objects, like `?nmrec_record` objects, are R6 objects.
-The fields of interest depend on the option type.  Here are the
-important fields for the selected method option of the first
+`?nmrec_option` objects, like `?nmrec_record` objects, are [R6]
+objects.  The fields of interest depend on the option type.  Here are
+the important fields for the selected method option of the first
 estimation record:
 
 ```{r}
@@ -112,7 +112,7 @@ est1_meth$sep
 
 ## Modifying options and records
 
-A key feature of option and records objects is that, as R6 objects,
+A key feature of option and records objects is that, as [R6] objects,
 they have **reference semantics** (see `vignette("Introduction",
 "R6")`).  For example, you could mutate `NSIG=2` to `NSIG=3` in the
 `est1` record like so:
@@ -134,3 +134,5 @@ write the changes to a file with `write_ctl()`.
 ```{r, eval = FALSE}
 write_ctl(ctl, "modified.ctl")
 ```
+
+[R6]: https://r6.r-lib.org/
