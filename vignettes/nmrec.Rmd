@@ -76,7 +76,7 @@ ls(est1)
 The primary method of interest is `$parse()`, which parses the record
 lines and populates the `$values` field.  This field is a list of
 elements (things like spaces and new lines) and `?nmrec_option`
-objects.  Once an record is parsed, the `$values` field fully controls
+objects.  Once a record is parsed, the `$values` field fully controls
 how it will be rendered.
 
 ```{r}
