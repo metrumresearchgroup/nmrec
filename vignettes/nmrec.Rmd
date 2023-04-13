@@ -128,8 +128,8 @@ est1
 ```
 
 If you print `ctl` (the original `nmrec_ctl_records` object), you'll
-notice that all of the changes above are reflected there.  You can
-write the changes to a file with `write_ctl()`.
+notice that the `NSIG` change is reflected there.  You can write the
+modified result to a file with `write_ctl()`.
 
 ```{r, eval = FALSE}
 write_ctl(ctl, "modified.ctl")
