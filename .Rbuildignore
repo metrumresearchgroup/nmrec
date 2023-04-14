@@ -2,6 +2,7 @@
 ^LICENSE\.md$
 ^Makefile$
 ^\.Rproj\.user$
+^\.drone.yml$
 ^_pkgdown\.yml$
 ^coverage$
 ^docs$
