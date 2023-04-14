@@ -6,6 +6,7 @@ help:
 	$(info check-all: devtools::check() and pkgdown::check_pkgdown())
 	$(info check, test, document: run devtools::*())
 	$(info check-quick: devtools::check() with no tests or vignettes)
+	$(info check-pkgdown: run pkgdown::check_pkgdown())
 	$(info cov: run tests and display coverage report)
 	$(info )
 	$(info fmt: run styler::style_pkg())
@@ -14,8 +15,7 @@ help:
 	@:
 
 .PHONY: check-all
-check-all: check
-	Rscript -e 'pkgdown::check_pkgdown()'
+check-all: check check-pkgdown
 
 .PHONY: check
 check:
@@ -25,6 +25,10 @@ check:
 check-quick:
 	Rscript -e \
 	 'devtools::check(args = c("--timings", "--no-tests"), vignettes = FALSE)'
+
+.PHONY: check-pkgdown
+check-pkgdown:
+	Rscript -e 'pkgdown::check_pkgdown()'
 
 .PHONY: document
 document:
