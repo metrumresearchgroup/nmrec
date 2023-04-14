@@ -17,14 +17,16 @@ help:
 .PHONY: check-all
 check-all: check check-pkgdown
 
+check_base = error_on = "note", env_vars = c("NOT_CRAN" = "true", "_R_CHECK_SYSTEM_CLOCK_" = "false")
+
 .PHONY: check
 check:
-	Rscript -e 'devtools::check()'
+	Rscript -e 'devtools::check($(check_base))'
 
 .PHONY: check-quick
 check-quick:
 	Rscript -e \
-	 'devtools::check(args = c("--timings", "--no-tests"), vignettes = FALSE)'
+	 'devtools::check($(check_base), args = c("--timings", "--no-tests"), vignettes = FALSE)'
 
 .PHONY: check-pkgdown
 check-pkgdown:
