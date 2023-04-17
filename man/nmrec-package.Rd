@@ -4,7 +4,7 @@
 \name{nmrec-package}
 \alias{nmrec}
 \alias{nmrec-package}
-\title{nmrec: Read, Parse, and Modify NONMEM control records}
+\title{nmrec: Read, Parse, and Modify NONMEM Control Records}
 \description{
 A library for reading records from a NONMEM control stream, parsing and modifying records of interest, and writing the result.
 }
