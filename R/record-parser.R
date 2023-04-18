@@ -303,10 +303,6 @@ should_absorb_amp <- function(rp) {
     return(FALSE)
   }
 
-  if (rp$is(c("paren_close", "quote"), pos = rp$idx_e - 1)) {
-    return(FALSE)
-  }
-
   pos <- rp$find_next(~ elem_is(.x, c("semicolon", "linebreak")))
   if (identical(pos, 0L)) {
     abort(

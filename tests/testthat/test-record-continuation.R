@@ -1,6 +1,7 @@
 test_that("continuation is parsed correctly", {
   cases <- list(
     list(
+      record_type = "table",
       input = c(
         "$table ID format=1 &",
         "       firsto"
@@ -22,6 +23,7 @@ test_that("continuation is parsed correctly", {
       )
     ),
     list(
+      record_type = "table",
       input = c(
         "$table ID format=s1PE15.8:160& ",
         "       firsto"
@@ -46,6 +48,7 @@ test_that("continuation is parsed correctly", {
       )
     ),
     list(
+      record_type = "table",
       input = c(
         "$table ID format=s1PE15.8:160& ;",
         "       firsto"
@@ -70,6 +73,7 @@ test_that("continuation is parsed correctly", {
       )
     ),
     list(
+      record_type = "table",
       input = c(
         "$table ID file='foo bar'&",
         "       firsto"
@@ -91,11 +95,40 @@ test_that("continuation is parsed correctly", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      record_type = "data",
+      input = c(
+        "$data foo.csv IGNORE(ID)& ;",
+        " IGNORE=@"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("data", "data"),
+          elem_whitespace(" "),
+          option_pos$new("filename", value = "foo.csv"),
+          elem_whitespace(" "),
+          option_value$new(
+            "ignore",
+            name_raw = "IGNORE", value = "(ID)", sep = ""
+          ),
+          elem_ampersand(),
+          elem_whitespace(" "),
+          elem_comment(";"),
+          elem_linebreak(),
+          elem_whitespace(" "),
+          option_value$new(
+            "ignore",
+            name_raw = "IGNORE", value = "@", sep = "="
+          ),
+          elem_linebreak()
+        )
+      )
     )
   )
 
   for (case in cases) {
-    rec <- record_table$new("table", "table", case$input)
+    rec <- make_record(case$record_type, case$record_type, case$input)
     rec$parse()
     expect_false(is.null(rec$values))
     expect_identical(rec$values, case$want$values)
