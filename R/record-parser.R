@@ -123,7 +123,7 @@ record_parser <- R6::R6Class(
     },
     assert_done = function() {
       if (!self$done()) {
-        abort(c("Failed to parse record.", self$format()), "nmrec_parse_error")
+        abort(c("Failed to parse record.", self$format()), "nmrec_dev_error")
       }
     },
     assert_remaining = function() {
