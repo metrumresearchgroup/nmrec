@@ -99,7 +99,7 @@ record_parser <- R6::R6Class(
       if (!identical(rn, format(rn_opt))) {
         abort(
           c(
-            paste("First element must be", rn_opt),
+            paste("First element must be", format(rn_opt)),
             paste("got:", rn)
           ),
           "nmrec_dev_error"
