@@ -90,7 +90,7 @@ parse_theta_paren <- function(rp, lstr) {
           ),
           rp$format()
         ),
-        "nmrec_parse_error"
+        nmrec_error("parse")
       )
     }
 
@@ -100,7 +100,7 @@ parse_theta_paren <- function(rp, lstr) {
           "Bug: there should be no more than 3 values.",
           rp$format()
         ),
-        "nmrec_dev_error"
+        nmrec_error("dev")
       )
     }
 
@@ -112,7 +112,7 @@ parse_theta_paren <- function(rp, lstr) {
   }
 
   if (!rp$is("paren_close")) {
-    abort("Bug: should end on closing paren.", "nmrec_dev_error")
+    abort("Bug: should end on closing paren.", nmrec_error("dev"))
   }
 
   lstr$append(rp$yank())
@@ -128,7 +128,7 @@ check_for_short_unint <- function(x) {
   if (identical(x, "u") || identical(x, "un")) {
     abort(
       "nmrec requires 'unint' to be at least three characters.",
-      "nmrec_unsupported"
+      nmrec_error("unsupported")
     )
   }
 }
@@ -154,7 +154,7 @@ get_theta_value_idx <- function(rp, pos_end) {
         "Did not find theta value.",
         rp$format()
       ),
-      "nmrec_parse_error"
+      nmrec_error("parse")
     )
   }
 
@@ -164,7 +164,7 @@ get_theta_value_idx <- function(rp, pos_end) {
         "More than three theta values specified.",
         rp$format()
       ),
-      "nmrec_parse_error"
+      nmrec_error("parse")
     )
   }
 

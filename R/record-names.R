@@ -6,7 +6,7 @@ resolve_record_name <- function(name) {
   if (is.null(n)) {
     abort(
       paste("Unknown record type:", deparse_string(name)),
-      c("nmrec_unknown_record", "nmrec_parse_error")
+      nmrec_error("unknown_record")
     )
   }
 

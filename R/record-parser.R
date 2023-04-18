@@ -102,7 +102,7 @@ record_parser <- R6::R6Class(
             paste("First element must be", format(rn_opt)),
             paste("got:", rn)
           ),
-          "nmrec_dev_error"
+          nmrec_error("dev")
         )
       }
       self$append(rn_opt)
@@ -123,12 +123,12 @@ record_parser <- R6::R6Class(
     },
     assert_done = function() {
       if (!self$done()) {
-        abort(c("Failed to parse record.", self$format()), "nmrec_dev_error")
+        abort(c("Failed to parse record.", self$format()), nmrec_error("dev"))
       }
     },
     assert_remaining = function() {
       if (self$done()) {
-        abort("All elements already consumed.", "nmrec_dev_error")
+        abort("All elements already consumed.", nmrec_error("dev"))
       }
       return(invisible(self))
     },
@@ -142,7 +142,7 @@ record_parser <- R6::R6Class(
             "pos (%s) must be at least value of current position (%s)",
             pos, beg
           ),
-          "nmrec_dev_error"
+          nmrec_error("dev")
         )
       }
 
@@ -214,7 +214,10 @@ record_parser <- R6::R6Class(
 
         end <- self$find_next(~ elem_is(.x, c(quote_type, "linebreak")))
         if (identical(end, 0L) || !self$is(quote_type, pos = end)) {
-          abort(c("Missing closing quote:", self$format()), "nmrec_parse_error")
+          abort(
+            c("Missing closing quote:", self$format()),
+            nmrec_error("parse")
+          )
         }
       }
 
@@ -226,7 +229,10 @@ record_parser <- R6::R6Class(
         types <- c("paren_close", stop_on_types)
         end <- self$find_next(~ elem_is(.x, types))
         if (identical(end, 0L) || !self$is("paren_close", pos = end)) {
-          abort(c("Missing closing paren.", self$format()), "nmrec_parse_error")
+          abort(
+            c("Missing closing paren.", self$format()),
+            nmrec_error("parse")
+          )
         }
       }
 
@@ -260,7 +266,7 @@ record_parser <- R6::R6Class(
         if (identical(lb, 0L)) {
           abort(
             "Record must end with linebreak element",
-            "nmrec_dev_error"
+            nmrec_error("dev")
           )
         }
         comment <- elem_comment(
@@ -307,7 +313,7 @@ should_absorb_amp <- function(rp) {
   if (identical(pos, 0L)) {
     abort(
       "Record must end with linebreak element",
-      "nmrec_dev_error"
+      nmrec_error("dev")
     )
   }
 

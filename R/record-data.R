@@ -9,14 +9,14 @@ parse_data_record <- function() {
     if (elem_is(filename, c("linebreak", "semicolon"))) {
       abort(
         paste0("$", self$name_raw, " filename option must be on first line"),
-        "nmrec_parse_error"
+        nmrec_error("parse")
       )
     }
 
     if (identical(filename, "*")) {
       abort(
         "nmrec does not support filename=* for $DATA records.",
-        "nmrec_unsupported"
+        nmrec_error("unsupported")
       )
     }
 

@@ -18,7 +18,7 @@ parse_input_record <- function() {
       if (identical(idx, 0L)) {
         abort(
           paste("Bug: equal sign must follow:", r$format()),
-          "nmrec_dev_error"
+          nmrec_error("dev")
         )
       }
 

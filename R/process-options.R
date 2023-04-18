@@ -35,7 +35,7 @@ process_options <- function(rp,
             paste("Unknown option:", deparse_string(as.character(opt_raw))),
             format(rp)
           ),
-          c("nmrec_unknown_option", "nmrec_parse_error")
+          nmrec_error("unknown_option")
         )
       }
       break
@@ -44,7 +44,7 @@ process_options <- function(rp,
 
     kind <- option_types[[opt]]
     if (is.null(kind)) {
-      abort(paste("No type defined for", opt), "nmrec_dev_error")
+      abort(paste("No type defined for", opt), nmrec_error("dev"))
     }
 
     if (identical(kind, "flag")) {
@@ -65,7 +65,7 @@ process_options <- function(rp,
               paste("Missing value for", opt_raw),
               rp$format()
             ),
-            "nmrec_parse_error"
+            nmrec_error("parse")
           )
         }
         sep <- rp$yank_to(beg + idx_sep - 2)
@@ -82,7 +82,7 @@ process_options <- function(rp,
       )
       rp$gobble()
     } else {
-      abort(paste("Unrecognized type for", opt), "nmrec_dev_error")
+      abort(paste("Unrecognized type for", opt), nmrec_error("dev"))
     }
   }
 

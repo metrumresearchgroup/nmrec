@@ -75,7 +75,7 @@ parse_matrix_init <- function(rp, opt_fn = NULL) {
     }
 
     if (!rp$is("paren_close")) {
-      abort("Bug: should end on closing paren.", "nmrec_dev_error")
+      abort("Bug: should end on closing paren.", nmrec_error("dev"))
     }
 
     lstr$append(rp$yank())

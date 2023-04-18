@@ -9,7 +9,7 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
   if (!length(lines)) {
     abort(
       "make_record() called with empty `lines`.",
-      "nmrec_dev_error"
+      nmrec_error("dev")
     )
   }
 
@@ -113,7 +113,7 @@ record <- R6::R6Class(
           "Parsing not implemented for $%s record types.",
           self$name
         ),
-        "nmrec_unsupported"
+        nmrec_error("unsupported")
       )
     }
   ),
@@ -122,7 +122,7 @@ record <- R6::R6Class(
       if (missing(value)) {
         private$.name
       } else {
-        abort("`name` is read-only", "nmrec_error")
+        abort("`name` is read-only", nmrec_error())
       }
     }
   )

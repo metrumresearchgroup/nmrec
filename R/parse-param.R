@@ -33,7 +33,7 @@ param_parse_x <- function(rp, lstr) {
             ),
             rp$format()
           ),
-          "nmrec_parse_error"
+          nmrec_error("parse")
         )
       }
       xval <- rp$yank()
@@ -68,7 +68,7 @@ param_append_num_opt <- function(lstr, name, value) {
         "Expected numeric value for %s, got %s",
         name, deparse_string(value)
       ),
-      "nmrec_parse_error"
+      nmrec_error("parse")
     )
   }
   lstr$append(option_pos$new(name, value = value))

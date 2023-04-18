@@ -41,7 +41,7 @@ parse_ctl <- function(lines) {
   if (any(grepl("^[ \t]*\\$?include", lines, ignore.case = TRUE))) {
     abort(
       "nmrec does not support control streams that use `include`.",
-      "nmrec_unsupported"
+      nmrec_error("unsupported")
     )
   }
 
@@ -50,7 +50,7 @@ parse_ctl <- function(lines) {
   beg_pos <- grep("^[ \t]*\\$[A-Za-z]", lines)
   n_records <- length(beg_pos)
   if (!n_records) {
-    abort("No records found.", "nmrec_parse_error")
+    abort("No records found.", nmrec_error("parse"))
   }
 
   end_pos <- if (identical(n_records, 1L)) {
@@ -84,9 +84,12 @@ parse_ctl <- function(lines) {
 
   n_prob_recs <- sum(purrr::map_chr(records, "name") == "problem")
   if (n_prob_recs == 0) {
-    abort("No $PROBLEM records found.", "nmrec_parse_error")
+    abort("No $PROBLEM records found.", nmrec_error("parse"))
   } else if (n_prob_recs > 1) {
-    abort("nmrec only supports one $PROBLEM record.", "nmrec_unsupported")
+    abort(
+      "nmrec only supports one $PROBLEM record.",
+      nmrec_error("unsupported")
+    )
   }
 
   res <- list(frontmatter = frontmatter, records = records)
@@ -102,7 +105,7 @@ extract_record_name <- function(line) {
         "First non-whitespace in first line must start with '$'.",
         paste("got:", deparse_string(line))
       ),
-      "nmrec_dev_error"
+      nmrec_error("dev")
     )
   }
 

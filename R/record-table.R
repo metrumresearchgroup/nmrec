@@ -32,7 +32,7 @@ parse_table_record <- function() {
             "list1 repeated in table",
             rp$format()
           ),
-          "nmrec_parse_error"
+          nmrec_error("parse")
         )
       }
       saw_list1 <- TRUE

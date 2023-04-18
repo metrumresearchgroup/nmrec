@@ -63,10 +63,10 @@ get_record_option <- function(record, name) {
         sprintf("Record has more than one %s option", name),
         purrr::map_chr(opts, format)
       ),
-      "nmrec_error"
+      nmrec_error()
     )
   } else if (!n_opts) {
-    abort(paste("No option found for", name), "nmrec_error")
+    abort(paste("No option found for", name), nmrec_error())
   }
 
   return(opts[[1]])

@@ -135,7 +135,7 @@ elem_get_class <- function(x) {
     "whitespace" = "nmrec_whitespace",
     abort(
       paste("Unknown nmrec_element subclass:", deparse_string(x)),
-      "nmrec_dev_error"
+      nmrec_error("dev")
     )
   )
 }

@@ -60,7 +60,7 @@ option <- R6::R6Class(
       if (missing(value)) {
         private$.name
       } else {
-        abort("`name` is read-only", "nmrec_error")
+        abort("`name` is read-only", nmrec_error())
       }
     }
   )
