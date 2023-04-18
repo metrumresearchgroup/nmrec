@@ -477,6 +477,11 @@ test_that("parse_theta_record() works", {
   }
 })
 
+test_that("parser error is signaled for non-whitespace character after x", {
+  rec <- record_theta$new("theta", "theta", "$theta (1,2,3) x;")
+  expect_error(rec$parse(), class = "nmrec_parse_error")
+})
+
 test_that("theta records are combined", {
   lines <- c(
     "$prob",
@@ -544,4 +549,19 @@ test_that("parsing theta aborts if value doesn't look like number", {
     rec <- record_theta$new("theta", "theta", case)
     expect_error(rec$parse(), class = "nmrec_parse_error")
   }
+})
+
+test_that("parsing theta aborts if there are more than three values", {
+  rec <- record_theta$new("theta", "theta", "$theta (1 2 3 4)")
+  expect_error(rec$parse(), class = "nmrec_parse_error")
+})
+
+test_that("parsing theta aborts if there are no theta values", {
+  rec <- record_theta$new("theta", "theta", "$theta (;;)")
+  expect_error(rec$parse(), class = "nmrec_parse_error")
+})
+
+test_that("parsing theta aborts if nmrec_element unexpectedly in parens", {
+  rec <- record_theta$new("theta", "theta", "$theta (1,2,;)")
+  expect_error(rec$parse(), class = "nmrec_parse_error")
 })
