@@ -86,3 +86,7 @@ test_that("split_to_elements() works", {
     )
   }
 })
+
+test_that("elem_get_class() errors on unknown class", {
+  expect_error(elem_get_class("foobert"), class = "nmrec_dev_error")
+})
