@@ -97,12 +97,11 @@ record_parser <- R6::R6Class(
       rn_opt <- option_record_name$new(name, name_raw)
       rn <- self$yank()
       if (!identical(rn, format(rn_opt))) {
-        abort(
+        bug(
           c(
             paste("First element must be", format(rn_opt)),
             paste("got:", rn)
-          ),
-          nmrec_error("dev")
+          )
         )
       }
       self$append(rn_opt)
@@ -123,12 +122,12 @@ record_parser <- R6::R6Class(
     },
     assert_done = function() {
       if (!self$done()) {
-        abort(c("Failed to parse record.", self$format()), nmrec_error("dev"))
+        bug(c("Failed to parse record.", self$format()))
       }
     },
     assert_remaining = function() {
       if (self$done()) {
-        abort("All elements already consumed.", nmrec_error("dev"))
+        bug("All elements already consumed.")
       }
       return(invisible(self))
     },
@@ -137,12 +136,11 @@ record_parser <- R6::R6Class(
       beg <- self$idx_e
 
       if (!isTRUE(pos >= beg)) {
-        abort(
+        bug(
           sprintf(
             "pos (%s) must be at least value of current position (%s)",
             pos, beg
-          ),
-          nmrec_error("dev")
+          )
         )
       }
 
@@ -264,10 +262,7 @@ record_parser <- R6::R6Class(
         beg <- self$idx_e
         lb <- self$find_next(~ elem_is(.x, "linebreak"))
         if (identical(lb, 0L)) {
-          abort(
-            "Record must end with linebreak element",
-            nmrec_error("dev")
-          )
+          bug("Record must end with linebreak element.")
         }
         comment <- elem_comment(
           paste0(self$elems[beg:(lb - 1)], collapse = "")
@@ -311,10 +306,7 @@ should_absorb_amp <- function(rp) {
 
   pos <- rp$find_next(~ elem_is(.x, c("semicolon", "linebreak")))
   if (identical(pos, 0L)) {
-    abort(
-      "Record must end with linebreak element",
-      nmrec_error("dev")
-    )
+    bug("Record must end with linebreak element.")
   }
 
   return(rp$is("semicolon", pos = pos))

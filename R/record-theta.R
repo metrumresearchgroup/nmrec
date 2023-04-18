@@ -95,13 +95,7 @@ parse_theta_paren <- function(rp, lstr) {
     }
 
     if (idx_val > 3) {
-      abort(
-        c(
-          "Bug: there should be no more than 3 values.",
-          rp$format()
-        ),
-        nmrec_error("dev")
-      )
+      bug(c("There should be no more than 3 values.", rp$format()))
     }
 
     val <- rp$yank()
@@ -112,7 +106,7 @@ parse_theta_paren <- function(rp, lstr) {
   }
 
   if (!rp$is("paren_close")) {
-    abort("Bug: should end on closing paren.", nmrec_error("dev"))
+    bug("Should end on closing paren.")
   }
 
   lstr$append(rp$yank())

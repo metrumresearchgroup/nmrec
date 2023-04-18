@@ -133,10 +133,7 @@ elem_get_class <- function(x) {
     "quote_single" = "nmrec_quote_single",
     "semicolon" = "nmrec_semicolon",
     "whitespace" = "nmrec_whitespace",
-    abort(
-      paste("Unknown nmrec_element subclass:", deparse_string(x)),
-      nmrec_error("dev")
-    )
+    bug(paste("Unknown nmrec_element subclass:", deparse_string(x)))
   )
 }
 

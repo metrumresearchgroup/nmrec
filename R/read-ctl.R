@@ -100,12 +100,11 @@ parse_ctl <- function(lines) {
 extract_record_name <- function(line) {
   match <- regexec("^[ \t]*\\$([A-Za-z]+)", line)[[1]]
   if (identical(match[1], -1L)) {
-    abort(
+    bug(
       c(
         "First non-whitespace in first line must start with '$'.",
         paste("got:", deparse_string(line))
-      ),
-      nmrec_error("dev")
+      )
     )
   }
 

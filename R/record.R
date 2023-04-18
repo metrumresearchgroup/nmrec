@@ -7,10 +7,7 @@
 #' @noRd
 make_record <- function(name, name_raw, lines, previous_rec = NULL) {
   if (!length(lines)) {
-    abort(
-      "make_record() called with empty `lines`.",
-      nmrec_error("dev")
-    )
+    bug("make_record() called with empty `lines`.")
   }
 
   rec <- switch(name,

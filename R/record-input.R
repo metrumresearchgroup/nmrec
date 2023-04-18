@@ -16,10 +16,7 @@ parse_input_record <- function() {
         ~ !elem_is(.x, c("whitespace", "equal_sign"))
       )
       if (identical(idx, 0L)) {
-        abort(
-          paste("Bug: equal sign must follow:", r$format()),
-          nmrec_error("dev")
-        )
+        bug(paste("Equal sign must follow:", r$format()))
       }
 
       sep <- r$yank_to(idx - 1)

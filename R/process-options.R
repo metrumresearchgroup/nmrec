@@ -44,7 +44,7 @@ process_options <- function(rp,
 
     kind <- option_types[[opt]]
     if (is.null(kind)) {
-      abort(paste("No type defined for", opt), nmrec_error("dev"))
+      bug(paste("No type defined for", opt))
     }
 
     if (identical(kind, "flag")) {
@@ -82,7 +82,7 @@ process_options <- function(rp,
       )
       rp$gobble()
     } else {
-      abort(paste("Unrecognized type for", opt), nmrec_error("dev"))
+      bug(paste("Unrecognized type for", opt))
     }
   }
 

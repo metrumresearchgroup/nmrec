@@ -20,3 +20,12 @@ nmrec_error <- function(kind = NULL) {
 
   return(c(cls, base))
 }
+
+bug <- function(message) {
+  abort(
+    message,
+    class = nmrec_error("dev"),
+    call = rlang::caller_env(),
+    .internal = TRUE
+  )
+}
