@@ -239,7 +239,6 @@ record_parser <- R6::R6Class(
       return(end)
     },
     walk = function(fn) {
-      fn <- purrr::as_mapper(fn)
       i <- NULL
       while (!identical(i, self$idx_e)) {
         i <- self$idx_e
