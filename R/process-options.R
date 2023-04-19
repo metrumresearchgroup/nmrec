@@ -57,7 +57,7 @@ process_options <- function(rp,
         beg <- rp$idx_e
         idx_sep <- purrr::detect_index(
           rp$elems[beg:rp$n_elems],
-          ~ !elem_is(.x, c("whitespace", "equal_sign"))
+          function(x) !elem_is(x, c("whitespace", "equal_sign"))
         )
         if (idx_sep < 2) {
           abort(

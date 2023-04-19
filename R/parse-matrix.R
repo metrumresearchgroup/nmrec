@@ -1,6 +1,6 @@
 parse_matrix_record <- function(name, rp) {
-  is_block <- purrr::some(rp$elems, ~ {
-    identical(matrix_get_prefix_option(.x), "block")
+  is_block <- purrr::some(rp$elems, function(x) {
+    identical(matrix_get_prefix_option(x), "block")
   })
 
   if (is_block) {

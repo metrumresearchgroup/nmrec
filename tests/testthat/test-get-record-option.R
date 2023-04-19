@@ -3,7 +3,7 @@ test_that("get_record_option() can get a option_pos option", {
 
   data_fnames <- purrr::map(
     select_records(ctl, "data"),
-    ~ get_record_option(.x, "filename")
+    function(x) get_record_option(x, "filename")
   )
   expect_identical(
     data_fnames,
@@ -16,7 +16,7 @@ test_that("get_record_option() supports abbreviated options", {
 
   methods <- purrr::map(
     select_records(ctl, "est"),
-    ~ get_record_option(.x, "meth")
+    function(x) get_record_option(x, "meth")
   )
   expect_identical(
     methods,
@@ -35,7 +35,7 @@ test_that("get_record_option() supports matrix prefix options", {
 
   blocks <- purrr::map(
     select_records(ctl, "omega"),
-    ~ get_record_option(.x, "block")
+    function(x) get_record_option(x, "block")
   )
   expect_identical(
     blocks,

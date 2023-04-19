@@ -3,7 +3,7 @@ test_that("data_option_types and data_option_names align", {
     names(data_option_types),
     purrr::map_chr(
       ls(data_option_names),
-      ~ get(.x, envir = data_option_names)
+      function(x) get(x, envir = data_option_names)
     )
   )
 })

@@ -3,7 +3,7 @@ test_that("theta_option_types and theta_option_names align", {
     names(theta_option_types),
     purrr::map_chr(
       ls(theta_option_names),
-      ~ get(.x, envir = theta_option_names)
+      function(x) get(x, envir = theta_option_names)
     )
   )
 })

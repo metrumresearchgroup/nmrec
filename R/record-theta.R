@@ -138,8 +138,8 @@ check_for_short_unint <- function(x) {
 #' @return Index (1L or 2L) for c("low", "init", "up").
 #' @noRd
 get_theta_value_idx <- function(rp, pos_end) {
-  n_vals <- sum(purrr::map_lgl(rp$elems[rp$idx_e:pos_end], ~ {
-    !inherits(.x, "nmrec_element") && is.null(param_get_value_option(.x))
+  n_vals <- sum(purrr::map_lgl(rp$elems[rp$idx_e:pos_end], function(x) {
+    !inherits(x, "nmrec_element") && is.null(param_get_value_option(x))
   }))
 
   if (!n_vals) {

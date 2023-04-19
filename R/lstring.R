@@ -74,11 +74,11 @@ lstring <- R6::R6Class(
 lstr_format <- function(values) {
   paste(
     purrr::map_chr(
-      values, ~ {
-        if (is.character(.x)) {
-          .x
+      values, function(x) {
+        if (is.character(x)) {
+          x
         } else {
-          format(.x)
+          format(x)
         }
       }
     ),

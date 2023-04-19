@@ -13,7 +13,7 @@ parse_input_record <- function() {
     if (named) {
       name <- r$yank()
       idx <- r$find_next(
-        ~ !elem_is(.x, c("whitespace", "equal_sign"))
+        function(x) !elem_is(x, c("whitespace", "equal_sign"))
       )
       if (identical(idx, 0L)) {
         bug(paste("Equal sign must follow:", r$format()))

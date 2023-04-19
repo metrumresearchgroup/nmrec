@@ -31,7 +31,7 @@ test_that("can modify control stream", {
 
   idx_last_space <- purrr::detect_index(
     est$values,
-    ~ inherits(.x, "nmrec_whitespace"),
+    function(x) inherits(x, "nmrec_whitespace"),
     .dir = "backward"
   )
   est$values[[idx_last_space]] <- elem_linebreak()

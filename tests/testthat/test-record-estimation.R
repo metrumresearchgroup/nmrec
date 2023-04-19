@@ -3,7 +3,7 @@ test_that("estimation_option_types and estimation_option_names align", {
     names(estimation_option_types),
     purrr::map_chr(
       ls(estimation_option_names),
-      ~ get(.x, envir = estimation_option_names)
+      function(x) get(x, envir = estimation_option_names)
     )
   )
 })

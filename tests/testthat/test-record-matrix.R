@@ -14,7 +14,7 @@ test_that("matrix_option_types and matrix_option_names align", {
     names(matrix_option_types),
     purrr::map_chr(
       ls_all(matrix_option_names),
-      ~ get(.x, envir = matrix_option_names)
+      function(x) get(x, envir = matrix_option_names)
     )
   )
 })

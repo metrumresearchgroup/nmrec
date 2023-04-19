@@ -21,5 +21,5 @@ select_records <- function(records, name) {
   stopifnot(length(name) == 1, is.character(name), nzchar(name))
 
   name_resolved <- resolve_record_name(name)
-  purrr::keep(records$records, ~ identical(.x[["name"]], name_resolved))
+  purrr::keep(records$records, function(x) identical(x[["name"]], name_resolved))
 }

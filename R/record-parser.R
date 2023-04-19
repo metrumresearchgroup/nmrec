@@ -210,7 +210,9 @@ record_parser <- R6::R6Class(
         }
         # TODO: Does NONMEM support escaping the quote character?
 
-        end <- self$find_next(~ elem_is(.x, c(quote_type, "linebreak")))
+        end <- self$find_next(
+          function(x) elem_is(x, c(quote_type, "linebreak"))
+        )
         if (identical(end, 0L) || !self$is(quote_type, pos = end)) {
           abort(
             c("Missing closing quote:", self$format()),
@@ -225,7 +227,7 @@ record_parser <- R6::R6Class(
       end <- 0L
       if (self$idx_e < self$n_elems && self$is("paren_open")) {
         types <- c("paren_close", stop_on_types)
-        end <- self$find_next(~ elem_is(.x, types))
+        end <- self$find_next(function(x) elem_is(x, types))
         if (identical(end, 0L) || !self$is("paren_close", pos = end)) {
           abort(
             c("Missing closing paren.", self$format()),
@@ -260,7 +262,7 @@ record_parser <- R6::R6Class(
       lstr <- lstr %||% self$lstr
       if (self$is("semicolon")) {
         beg <- self$idx_e
-        lb <- self$find_next(~ elem_is(.x, "linebreak"))
+        lb <- self$find_next(function(x) elem_is(x, "linebreak"))
         if (identical(lb, 0L)) {
           bug("Record must end with linebreak element.")
         }
@@ -304,7 +306,7 @@ should_absorb_amp <- function(rp) {
     return(FALSE)
   }
 
-  pos <- rp$find_next(~ elem_is(.x, c("semicolon", "linebreak")))
+  pos <- rp$find_next(function(x) elem_is(x, c("semicolon", "linebreak")))
   if (identical(pos, 0L)) {
     bug("Record must end with linebreak element.")
   }

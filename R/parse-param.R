@@ -105,8 +105,8 @@ param_get_value_option <- function(x) {
 #'
 #' @noRd
 param_append <- function(name, rp, lstr) {
-  popped <- lstr$pop_until(~ {
-    inherits(.x, "nmrec_option") || elem_is(.x, "paren_close")
+  popped <- lstr$pop_until(function(x) {
+    inherits(x, "nmrec_option") || elem_is(x, "paren_close")
   })
 
   param <- option_nested$new(

@@ -3,7 +3,7 @@ test_that("prior_option_types and prior_option_names align", {
     names(prior_option_types),
     purrr::map_chr(
       ls(prior_option_names),
-      ~ get(.x, envir = prior_option_names)
+      function(x) get(x, envir = prior_option_names)
     )
   )
 })

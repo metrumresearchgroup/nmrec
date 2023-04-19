@@ -14,7 +14,7 @@ split_to_elements <- function(lines) {
   ln_delim_idxs <- purrr::map(matches, as.vector)
   ln_offsets <- purrr::map(
     matches,
-    ~ as.vector(attr(.x, "match.length")) - 1
+    function(x) as.vector(attr(x, "match.length")) - 1
   )
 
   n_lines <- length(lines)

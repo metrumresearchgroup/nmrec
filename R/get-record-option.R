@@ -52,8 +52,8 @@ get_record_option <- function(record, name) {
     name_resolved <- name
   }
 
-  opts <- purrr::keep(record$values, ~ {
-    inherits(.x, "nmrec_option") && .x[["name"]] == name_resolved
+  opts <- purrr::keep(record$values, function(x) {
+    inherits(x, "nmrec_option") && x[["name"]] == name_resolved
   })
 
   n_opts <- length(opts)
