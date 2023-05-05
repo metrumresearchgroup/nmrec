@@ -68,7 +68,25 @@
   <div class="contents col-md-9">
 
 
-<p>R package for reading records from a NONMEM control stream, parsing and modifying records of interest, and writing the result</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p><code>nmrec</code> is an R package for reading records from a NONMEM control stream, parsing and modifying records of interest, and writing the result.</p>
+<p>Its creation was prompted by several features in <a href="https://metrumresearchgroup.github.io/bbr" class="external-link">bbr</a> and <a href="https://metrumresearchgroup.github.io/bbr.bayes" class="external-link">bbr.bayes</a> that require modifying a NONMEM control stream. The purpose of <code>nmrec</code> is to free these package from worrying about many details of parsing. For example, <code>nmrec</code> allows grabbing an estimation record without accounting for the many ways <code>$ESTIMATION</code> could be spelled (<code>$EST</code>, <code>$ESTM</code>, or <code>$esti</code>, to name just a few).</p>
+<p><code>nmrec</code> aims to</p>
+<ul>
+<li><p>stick as close to the NONMEM user guide specification as possible (e.g., support nearly all abbreviations and aliases for record names and options) and try to abort loudly when an unsupported case is hit</p></li>
+<li><p>support parsing <em>within</em> record types of interest, adding support for other record types as needed</p></li>
+</ul>
+<p>At this point, <code>nmrec</code> is focused on parsing records into objects that are very closely tied to the form in the control stream and that don’t lose information. In the future (and as needed), the plan is to add more convenience wrappers for working with these objects and helpers for getting things in and out of higher-level forms.</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p><code>nmrec</code> is not yet available from a package archive. To install the latest development version from GitHub, you can use <code>remotes</code>:</p>
+<pre><code><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"metrumresearchgroup/nmrec"</span><span class="op">)</span></span></code></pre>
+</div>
 
   </div>
 
