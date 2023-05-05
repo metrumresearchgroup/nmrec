@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/nmrec.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/articles/nmrec.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/get_record_option.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/get_record_option.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/nmrec-package.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/nmrec-package.html</loc>
   </url>
   <url>
-    <loc>/reference/nmrec_ctl_records.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/nmrec_ctl_records.html</loc>
   </url>
   <url>
-    <loc>/reference/nmrec_examples.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/nmrec_examples.html</loc>
   </url>
   <url>
-    <loc>/reference/option.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/option.html</loc>
   </url>
   <url>
-    <loc>/reference/read_ctl.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/read_ctl.html</loc>
   </url>
   <url>
-    <loc>/reference/record.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/record.html</loc>
   </url>
   <url>
-    <loc>/reference/select_records.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/select_records.html</loc>
   </url>
   <url>
-    <loc>/reference/write_ctl.html</loc>
+    <loc>https://metrumresearchgroup.github.io/nmrec/reference/write_ctl.html</loc>
   </url>
 </urlset>
