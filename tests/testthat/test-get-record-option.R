@@ -1,13 +1,15 @@
 test_that("get_record_option() can get a option_pos option", {
   ctl <- parse_ctl(get("bayes1", envir = nmrec_examples))
 
-  data_fnames <- purrr::map(
-    select_records(ctl, "data"),
-    function(x) get_record_option(x, "filename")
-  )
+  recs <- select_records(ctl, "data")
+  expect_length(recs, 1)
+  rec <- recs[[1]]
+
+  want <- option_pos$new("filename", value = "example1.csv")
+
   expect_identical(
-    data_fnames,
-    list(option_pos$new("filename", value = "example1.csv"))
+    get_record_option(rec, "filename"),
+    want
   )
 })
 
