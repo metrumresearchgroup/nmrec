@@ -14,7 +14,8 @@
 #' @param record An [nmrec_record] object.
 #' @param name Name of record to select. Any valid spelling of the option name
 #'   is allowed.
-#' @return An [nmrec_option] object.
+#' @return An [nmrec_option] object. `NULL` is returned if an option for `name`
+#'   is not found in `record`.
 #' @seealso [select_records()] selecting records of a given type.
 #' @examples
 #' ctl <- parse_ctl(nmrec_examples[["bayes1"]])
@@ -67,7 +68,7 @@ get_record_option <- function(record, name) {
       nmrec_error()
     )
   } else if (!n_opts) {
-    abort(paste("No option found for", name), nmrec_error())
+    return(NULL)
   }
 
   return(opts[[1]])

@@ -56,10 +56,10 @@ test_that("get_record_option() errors if more than one option is found", {
   expect_error(get_record_option(data[[1]], "ign"), class = "nmrec_error")
 })
 
-test_that("get_record_option() errors if no option is found", {
+test_that("get_record_option() returns NULL if no option is found", {
   ctl <- parse_ctl(get("bayes1", envir = nmrec_examples))
   tabs <- select_records(ctl, "table")
-  expect_error(get_record_option(tabs[[1]], "wres"), class = "nmrec_error")
+  expect_null(get_record_option(tabs[[1]], "wres"))
 })
 
 test_that("get_record_option() errors on unsupported record type", {

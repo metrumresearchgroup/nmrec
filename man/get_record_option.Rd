@@ -13,7 +13,8 @@ get_record_option(record, name)
 is allowed.}
 }
 \value{
-An \link{nmrec_option} object.
+An \link{nmrec_option} object. \code{NULL} is returned if an option for \code{name}
+is not found in \code{record}.
 }
 \description{
 A parsed \link{nmrec_record} object has a populated "values" field that includes
