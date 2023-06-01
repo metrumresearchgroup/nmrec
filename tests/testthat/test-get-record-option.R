@@ -11,6 +11,11 @@ test_that("get_record_option() can get a option_pos option", {
     get_record_option(rec, "filename"),
     want
   )
+
+  expect_identical(
+    get_record_option(rec, "FILENAME"),
+    want
+  )
 })
 
 test_that("get_record_option() supports abbreviated options", {

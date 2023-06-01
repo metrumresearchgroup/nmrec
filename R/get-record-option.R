@@ -50,7 +50,7 @@ get_record_option <- function(record, name) {
   if (is.null(name_resolved)) {
     # Take name as the resolved name for an `option_pos` or `option_record_name`
     # option.
-    name_resolved <- name
+    name_resolved <- name_lc
   }
 
   opts <- purrr::keep(record$values, function(x) {
