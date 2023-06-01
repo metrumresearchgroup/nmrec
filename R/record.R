@@ -43,8 +43,8 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
 #'
 #'   * `name`: the standardized name for the record (e.g., "estimation").
 #'
-#'   * `values`: a list of capturing the record's content. This is constructed
-#'      by the `$parse()` method and consists of "elements" like white space and
+#'   * `values`: a list capturing the record's content. This is constructed by
+#'      the `$parse()` method and consists of "elements" like white space and
 #'      line breaks interspersed with [option] objects.
 #'
 #' Methods

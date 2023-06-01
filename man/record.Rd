@@ -27,8 +27,8 @@ which parsing has not been implemented have a type \code{nmrec_record_raw}.
 \subsection{Fields}{
 \itemize{
 \item \code{name}: the standardized name for the record (e.g., "estimation").
-\item \code{values}: a list of capturing the record's content. This is constructed
-by the \verb{$parse()} method and consists of "elements" like white space and
+\item \code{values}: a list capturing the record's content. This is constructed by
+the \verb{$parse()} method and consists of "elements" like white space and
 line breaks interspersed with \link{option} objects.
 }
 }
