@@ -19,7 +19,7 @@
 #' @examples
 #' ctl <- parse_ctl(nmrec_examples[["bayes1"]])
 #' ests <- select_records(ctl, "est")
-#' # Get methods for all estimation records.
+#' # Get method for first estimation record.
 #' meth1 <- get_record_option(ests[[1]], "meth")
 #' meth1$value
 #'
