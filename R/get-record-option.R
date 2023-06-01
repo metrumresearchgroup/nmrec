@@ -48,7 +48,8 @@ get_record_option <- function(record, name) {
   }
 
   if (is.null(name_resolved)) {
-    # Take name as a the resolved name for an `option_pos` option.
+    # Take name as the resolved name for an `option_pos` or `option_record_name`
+    # option.
     name_resolved <- name
   }
 
