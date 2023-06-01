@@ -80,7 +80,10 @@ is allowed.</p></dd>
     <h2>Value</h2>
     
 
-<p>An <a href="option.html">nmrec_option</a> object.</p>
+<p>An <a href="option.html">nmrec_option</a> object. <code>NULL</code> is returned if an option for <code>name</code></p>
+
+
+<p>is not found in <code>record</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -99,7 +102,7 @@ with <code>get_record_option()</code>, you need to pass the full type as <code>n
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ctl</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_ctl.html">parse_ctl</a></span><span class="op">(</span><span class="va">nmrec_examples</span><span class="op">[[</span><span class="st">"bayes1"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ests</span> <span class="op">&lt;-</span> <span class="fu"><a href="select_records.html">select_records</a></span><span class="op">(</span><span class="va">ctl</span>, <span class="st">"est"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Get methods for all estimation records.</span></span></span>
+<span class="r-in"><span><span class="co"># Get method for first estimation record.</span></span></span>
 <span class="r-in"><span><span class="va">meth1</span> <span class="op">&lt;-</span> <span class="fu">get_record_option</span><span class="op">(</span><span class="va">ests</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="st">"meth"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">meth1</span><span class="op">$</span><span class="va">value</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ITS"</span>
