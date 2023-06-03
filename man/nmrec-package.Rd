@@ -11,6 +11,7 @@ A library for reading records from a NONMEM control stream, parsing and modifyin
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://metrumresearchgroup.github.io/nmrec}
   \item \url{https://github.com/metrumresearchgroup/nmrec}
   \item Report bugs at \url{https://github.com/metrumresearchgroup/nmrec/issues}
 }

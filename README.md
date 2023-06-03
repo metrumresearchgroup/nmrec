@@ -41,6 +41,12 @@ latest development version from GitHub, you can use `remotes`:
 remotes::install_github("metrumresearchgroup/nmrec")
 ```
 
+## Documentation
+
+Documentation, including a ["Get Started"][gs] vignette, is available
+at <https://metrumresearchgroup.github.io/nmrec>.
+
 
 [bbr.bayes]: https://metrumresearchgroup.github.io/bbr.bayes
 [bbr]: https://metrumresearchgroup.github.io/bbr
+[gs]: https://metrumresearchgroup.github.io/nmrec/articles/nmrec

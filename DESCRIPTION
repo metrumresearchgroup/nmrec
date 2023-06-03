@@ -1,13 +1,13 @@
 Package: nmrec
 Title: Read, Parse, and Modify NONMEM Control Records
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R:
     person("Kyle", "Meyer", , "kylem@metrumrg.com", role = c("aut", "cre"))
 Description: A library for reading records from a NONMEM control stream,
     parsing and modifying records of interest, and writing the result.
 License: MIT + file LICENSE
 Encoding: UTF-8
-URL: https://github.com/metrumresearchgroup/nmrec
+URL: https://metrumresearchgroup.github.io/nmrec, https://github.com/metrumresearchgroup/nmrec
 BugReports: https://github.com/metrumresearchgroup/nmrec/issues
 Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.2.3

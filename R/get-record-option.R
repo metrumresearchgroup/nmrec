@@ -14,12 +14,13 @@
 #' @param record An [nmrec_record] object.
 #' @param name Name of record to select. Any valid spelling of the option name
 #'   is allowed.
-#' @return An [nmrec_option] object.
+#' @return An [nmrec_option] object. `NULL` is returned if an option for `name`
+#'   is not found in `record`.
 #' @seealso [select_records()] selecting records of a given type.
 #' @examples
 #' ctl <- parse_ctl(nmrec_examples[["bayes1"]])
 #' ests <- select_records(ctl, "est")
-#' # Get methods for all estimation records.
+#' # Get method for first estimation record.
 #' meth1 <- get_record_option(ests[[1]], "meth")
 #' meth1$value
 #'
@@ -48,8 +49,9 @@ get_record_option <- function(record, name) {
   }
 
   if (is.null(name_resolved)) {
-    # Take name as a the resolved name for an `option_pos` option.
-    name_resolved <- name
+    # Take name as the resolved name for an `option_pos` or `option_record_name`
+    # option.
+    name_resolved <- name_lc
   }
 
   opts <- purrr::keep(record$values, function(x) {
@@ -66,7 +68,7 @@ get_record_option <- function(record, name) {
       nmrec_error()
     )
   } else if (!n_opts) {
-    abort(paste("No option found for", name), nmrec_error())
+    return(NULL)
   }
 
   return(opts[[1]])

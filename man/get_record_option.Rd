@@ -13,7 +13,8 @@ get_record_option(record, name)
 is allowed.}
 }
 \value{
-An \link{nmrec_option} object.
+An \link{nmrec_option} object. \code{NULL} is returned if an option for \code{name}
+is not found in \code{record}.
 }
 \description{
 A parsed \link{nmrec_record} object has a populated "values" field that includes
@@ -31,7 +32,7 @@ with \code{get_record_option()}, you need to pass the full type as \code{name} (
 \examples{
 ctl <- parse_ctl(nmrec_examples[["bayes1"]])
 ests <- select_records(ctl, "est")
-# Get methods for all estimation records.
+# Get method for first estimation record.
 meth1 <- get_record_option(ests[[1]], "meth")
 meth1$value
 
