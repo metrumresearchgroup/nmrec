@@ -128,8 +128,23 @@ est1
 ```
 
 If you print `ctl` (the original `nmrec_ctl_records` object), you'll
-notice that the `NSIG` change is reflected there.  You can write the
-modified result to a file with `write_ctl()`.
+notice that the `NSIG` change is reflected there.
+
+Alternatively, you can also modify or append new options with
+`set_record_option()`, which covers the more common cases of setting
+flag/value options.
+
+```{r}
+est1
+nmrec::set_record_option(est1, "CITER", value = 15) # Update CITER to 15
+est1
+nmrec::set_record_option(est1, "NOABORT", NULL) # Remove NOABORT
+est1
+nmrec::set_record_option(est1, "MAXEVAL", 10) # Add option MAXEVAL=10
+est1
+```
+
+You can write the modified result to a file with `write_ctl()`.
 
 ```{r, eval = FALSE}
 write_ctl(ctl, "modified.ctl")

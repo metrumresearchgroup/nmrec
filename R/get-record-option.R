@@ -29,29 +29,12 @@ get_record_option <- function(record, name) {
   stopifnot(inherits(record, "nmrec_record"))
   stopifnot(length(name) == 1, is.character(name), nzchar(name))
 
-  # This serves to 1) parse if needed and 2) signal an error if parsing hasn't
-  # been implemented for the record type.
-  record$parse()
-
-  rtype <- record[["name"]]
-  name_map <- switch(rtype,
-    omega = matrix_option_names,
-    sigma = matrix_option_names,
-    get(paste0(rtype, "_option_names"))
-  )
-
-  name_lc <- tolower(name)
-  name_resolved <- get0(name_lc, name_map)
-  if (is.null(name_resolved) && rtype %in% c("omega", "sigma")) {
-    # parse-matrix.R handles some options outside of matrix_option_names. Check
-    # those too.
-    name_resolved <- matrix_prefix_options[[name_lc]]
-  }
+  name_resolved <- resolve_option_name(record, name)
 
   if (is.null(name_resolved)) {
     # Take name as the resolved name for an `option_pos` or `option_record_name`
     # option.
-    name_resolved <- name_lc
+    name_resolved <- tolower(name)
   }
 
   opts <- purrr::keep(record$values, function(x) {
@@ -72,4 +55,37 @@ get_record_option <- function(record, name) {
   }
 
   return(opts[[1]])
+}
+
+#' Resolve option name
+#'
+#' Looks up the corresponding name map for the specified record and resolves
+#' the normalized option name.
+#'
+#' @param record An [nmrec_record] object.
+#' @param name Name of option to select. Any valid spelling of the option name
+#'   is allowed.
+#'
+#' @noRd
+resolve_option_name <- function(record, name) {
+  # This serves to 1) parse if needed and 2) signal an error if parsing hasn't
+  # been implemented for the record type.
+  record$parse()
+
+  rtype <- record[["name"]]
+  name_map <- switch(rtype,
+    omega = matrix_option_names,
+    sigma = matrix_option_names,
+    get(paste0(rtype, "_option_names"))
+  )
+
+  name_lc <- tolower(name)
+  name_resolved <- get0(name_lc, name_map)
+  if (is.null(name_resolved) && rtype %in% c("omega", "sigma")) {
+    # parse-matrix.R handles some options outside of matrix_option_names. Check
+    # those too.
+    name_resolved <- matrix_prefix_options[[name_lc]]
+  }
+
+  return(name_resolved)
 }
