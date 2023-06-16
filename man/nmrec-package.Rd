@@ -20,5 +20,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Kyle Meyer \email{kylem@metrumrg.com}
 
+Authors:
+\itemize{
+  \item Kyle Barrett \email{barrettk@metrumrg.com}
+}
+
 }
 \keyword{internal}

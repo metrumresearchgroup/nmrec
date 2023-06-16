@@ -2,7 +2,14 @@ Package: nmrec
 Title: Read, Parse, and Modify NONMEM Control Records
 Version: 0.1.0
 Authors@R:
-    person("Kyle", "Meyer", , "kylem@metrumrg.com", role = c("aut", "cre"))
+    c(person(given = "Kyle",
+             family = "Meyer",
+             role = c("aut", "cre"),
+             email = "kylem@metrumrg.com"),
+      person(given = "Kyle",
+             family = "Barrett",
+             role = "aut",
+             email = "barrettk@metrumrg.com"))
 Description: A library for reading records from a NONMEM control stream,
     parsing and modifying records of interest, and writing the result.
 License: MIT + file LICENSE
