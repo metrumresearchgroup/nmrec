@@ -9,7 +9,7 @@ get_record_option(record, name)
 \arguments{
 \item{record}{An \link{nmrec_record} object.}
 
-\item{name}{Name of record to select. Any valid spelling of the option name
+\item{name}{Name of option to select. Any valid spelling of the option name
 is allowed.}
 }
 \value{

@@ -12,7 +12,7 @@
 #' "estimation" rather than "est").
 #'
 #' @param record An [nmrec_record] object.
-#' @param name Name of record to select. Any valid spelling of the option name
+#' @param name Name of option to select. Any valid spelling of the option name
 #'   is allowed.
 #' @return An [nmrec_option] object. `NULL` is returned if an option for `name`
 #'   is not found in `record`.
