@@ -20,6 +20,10 @@ reference:
     - select_records
     - get_record_option
 
+- title: Setting options
+  contents:
+    - set_record_option
+
 - title: Primary objects
   contents:
     - nmrec_ctl_records
