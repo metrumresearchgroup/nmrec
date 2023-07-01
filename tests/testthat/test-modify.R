@@ -40,4 +40,11 @@ test_that("can modify control stream", {
     format(ctl),
     "$prob p\n$est METHOD bayes niter=200\nprint=1\n"
   )
+
+  prob_text <- get_record_option(ctl$records[[1]], "text")
+  prob_text$value <- "foo"
+  expect_identical(
+    format(ctl),
+    "$prob foo\n$est METHOD bayes niter=200\nprint=1\n"
+  )
 })

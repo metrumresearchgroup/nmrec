@@ -16,6 +16,7 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
     input = record_input,
     omega = record_omega,
     prior = record_prior,
+    problem = record_problem,
     sigma = record_sigma,
     table = record_table,
     theta = record_theta,
