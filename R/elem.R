@@ -10,11 +10,10 @@
 #'   `nmrec_element` subclass.
 #' @noRd
 split_to_elements <- function(lines) {
-  matches <- gregexec("[ \t]+|[,;=&()'\"]", lines)
-  ln_delim_idxs <- purrr::map(matches, as.vector)
+  ln_delim_idxs <- gregexpr("[ \t]+|[,;=&()'\"]", lines)
   ln_offsets <- purrr::map(
-    matches,
-    function(x) as.vector(attr(x, "match.length")) - 1
+    ln_delim_idxs,
+    function(x) attr(x, "match.length") - 1
   )
 
   n_lines <- length(lines)
