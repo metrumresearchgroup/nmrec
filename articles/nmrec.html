@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nmrec</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -132,11 +132,11 @@ vector, you can use <code><a href="../reference/read_ctl.html">parse_ctl()</a></
 <span><span class="co">#&gt; [16] "sigmapd"     "estimation"  "estimation"  "estimation"  "estimation" </span></span>
 <span><span class="co">#&gt; [21] "estimation"  "covariance"  "table"       "table"       "table"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">ctl</span><span class="op">$</span><span class="va">records</span>, <span class="va">is</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nmrec_record_raw"        "nmrec_record_input"     </span></span>
-<span><span class="co">#&gt; [3] "nmrec_record_data"       "nmrec_record_theta"     </span></span>
-<span><span class="co">#&gt; [5] "nmrec_record_omega"      "nmrec_record_sigma"     </span></span>
-<span><span class="co">#&gt; [7] "nmrec_record_prior"      "nmrec_record_estimation"</span></span>
-<span><span class="co">#&gt; [9] "nmrec_record_table"</span></span>
+<span><span class="co">#&gt;  [1] "nmrec_record_problem"    "nmrec_record_input"     </span></span>
+<span><span class="co">#&gt;  [3] "nmrec_record_data"       "nmrec_record_raw"       </span></span>
+<span><span class="co">#&gt;  [5] "nmrec_record_theta"      "nmrec_record_omega"     </span></span>
+<span><span class="co">#&gt;  [7] "nmrec_record_sigma"      "nmrec_record_prior"     </span></span>
+<span><span class="co">#&gt;  [9] "nmrec_record_estimation" "nmrec_record_table"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">ctl</span><span class="op">$</span><span class="va">records</span><span class="op">[[</span><span class="fl">17</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "nmrec_record_estimation" "nmrec_record"           </span></span>
@@ -239,9 +239,33 @@ in the <code>est1</code> record like so:</p>
 <span><span class="co">#&gt;      CALPHA=0.05 NOPRIOR=1 NSIG=3</span></span></code></pre></div>
 <p>If you print <code>ctl</code> (the original
 <code>nmrec_ctl_records</code> object), you’ll notice that the
-<code>NSIG</code> change is reflected there. You can write the modified
-result to a file with <code><a href="../reference/write_ctl.html">write_ctl()</a></code>.</p>
+<code>NSIG</code> change is reflected there.</p>
+<p>Alternatively, you can also modify or append new options with
+<code><a href="../reference/set_record_option.html">set_record_option()</a></code>, which covers the more common cases of
+setting flag/value options.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">est1</span></span>
+<span><span class="co">#&gt; $EST METHOD=ITS MAPITER=0 INTERACTION FILE=example1.ext NITER=500</span></span>
+<span><span class="co">#&gt;      PRINT=5 NOABORT SIGL=4 CTYPE=3 CITER=10</span></span>
+<span><span class="co">#&gt;      CALPHA=0.05 NOPRIOR=1 NSIG=3</span></span>
+<span><span class="fu">nmrec</span><span class="fu">::</span><span class="fu"><a href="../reference/set_record_option.html">set_record_option</a></span><span class="op">(</span><span class="va">est1</span>, <span class="st">"CITER"</span>, value <span class="op">=</span> <span class="fl">15</span><span class="op">)</span> <span class="co"># Update CITER to 15</span></span>
+<span><span class="va">est1</span></span>
+<span><span class="co">#&gt; $EST METHOD=ITS MAPITER=0 INTERACTION FILE=example1.ext NITER=500</span></span>
+<span><span class="co">#&gt;      PRINT=5 NOABORT SIGL=4 CTYPE=3 CITER=15</span></span>
+<span><span class="co">#&gt;      CALPHA=0.05 NOPRIOR=1 NSIG=3</span></span>
+<span><span class="fu">nmrec</span><span class="fu">::</span><span class="fu"><a href="../reference/set_record_option.html">set_record_option</a></span><span class="op">(</span><span class="va">est1</span>, <span class="st">"NOABORT"</span>, <span class="cn">NULL</span><span class="op">)</span> <span class="co"># Remove NOABORT</span></span>
+<span><span class="va">est1</span></span>
+<span><span class="co">#&gt; $EST METHOD=ITS MAPITER=0 INTERACTION FILE=example1.ext NITER=500</span></span>
+<span><span class="co">#&gt;      PRINT=5  SIGL=4 CTYPE=3 CITER=15</span></span>
+<span><span class="co">#&gt;      CALPHA=0.05 NOPRIOR=1 NSIG=3</span></span>
+<span><span class="fu">nmrec</span><span class="fu">::</span><span class="fu"><a href="../reference/set_record_option.html">set_record_option</a></span><span class="op">(</span><span class="va">est1</span>, <span class="st">"MAXEVAL"</span>, <span class="fl">10</span><span class="op">)</span> <span class="co"># Add option MAXEVAL=10</span></span>
+<span><span class="va">est1</span></span>
+<span><span class="co">#&gt; $EST METHOD=ITS MAPITER=0 INTERACTION FILE=example1.ext NITER=500</span></span>
+<span><span class="co">#&gt;      PRINT=5  SIGL=4 CTYPE=3 CITER=15</span></span>
+<span><span class="co">#&gt;      CALPHA=0.05 NOPRIOR=1 NSIG=3 MAXEVAL=10</span></span></code></pre></div>
+<p>You can write the modified result to a file with
+<code><a href="../reference/write_ctl.html">write_ctl()</a></code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_ctl.html">write_ctl</a></span><span class="op">(</span><span class="va">ctl</span>, <span class="st">"modified.ctl"</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
@@ -258,7 +282,7 @@ result to a file with <code><a href="../reference/write_ctl.html">write_ctl()</a
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Kyle Meyer.</p>
+<p>Developed by Kyle Meyer, Kyle Barrett.</p>
 </div>
 
 <div class="pkgdown">
