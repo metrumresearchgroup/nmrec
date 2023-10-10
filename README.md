@@ -1,5 +1,11 @@
 
+
+# nmrec <a href='https:/metrumresearchgroup.github.io/nmrec'><img src='man/figures/logo.png' align="right" /></a>
+
+<!-- badges: start -->
+
 [![Build Status](https://github-drone.metrumrg.com/api/badges/metrumresearchgroup/nmrec/status.svg)](https://github-drone.metrumrg.com/metrumresearchgroup/nmrec)
+<!-- badges: end -->
 
 ## Overview
 
