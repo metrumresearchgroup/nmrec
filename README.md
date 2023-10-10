@@ -39,8 +39,10 @@ for getting things in and out of higher-level forms.
 
 ## Installation
 
-`nmrec` is not yet available from a package archive.  To install the
-latest development version from GitHub, you can use `remotes`:
+`nmrec` is available on [MPN] starting with the 2023-09-19 snapshot.
+
+To install the latest development version from GitHub, you can use
+`remotes`:
 
 ```
 # install.packages("remotes")
@@ -55,4 +57,5 @@ at <https://metrumresearchgroup.github.io/nmrec>.
 
 [bbr.bayes]: https://metrumresearchgroup.github.io/bbr.bayes
 [bbr]: https://metrumresearchgroup.github.io/bbr
+[MPN]: https://mpn.metworx.com
 [gs]: https://metrumresearchgroup.github.io/nmrec/articles/nmrec
