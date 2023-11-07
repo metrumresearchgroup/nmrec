@@ -210,6 +210,7 @@ record_names <- list2env(
     "tab" = "table",
     "tabl" = "table",
     "table" = "table",
+    "thta" = "theta",
     "the" = "theta",
     "thet" = "theta",
     "theta" = "theta",
