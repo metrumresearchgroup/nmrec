@@ -149,6 +149,67 @@ test_that("set_theta() works: keep bounds", {
   }
 })
 
+test_that("set_theta() works: discard bounds", {
+  cases <- list(
+    list(
+      lines = "$theta (1,10,20) 2 3",
+      values = 4:6,
+      want = "$theta (4) 5 6"
+    ),
+    list(
+      lines = "$theta (1,10) 2 3",
+      values = 4:6,
+      want = "$theta (4) 5 6"
+    ),
+    list(
+      lines = "$theta (1,,10) 2 3",
+      values = 4:6,
+      want = "$theta (4) 5 6"
+    ),
+    list(
+      lines = "$theta (1,10 FIX) 2 3",
+      values = 4:6,
+      want = "$theta (4 FIX) 5 6"
+    ),
+    list(
+      lines = "$theta (1, ,20) 2 3",
+      values = 4:6,
+      want = "$theta (4) 5 6"
+    ),
+    list(
+      lines = "$theta (1, 10, 20) 2 3",
+      values = 4:6,
+      want = "$theta (4) 5 6"
+    ),
+    list(
+      lines = "$theta (1, 10 FIX) 2 3",
+      values = 4:6,
+      want = "$theta (4 FIX) 5 6"
+    ),
+    list(
+      lines = c(
+        "$theta (1, 2, 3)",
+        "$table time",
+        "$theta (4, 5, 6) (7, 8, 9)"
+      ),
+      values = c(20, NA, 80),
+      want = c(
+        "$theta (20)",
+        "$table time",
+        "$theta (4, 5, 6) (80)"
+      )
+    )
+  )
+  for (case in cases) {
+    ctl <- parse_ctl(c(prob_line, case$lines))
+    set_theta(ctl, case$values, bounds = "discard")
+    expect_identical(
+      format(ctl),
+      paste0(paste(c(prob_line, case$want), collapse = "\n"), "\n")
+    )
+  }
+})
+
 test_that("set_omega() works", {
   cases <- list(
     list(

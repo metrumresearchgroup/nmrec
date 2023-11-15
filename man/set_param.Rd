@@ -7,7 +7,7 @@
 \alias{set_sigma}
 \title{Set initial estimates in parameter records}
 \usage{
-set_theta(records, values, fmt = "\%.3G")
+set_theta(records, values, fmt = "\%.3G", bounds = c("keep", "discard"))
 
 set_omega(records, values, fmt = "\%.3G", representation = c("keep", "reset"))
 
@@ -32,6 +32,9 @@ Use \code{NA} in \code{values} to skip updating the corresponding option.}
 
 \item{fmt}{Convert each value to a string with this \code{\link[=sprintf]{sprintf()}} format
 specifier.}
+
+\item{bounds}{Whether to keep or discard the existing bounds when setting the
+initial estimates in THETA records.}
 
 \item{representation}{Whether to keep alternative representation options like
 SD and CORRELATION or reset to the default representation (variance and

@@ -53,6 +53,8 @@
 #'   (in the case of BLOCK records, where the option applies to all values in
 #'   the block) or for untouched _options_ (in the case of DIAGONAL records,
 #'   where the options apply to individual initial estimates).
+#' @param bounds Whether to keep or discard the existing bounds when setting the
+#'   initial estimates in THETA records.
 #'
 #' @seealso [set_record_option()] setting option by name.
 #' @examples
@@ -86,8 +88,22 @@
 
 #' @rdname set_param
 #' @export
-set_theta <- function(records, values, fmt = "%.3G") {
-  set_param(records, "theta", values, fmt)
+set_theta <- function(records, values, fmt = "%.3G",
+                      bounds = c("keep", "discard")) {
+  bounds <- rlang::arg_match(bounds)
+
+  res <- set_param(records, "theta", values, fmt)
+  if (identical(bounds, "discard")) {
+    details <- res[["pinfo"]][["details"]]
+    modified_records <- res[["modified_records"]]
+    modified_popts <- res[["modified_popts"]]
+    ridxs <- unique(modified_records[modified_records != 0])
+    for (ridx in ridxs) {
+      popts <- details[[ridx]][["popts"]]
+      oidxs <- unique(modified_popts[modified_records == ridx])
+      purrr::walk(popts[oidxs], theta_discard_bounds)
+    }
+  }
   return(invisible(NULL))
 }
 
@@ -255,6 +271,55 @@ param_add_init <- function(popt, init) {
     vals, option_pos$new("init", init),
     after = comma_idx - 1L
   )
+}
+
+theta_discard_bounds <- function(popt) {
+  vals <- popt$values
+
+  if (is.null(get_record_option_impl(vals, "init"))) {
+    bug(c("Option should have init at this point.", popt$format()))
+  }
+
+  has_low <- !is.null(get_record_option_impl(vals, "low"))
+  if (!has_low) {
+    return(NULL)
+  }
+
+  has_up <- !is.null(get_record_option_impl(vals, "up"))
+  drop_cw <- FALSE
+  lstr <- lstring$new()
+  for (v in vals) {
+    if (drop_cw) {
+      if (elem_is(v, c("comma", "whitespace"))) {
+        next
+      }
+      drop_cw <- FALSE
+    }
+
+    if (!inherits(v, "nmrec_option")) {
+      lstr$append(v)
+      next
+    }
+
+    name <- v[["name"]]
+    if (identical(name, "low")) {
+      drop_cw <- TRUE
+      next
+    }
+
+    if (identical(name, "init")) {
+      lstr$append(v)
+      drop_cw <- has_up
+      next
+    }
+
+    if (identical(name, "up")) {
+      next
+    }
+    lstr$append(v)
+  }
+
+  popt$values <- lstr$get_values()
 }
 
 #' Discard options that override the default variance/covariance representation
