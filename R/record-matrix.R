@@ -15,7 +15,6 @@ matrix_option_types <- list(
   "names" = option_type_value,
   "standard" = option_type_flag,
   "unint" = option_type_flag,
-  "values" = option_type_value,
   "variance" = option_type_flag
 )
 
@@ -63,13 +62,7 @@ matrix_option_names <- list2env(
     "covarian" = "covariance",
     "covarianc" = "covariance",
     "covariance" = "covariance",
-    "names" = "names",
-    "v" = "values",
-    "va" = "values",
-    "val" = "values",
-    "valu" = "values",
-    "value" = "values",
-    "values" = "values"
+    "names" = "names"
   ),
   parent = diag_option_names
 )

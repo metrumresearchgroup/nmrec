@@ -168,7 +168,50 @@ test_that("parse_omega_record() works", {
           elem_whitespace(" "),
           option_flag$new("fixed", "FIX"),
           elem_whitespace(" "),
-          option_value$new("values", "VAL", "(0.1,0.01)", sep = " "),
+          option_nested$new(
+            "omega",
+            values = list(
+              option_flag$new("values", "VAL"),
+              elem_whitespace(" "),
+              elem_paren_open(),
+              option_pos$new("diag", "0.1"),
+              elem_comma(),
+              option_pos$new("odiag", "0.01"),
+              elem_paren_close()
+            )
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$OMEGA block(4) values( 0.1 , 0.01 ) ; c",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new(
+            "block", "block", "(4)",
+            sep = ""
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(
+              option_flag$new("values", "values"),
+              elem_paren_open(),
+              elem_whitespace(" "),
+              option_pos$new("diag", "0.1"),
+              elem_whitespace(" "),
+              elem_comma(),
+              elem_whitespace(" "),
+              option_pos$new("odiag", "0.01"),
+              elem_whitespace(" "),
+              elem_paren_close()
+            )
+          ),
+          elem_whitespace(" "),
+          elem_comment("; c"),
           elem_linebreak()
         )
       )
