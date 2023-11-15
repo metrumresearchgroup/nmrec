@@ -116,9 +116,16 @@ set_param <- function(records, name, values) {
 
   if (length(values) != len_expected) {
     abort(
-      sprintf(
-        "Expected length of `values` to be %d, got %d.",
-        len_expected, length(values)
+      c(
+        sprintf(
+          "Expected length of `values` to be %d, got %d.",
+          len_expected, length(values)
+        ),
+        "i" = paste0(
+          "If you're using ", toupper(name), " records for priors, ",
+          "please switch to informative record names ",
+          "(such as THETAP and THETAPV)."
+        )
       ),
       nmrec_error()
     )
