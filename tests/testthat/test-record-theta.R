@@ -148,6 +148,26 @@ test_that("parse_theta_record() works", {
       )
     ),
     list(
+      input = "$THETA  (1, ,3)",
+      want = list(
+        values = list(
+          option_record_name$new("theta", "THETA"),
+          elem_whitespace("  "),
+          option_nested$new(
+            "theta",
+            values = list(
+              elem_paren_open(),
+              option_pos$new("low", "1"),
+              elem_comma(), elem_whitespace(" "), elem_comma(),
+              option_pos$new("up", "3"),
+              elem_paren_close()
+            )
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
       input = "$THETA (FIX 2)",
       want = list(
         values = list(

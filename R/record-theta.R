@@ -73,7 +73,7 @@ parse_theta_paren <- function(rp, lstr) {
       no_init <- identical(idx_val, 2L) &&
         rp$is("comma", pos = rp$idx_e + 1) ||
         (rp$is("whitespace", pos = rp$idx_e + 1) &&
-          rp$is("whitespace", pos = rp$idx_e + 2))
+          rp$is("comma", pos = rp$idx_e + 2))
       if (no_init) {
         idx_val <- idx_val + 1L
       }
