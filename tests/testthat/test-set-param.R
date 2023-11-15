@@ -38,6 +38,63 @@ test_that("set_theta() works", {
   }
 })
 
+test_that("set_{theta,omega,sigma}() support specifying value format", {
+  ctl <- parse_ctl(c(
+    prob_line,
+    "$theta 1 2 3",
+    "$omega 4 5 6",
+    "$sigma 7 8 9"
+  ))
+
+  theta <- 1230:1232 / 1e12
+  omega <- c(
+    1330,
+    NA, 1331,
+    NA, NA, 1332
+  )
+  omega <- omega / 1e12
+  sigma <- c(
+    1430,
+    NA, 1431,
+    NA, NA, 1432
+  )
+  sigma <- sigma / 1e12
+
+  set_theta(ctl, theta)
+  set_omega(ctl, omega)
+  set_sigma(ctl, sigma)
+
+  expect_identical(
+    format(ctl),
+    paste(
+      c(
+        prob_line,
+        "$theta 1.23E-09 1.23E-09 1.23E-09",
+        "$omega 1.33E-09 1.33E-09 1.33E-09",
+        "$sigma 1.43E-09 1.43E-09 1.43E-09\n"
+      ),
+      collapse = "\n"
+    )
+  )
+
+  set_theta(ctl, theta, fmt = "%.5G")
+  set_omega(ctl, omega, fmt = "%.5G")
+  set_sigma(ctl, sigma, fmt = "%.5G")
+
+  expect_identical(
+    format(ctl),
+    paste(
+      c(
+        prob_line,
+        "$theta 1.23E-09 1.231E-09 1.232E-09",
+        "$omega 1.33E-09 1.331E-09 1.332E-09",
+        "$sigma 1.43E-09 1.431E-09 1.432E-09\n"
+      ),
+      collapse = "\n"
+    )
+  )
+})
+
 test_that("set_theta() aborts on size mismatch", {
   ctl <- parse_ctl(c(prob_line, "$theta 1 2 3"))
   expect_error(set_theta(ctl, 1), "Expected length")

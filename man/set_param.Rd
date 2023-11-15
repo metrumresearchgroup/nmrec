@@ -7,11 +7,11 @@
 \alias{set_sigma}
 \title{Set initial estimates in parameter records}
 \usage{
-set_theta(records, values)
+set_theta(records, values, fmt = "\%.3G")
 
-set_omega(records, values)
+set_omega(records, values, fmt = "\%.3G")
 
-set_sigma(records, values)
+set_sigma(records, values, fmt = "\%.3G")
 }
 \arguments{
 \item{records}{An \link{nmrec_ctl_records} object.}
@@ -29,6 +29,9 @@ diagonal).
 }
 
 Use \code{NA} in \code{values} to skip updating the corresponding option.}
+
+\item{fmt}{Convert each value to a string with this \code{\link[=sprintf]{sprintf()}} format
+specifier.}
 }
 \description{
 \code{set_theta()}, \code{set_omega()}, and \code{set_sigma()} enable updating THETA, OMEGA,

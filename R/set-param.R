@@ -35,6 +35,8 @@
 #'      diagonal).
 #'
 #'   Use `NA` in `values` to skip updating the corresponding option.
+#' @param fmt Convert each value to a string with this [sprintf()] format
+#'   specifier.
 #'
 #' @seealso [set_record_option()] setting option by name.
 #' @examples
@@ -68,26 +70,26 @@
 
 #' @rdname set_param
 #' @export
-set_theta <- function(records, values) {
-  set_param(records, "theta", values)
+set_theta <- function(records, values, fmt = "%.3G") {
+  set_param(records, "theta", values, fmt)
   return(invisible(NULL))
 }
 
 #' @rdname set_param
 #' @export
-set_omega <- function(records, values) {
-  set_matrix("omega", records, values)
+set_omega <- function(records, values, fmt = "%.3G") {
+  set_matrix("omega", records, values, fmt)
   return(invisible(NULL))
 }
 
 #' @rdname set_param
 #' @export
-set_sigma <- function(records, values) {
-  set_matrix("sigma", records, values)
+set_sigma <- function(records, values, fmt = "%.3G") {
+  set_matrix("sigma", records, values, fmt)
   return(invisible(NULL))
 }
 
-set_matrix <- function(name, records, values) {
+set_matrix <- function(name, records, values, fmt) {
   ndim <- length(dim(values))
   if (ndim == 2) {
     if (nrow(values) != ncol(values)) {
@@ -101,11 +103,12 @@ set_matrix <- function(name, records, values) {
     )
   }
 
-  set_param(records, name, values)
+  set_param(records, name, values, fmt)
 }
 
-set_param <- function(records, name, values) {
+set_param <- function(records, name, values, fmt) {
   stopifnot(inherits(records, "nmrec_ctl_records"))
+  stopifnot(length(fmt) == 1, is.character(fmt), nzchar(fmt))
 
   pinfo <- create_param_index(records, name)
 
@@ -148,12 +151,12 @@ set_param <- function(records, name, values) {
   for (i in idxs_active) {
     key <- keys[i]
     res <- get(key, ltri_to_opt)
-    param_set_value(res[["opt"]], values[i])
+    param_set_value(res[["opt"]], values[i], fmt)
   }
 }
 
-param_set_value <- function(popt, value) {
-  value <- sprintf("%.3G", value)
+param_set_value <- function(popt, value, fmt) {
+  value <- sprintf(fmt, value)
   if (inherits(popt, "nmrec_option_nested")) {
     if (!identical(popt[["name"]], "theta")) {
       bug("Only theta values should be nmrec_option_nested.")
