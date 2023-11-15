@@ -9,9 +9,9 @@
 \usage{
 set_theta(records, values, fmt = "\%.3G")
 
-set_omega(records, values, fmt = "\%.3G")
+set_omega(records, values, fmt = "\%.3G", representation = c("keep", "reset"))
 
-set_sigma(records, values, fmt = "\%.3G")
+set_sigma(records, values, fmt = "\%.3G", representation = c("keep", "reset"))
 }
 \arguments{
 \item{records}{An \link{nmrec_ctl_records} object.}
@@ -32,6 +32,23 @@ Use \code{NA} in \code{values} to skip updating the corresponding option.}
 
 \item{fmt}{Convert each value to a string with this \code{\link[=sprintf]{sprintf()}} format
 specifier.}
+
+\item{representation}{Whether to keep alternative representation options like
+SD and CORRELATION or reset to the default representation (variance and
+covariance).
+
+For OMEGA and SIGMA records, NONMEM supports specifying diagonal and
+off-diagonal initial estimates in a different representation than the
+default, variance and covariance. If \code{values} are the final estimates from
+a previous NONMEM run, the alternative representation options should be
+discarded because NONMEM always outputs variances and covariances.
+
+\code{NA} values can lead to records and options being "untouched" (i.e. not
+overwritten with the value from \code{values}). Even when "reset" is
+specified, alternative options are not discarded for untouched \emph{records}
+(in the case of BLOCK records, where the option applies to all values in
+the block) or for untouched \emph{options} (in the case of DIAGONAL records,
+where the options apply to individual initial estimates).}
 }
 \description{
 \code{set_theta()}, \code{set_omega()}, and \code{set_sigma()} enable updating THETA, OMEGA,

@@ -37,6 +37,22 @@
 #'   Use `NA` in `values` to skip updating the corresponding option.
 #' @param fmt Convert each value to a string with this [sprintf()] format
 #'   specifier.
+#' @param representation Whether to keep alternative representation options like
+#'   SD and CORRELATION or reset to the default representation (variance and
+#'   covariance).
+#'
+#'   For OMEGA and SIGMA records, NONMEM supports specifying diagonal and
+#'   off-diagonal initial estimates in a different representation than the
+#'   default, variance and covariance. If `values` are the final estimates from
+#'   a previous NONMEM run, the alternative representation options should be
+#'   discarded because NONMEM always outputs variances and covariances.
+#'
+#'   `NA` values can lead to records and options being "untouched" (i.e. not
+#'   overwritten with the value from `values`). Even when "reset" is
+#'   specified, alternative options are not discarded for untouched _records_
+#'   (in the case of BLOCK records, where the option applies to all values in
+#'   the block) or for untouched _options_ (in the case of DIAGONAL records,
+#'   where the options apply to individual initial estimates).
 #'
 #' @seealso [set_record_option()] setting option by name.
 #' @examples
@@ -77,19 +93,23 @@ set_theta <- function(records, values, fmt = "%.3G") {
 
 #' @rdname set_param
 #' @export
-set_omega <- function(records, values, fmt = "%.3G") {
-  set_matrix("omega", records, values, fmt)
+set_omega <- function(records, values, fmt = "%.3G",
+                      representation = c("keep", "reset")) {
+  representation <- rlang::arg_match(representation)
+  set_matrix("omega", records, values, fmt, representation)
   return(invisible(NULL))
 }
 
 #' @rdname set_param
 #' @export
-set_sigma <- function(records, values, fmt = "%.3G") {
-  set_matrix("sigma", records, values, fmt)
+set_sigma <- function(records, values, fmt = "%.3G",
+                      representation = c("keep", "reset")) {
+  representation <- rlang::arg_match(representation)
+  set_matrix("sigma", records, values, fmt, representation)
   return(invisible(NULL))
 }
 
-set_matrix <- function(name, records, values, fmt) {
+set_matrix <- function(name, records, values, fmt, representation) {
   ndim <- length(dim(values))
   if (ndim == 2) {
     if (nrow(values) != ncol(values)) {
@@ -103,9 +123,41 @@ set_matrix <- function(name, records, values, fmt) {
     )
   }
 
-  set_param(records, name, values, fmt)
+  res <- set_param(records, name, values, fmt)
+  if (identical(representation, "reset")) {
+    pinfo <- res[["pinfo"]]
+    details <- pinfo[["details"]]
+    modified_records <- res[["modified_records"]]
+    modified_popts <- res[["modified_popts"]]
+    ridxs <- unique(modified_records[modified_records != 0])
+    for (ridx in ridxs) {
+      if (identical(details[[ridx]][["type"]], "diagonal")) {
+        # For diagonal, options like SD are attached to individual estimates.
+        popts <- details[[ridx]][["popts"]]
+        oidxs <- unique(modified_popts[modified_records == ridx])
+        purrr::walk(popts[oidxs], matrix_reset_var_covar)
+      } else {
+        # For block, options like SD apply to all values.
+        matrix_reset_var_covar(pinfo[["records"]][[ridx]])
+      }
+    }
+  }
 }
 
+#' Set initial estimates in the specified parameter records
+#'
+#' To support further actions on what was set, return a list with three items:
+#'
+#'   * pinfo: index information returned by `create_param_index()`
+#'
+#'   * modified_records: for each "set" call, the index the corresponding record
+#'     in pinfo
+#'
+#'   * modified_popts: for each "set" call, index of the corresponding popt in
+#'     the pinfo's popts list for a given record. (This value is only unique
+#'     when considered together with the modified_records value.)
+#'
+#' @noRd
 set_param <- function(records, name, values, fmt) {
   stopifnot(inherits(records, "nmrec_ctl_records"))
   stopifnot(length(fmt) == 1, is.character(fmt), nzchar(fmt))
@@ -148,11 +200,21 @@ set_param <- function(records, name, values, fmt) {
   }
 
   idxs_active <- idxs[is_explicit & !is_na]
+  record_idxs <- integer(length(idxs_active))
+  popt_idxs <- integer(length(idxs_active))
   for (i in idxs_active) {
     key <- keys[i]
     res <- get(key, ltri_to_opt)
     param_set_value(res[["opt"]], values[i], fmt)
+    record_idxs[i] <- res[["record_index"]]
+    popt_idxs[i] <- res[["popt_index"]]
   }
+
+  return(list(
+    pinfo = pinfo,
+    modified_records = record_idxs,
+    modified_popts = popt_idxs
+  ))
 }
 
 param_set_value <- function(popt, value, fmt) {
@@ -193,4 +255,36 @@ param_add_init <- function(popt, init) {
     vals, option_pos$new("init", init),
     after = comma_idx - 1L
   )
+}
+
+#' Discard options that override the default variance/covariance representation
+#'
+#' @param obj An object with a "values" field that has option and element
+#'   values.
+#'
+#' @noRd
+matrix_reset_var_covar <- function(obj) {
+  to_reset <- c(
+    "cholesky",
+    "correlation",
+    "standard"
+  )
+
+  lstr <- lstring$new()
+  drop_cw <- FALSE
+  # Go in reverse because it makes it easier to handle the leading spaces/comma.
+  for (v in rev(obj$values)) {
+    if (drop_cw) {
+      if (elem_is(v, c("comma", "whitespace"))) {
+        next
+      }
+      drop_cw <- FALSE
+    }
+    if (inherits(v, "nmrec_option_flag") && v[["name"]] %in% to_reset) {
+      drop_cw <- TRUE
+      next
+    }
+    lstr$append(v)
+  }
+  obj$values <- rev(lstr$get_values())
 }

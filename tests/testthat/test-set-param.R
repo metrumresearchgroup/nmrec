@@ -228,6 +228,119 @@ test_that("set_omega() works", {
   }
 })
 
+test_that("set_omega() resets to variance/covariance", {
+  cases <- list(
+    list(
+      lines = "$omega (1 SD) 2 3",
+      values = c(
+        4,
+        0, 5,
+        0, 0, 6
+      ),
+      want = "$omega (4) 5 6"
+    ),
+    list(
+      lines = "$omega 1 2 3 SD",
+      values = c(
+        4,
+        0, 5,
+        0, 0, 6
+      ),
+      want = "$omega 4 5 6"
+    ),
+    list(
+      lines = "$omega 1 2 SD 3 SD",
+      values = c(
+        4,
+        0, NA,
+        0, 0, 6
+      ),
+      want = "$omega 4 2 SD 6"
+    ),
+    list(
+      lines = c(
+        "$omega 1.1 SD 1.2",
+        "$table time",
+        "$omega BLOCK(2) CHO",
+        "2.1",
+        "2.2 3.3"
+      ),
+      values = c(
+        3,
+        0, 4,
+        0, 0, 5,
+        0, 0, 6, 7
+      ),
+      want = c(
+        "$omega 3 4",
+        "$table time",
+        "$omega BLOCK(2)",
+        "5",
+        "6 7"
+      )
+    ),
+    list(
+      lines = c(
+        "$omega 1.1 SD 1.2 SD",
+        "$table time",
+        "$omega BLOCK(2) SD CORR",
+        "2.1",
+        "2.2 2.3",
+        "$omega 3.3"
+      ),
+      values = c(
+        NA,
+        0, 4,
+        0, 0, 5,
+        0, 0, 6, NA,
+        0, 0, 0, 0, NA
+      ),
+      want = c(
+        "$omega 1.1 SD 4",
+        "$table time",
+        "$omega BLOCK(2)",
+        "5",
+        "6 2.3",
+        "$omega 3.3"
+      )
+    ),
+    list(
+      lines = c(
+        "$omega BLOCK(2), SD,CORR ; c",
+        "2.1",
+        "2.2 2.3"
+      ),
+      values = c(
+        4,
+        5, 6
+      ),
+      want = c(
+        "$omega BLOCK(2) ; c",
+        "4",
+        "5 6"
+      )
+    ),
+    list(
+      lines = "$omega BLOCK(3) SD VALUES(1,2)",
+      values = c(3, 4, 0, 0, 0, 0),
+      want = "$omega BLOCK(3) VALUES(3,4)"
+    ),
+    list(
+      lines = "$omega BLOCK(3) VALUES(1,2) SD",
+      values = c(3, 4, 0, 0, 0, 0),
+      want = "$omega BLOCK(3) VALUES(3,4)"
+    )
+  )
+  for (case in cases) {
+    ctl <- parse_ctl(c(prob_line, case$lines))
+    set_omega(ctl, case$values, representation = "reset")
+    expect_identical(
+      format(ctl),
+      paste0(paste(c(prob_line, case$want), collapse = "\n"), "\n")
+    )
+  }
+})
+
 test_that("set_omega() aborts: invalid values", {
   ctl <- parse_ctl(c(prob_line, "$omega block(2) 1 2 3"))
   expect_error(
@@ -260,8 +373,8 @@ test_that("set_{theta,omega}() abort: all NAs", {
 
 test_that("set_sigma() works", {
   # Note: The set_omega() tests above covers most the shared matrix logic.
-  ctl <- parse_ctl(c(prob_line, "$sigma block(2) 1 2 3"))
-  set_sigma(ctl, 4:6)
+  ctl <- parse_ctl(c(prob_line, "$sigma block(2) SD 1 2 3"))
+  set_sigma(ctl, 4:6, representation = "reset")
   expect_identical(
     format(ctl),
     "$prob p\n$sigma block(2) 4 5 6\n"
