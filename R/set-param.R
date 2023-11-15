@@ -319,7 +319,7 @@ theta_discard_bounds <- function(popt) {
     lstr$append(v)
   }
 
-  popt$values <- lstr$get_values()
+  popt$values <- param_maybe_drop_parens(lstr$get_values())
 }
 
 #' Discard options that override the default variance/covariance representation
@@ -351,5 +351,16 @@ matrix_reset_var_covar <- function(obj) {
     }
     lstr$append(v)
   }
-  obj$values <- rev(lstr$get_values())
+  obj$values <- param_maybe_drop_parens(rev(lstr$get_values()))
+}
+
+param_maybe_drop_parens <- function(values) {
+  is_alone <- length(values) == 3 &&
+    elem_is(values[[1]], "paren_open") &&
+    elem_is(values[[3]], "paren_close")
+  if (is_alone) {
+    values <- values[2]
+  }
+
+  return(values)
 }

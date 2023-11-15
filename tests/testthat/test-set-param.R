@@ -154,17 +154,17 @@ test_that("set_theta() works: discard bounds", {
     list(
       lines = "$theta (1,10,20) 2 3",
       values = 4:6,
-      want = "$theta (4) 5 6"
+      want = "$theta 4 5 6"
     ),
     list(
       lines = "$theta (1,10) 2 3",
       values = 4:6,
-      want = "$theta (4) 5 6"
+      want = "$theta 4 5 6"
     ),
     list(
       lines = "$theta (1,,10) 2 3",
       values = 4:6,
-      want = "$theta (4) 5 6"
+      want = "$theta 4 5 6"
     ),
     list(
       lines = "$theta (1,10 FIX) 2 3",
@@ -174,12 +174,12 @@ test_that("set_theta() works: discard bounds", {
     list(
       lines = "$theta (1, ,20) 2 3",
       values = 4:6,
-      want = "$theta (4) 5 6"
+      want = "$theta 4 5 6"
     ),
     list(
       lines = "$theta (1, 10, 20) 2 3",
       values = 4:6,
-      want = "$theta (4) 5 6"
+      want = "$theta 4 5 6"
     ),
     list(
       lines = "$theta (1, 10 FIX) 2 3",
@@ -194,9 +194,9 @@ test_that("set_theta() works: discard bounds", {
       ),
       values = c(20, NA, 80),
       want = c(
-        "$theta (20)",
+        "$theta 20",
         "$table time",
-        "$theta (4, 5, 6) (80)"
+        "$theta (4, 5, 6) 80"
       )
     )
   )
@@ -298,7 +298,7 @@ test_that("set_omega() resets to variance/covariance", {
         0, 5,
         0, 0, 6
       ),
-      want = "$omega (4) 5 6"
+      want = "$omega 4 5 6"
     ),
     list(
       lines = "$omega 1 2 3 SD",
