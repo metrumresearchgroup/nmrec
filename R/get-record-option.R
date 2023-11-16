@@ -16,7 +16,7 @@
 #'   is allowed.
 #' @return An [nmrec_option] object. `NULL` is returned if an option for `name`
 #'   is not found in `record`.
-#' @seealso [select_records()] selecting records of a given type.
+#' @seealso [select_records()] for selecting records of a given type.
 #' @examples
 #' ctl <- parse_ctl(nmrec_examples[["bayes1"]])
 #' ests <- select_records(ctl, "est")
