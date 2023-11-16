@@ -38,5 +38,5 @@ meth1$value
 
 }
 \seealso{
-\code{\link[=select_records]{select_records()}} selecting records of a given type.
+\code{\link[=select_records]{select_records()}} for selecting records of a given type.
 }

@@ -52,10 +52,10 @@ parse_matrix_diag_init <- function(name, rp) {
 #'
 #' @param rp `record_parser` object.
 #' @param opt_fn A function that consumes value options (e.g., "fixed"). This
-#'   will be called with `rp` and the current value `tstring` object. If parsing
+#'   will be called with `rp` and the current value `lstring` object. If parsing
 #'   a value outside of parentheses, this will be called once after parsing the
 #'   main value. If inside of parentheses, before parsing each main value.
-#' @return A `tstring` object.
+#' @return A `lstring` object.
 #' @noRd
 parse_matrix_init <- function(rp, opt_fn = NULL) {
   lstr <- lstring$new()
