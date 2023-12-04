@@ -53,7 +53,11 @@ test_that("get_record_option() supports matrix prefix options", {
 test_that("get_record_option() errors if more than one option is found", {
   ctl <- parse_ctl(get("a_uflg", envir = nmrec_examples))
   data <- select_records(ctl, "data")
-  expect_error(get_record_option(data[[1]], "ign"), class = "nmrec_error")
+  expect_error(
+    get_record_option(data[[1]], "ign"),
+    "ign option",
+    class = "nmrec_error",
+  )
 })
 
 test_that("get_record_option() returns NULL if no option is found", {

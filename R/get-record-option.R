@@ -37,24 +37,7 @@ get_record_option <- function(record, name) {
     name_resolved <- tolower(name)
   }
 
-  opts <- purrr::keep(record$values, function(x) {
-    inherits(x, "nmrec_option") && x[["name"]] == name_resolved
-  })
-
-  n_opts <- length(opts)
-  if (n_opts > 1) {
-    abort(
-      c(
-        sprintf("Record has more than one %s option", name),
-        purrr::map_chr(opts, format)
-      ),
-      nmrec_error()
-    )
-  } else if (!n_opts) {
-    return(NULL)
-  }
-
-  return(opts[[1]])
+  return(get_record_option_impl(record$values, name_resolved, name))
 }
 
 #' Resolve option name
@@ -88,4 +71,26 @@ resolve_option_name <- function(record, name) {
   }
 
   return(name_resolved)
+}
+
+get_record_option_impl <- function(values, name, name_error = name) {
+  opts <- purrr::keep(values, function(x) {
+    inherits(x, "nmrec_option") && x[["name"]] == name
+  })
+
+  n_opts <- length(opts)
+  if (n_opts > 1) {
+    abort(
+      c(
+        sprintf("Record has more than one %s option", name_error),
+        purrr::map_chr(opts, format)
+      ),
+      nmrec_error(),
+      call = rlang::caller_env()
+    )
+  } else if (!n_opts) {
+    return(NULL)
+  }
+
+  return(opts[[1]])
 }

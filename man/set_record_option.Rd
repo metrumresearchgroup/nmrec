@@ -29,5 +29,6 @@ ests[[1]]
 
 }
 \seealso{
+\link{set_param} for setting parameter options from values,
 \link{nmrec_option} for a description of option types
 }

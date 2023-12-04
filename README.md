@@ -30,12 +30,6 @@ without accounting for the many ways `$ESTIMATION` could be spelled
  * support parsing _within_ record types of interest, adding support
    for other record types as needed
 
-At this point, `nmrec` is focused on parsing records into objects that
-are very closely tied to the form in the control stream and that don't
-lose information.  In the future (and as needed), the plan is to add
-more convenience wrappers for working with these objects and helpers
-for getting things in and out of higher-level forms.
-
 
 ## Installation
 

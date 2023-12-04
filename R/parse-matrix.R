@@ -21,7 +21,10 @@ parse_matrix_block <- function(name, rp) {
     process_matrix_options(r, fail_on_unknown = FALSE)
     param_parse_label(r)
     process_matrix_options(r, fail_on_unknown = FALSE)
-    if (!r$done()) {
+    if (!rp$done() && startsWith("values", tolower(rp$current()))) {
+      parse_matrix_block_vpair(name, r)
+      process_matrix_options(r, fail_on_unknown = FALSE)
+    } else if (!r$done()) {
       parse_matrix_block_init(name, r)
       process_matrix_options(r, fail_on_unknown = FALSE)
     }
@@ -161,4 +164,48 @@ matrix_process_diag_option <- function(rp, lstr) {
   })
 
   return(invisible(rp))
+}
+
+#' Parse VALUES(diag,odiag) at current position
+#' @noRd
+parse_matrix_block_vpair <- function(name, rp) {
+  lstr <- lstring$new()
+
+  lstr$append(option_flag$new("values", rp$yank(), TRUE))
+  rp$gobble_one("whitespace", lstr = lstr)
+
+  if (!rp$is("paren_open")) {
+    abort(
+      c("Opening paren missing in 'VALUES(diag,odiag)'.", rp$format()),
+      nmrec_error("parse")
+    )
+  }
+  lstr$append(rp$yank())
+  rp$gobble_one("whitespace", lstr = lstr)
+
+  param_append_num_opt(lstr, "diag", rp$yank())
+  rp$gobble_one("whitespace", lstr = lstr)
+
+  if (!rp$is("comma")) {
+    abort(
+      c("Comma missing in 'VALUES(diag,odiag)'.", rp$format()),
+      nmrec_error("parse")
+    )
+  }
+  lstr$append(rp$yank())
+  rp$gobble_one("whitespace", lstr = lstr)
+
+  param_append_num_opt(lstr, "odiag", rp$yank())
+  rp$gobble_one("whitespace", lstr = lstr)
+
+  if (!rp$is("paren_close")) {
+    abort(
+      c("Closing paren missing in 'VALUES(diag,odiag)'.", rp$format()),
+      nmrec_error("parse")
+    )
+  }
+  lstr$append(rp$yank())
+
+  param_append(name, rp, lstr)
+  rp$gobble()
 }

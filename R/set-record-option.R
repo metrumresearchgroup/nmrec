@@ -10,7 +10,8 @@
 #' non-`NULL` value results in the name being included in the record. Passing
 #' `NULL` drops the option from the displayed record.
 #'
-#' @seealso [nmrec_option] for a description of option types
+#' @seealso [set_param] for setting parameter options from values,
+#'   [nmrec_option] for a description of option types
 #'
 #' @examples
 #' ctl <- parse_ctl(nmrec_examples[["bayes1"]])

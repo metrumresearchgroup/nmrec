@@ -23,6 +23,9 @@ reference:
 - title: Setting options
   contents:
     - set_record_option
+    - set_theta
+    - set_omega
+    - set_sigma
 
 - title: Primary objects
   contents:
