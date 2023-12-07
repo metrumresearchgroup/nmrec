@@ -11,3 +11,10 @@ test_that("select_records() works", {
   expect_length(thetas, 1)
   expect_s3_class(thetas[[1]], "nmrec_record_theta")
 })
+
+test_that("select_records() skips strings", {
+  ctl <- parse_ctl(c("$prob p", "$theta 1", "$omega 2"))
+  ctl$records[[2]] <- "$theta 3\n"
+  thetas <- select_records(ctl, "theta")
+  expect_identical(thetas, list())
+})
