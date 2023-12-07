@@ -520,3 +520,16 @@ test_that("omega records are combined", {
     paste0(paste0(lines, collapse = "\n"), "\n")
   )
 })
+
+test_that("parse_omega_record() aborts on invalid vpair", {
+  cases <- c(
+    "$OMEGA BLOCK(3) VALUES",
+    "$OMEGA BLOCK(3) VALUES(1)",
+    "$OMEGA BLOCK(3) VALUES(1,2"
+  )
+
+  for (case in cases) {
+    rec <- record_omega$new("omega", "OMEGA", case)
+    expect_error(rec$parse(), class = "nmrec_parse_error")
+  }
+})
