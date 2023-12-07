@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A library for reading records from a NONMEM control stream, parsing and modifying records of interest, and writing the result.
+An interface reading records from a NONMEM control stream, parsing and modifying records of interest, and writing the result.
 }
 \seealso{
 Useful links:
