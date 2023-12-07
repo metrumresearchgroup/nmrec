@@ -48,3 +48,9 @@ test_that("can modify control stream", {
     "$prob foo\n$est METHOD bayes niter=200\nprint=1\n"
   )
 })
+
+test_that("can insert string for a record", {
+  ctl <- parse_ctl(c("$prob p", "$theta 1", "$omega 2"))
+  ctl$records[[2]] <- "$theta 3\n"
+  expect_identical(format(ctl), "$prob p\n$theta 3\n$omega 2\n")
+})
