@@ -18,6 +18,20 @@ test_that("read_ctl() aborts if no records are found", {
   expect_error(read_ctl(empty_file), class = "nmrec_parse_error")
 })
 
+test_that("parse_ctl() aborts if input contains newlines", {
+  cases <- list(
+    "\n",
+    "$problem prob\n$theta\n1",
+    c("$problem prob", "\n"),
+    c("$problem prob", "$theta\n1")
+  )
+  for (case in cases) {
+    expect_error(parse_ctl(!!case), "must be split",
+      class = "nmrec_error"
+    )
+  }
+})
+
 test_that("parse_ctl() warns on unknown record", {
   cases <- list(
     c("$PROBLEM", "$FOO"),

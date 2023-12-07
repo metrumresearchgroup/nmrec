@@ -45,6 +45,10 @@ parse_ctl <- function(lines) {
     )
   }
 
+  if (any(grepl("\n", lines, fixed = TRUE))) {
+    abort("parse_ctl() input must be split on newlines.", nmrec_error())
+  }
+
   # ATTN: Hold off on vectorizing or otherwise optimizing until implementation
   # settles along with tests.
   beg_pos <- grep("^[ \t]*\\$[A-Za-z]", lines)
