@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nmrec</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
       </span>
     </div>
 
@@ -50,6 +50,21 @@
       <small>Source: <a href="https://github.com/metrumresearchgroup/nmrec/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3.0" id="nmrec-030">nmrec 0.3.0<a class="anchor" aria-label="anchor" href="#nmrec-030"></a></h2>
+<div class="section level3">
+<h3 id="new-features-and-changes-0-3-0">New features and changes<a class="anchor" aria-label="anchor" href="#new-features-and-changes-0-3-0"></a></h3>
+<ul><li><p>New functions <code><a href="../reference/set_param.html">set_theta()</a></code>, <code><a href="../reference/set_param.html">set_omega()</a></code>, and <code><a href="../reference/set_param.html">set_sigma()</a></code> provide an interface for setting the initial estimates of <code>$THETA</code>, <code>$OMEGA</code>, and <code>$SIGMA</code> records. (<a href="https://github.com/metrumresearchgroup/nmrec/issues/18" class="external-link">#18</a>)</p></li>
+<li><p>The <code>VALUES(diag,odiag)</code> option in <code>$OMEGA</code> and <code>$SIGMA</code> records used to be parsed into an option with the value “(diag,odiag)”. It is now parsed into a nested option that includes <code>diag</code> and <code>odiag</code> options, enabling <code>diag</code> and <code>odiag</code> to be more easily accessed and set. (<a href="https://github.com/metrumresearchgroup/nmrec/issues/18" class="external-link">#18</a>)</p></li>
+<li><p><code><a href="../reference/read_ctl.html">parse_ctl()</a></code> now checks whether any of the input lines have newline characters (which is invalid) and aborts. (<a href="https://github.com/metrumresearchgroup/nmrec/issues/21" class="external-link">#21</a>)</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-0"></a></h3>
+<ul><li><p><code>$THTA</code> was not recognized as an alias for <code>$THETA</code>. (<a href="https://github.com/metrumresearchgroup/nmrec/issues/17" class="external-link">#17</a>)</p></li>
+<li><p>For the <code>$THETA</code> form “(low,,up)”, the parser returned an option with <code>up</code> as the <code>init</code> value. (<a href="https://github.com/metrumresearchgroup/nmrec/issues/18" class="external-link">#18</a>)</p></li>
+<li><p>Users may insert a string for a record in the <code>records</code> list of <code>nmrec_ctl_records</code> objects, but <code><a href="../reference/select_records.html">select_records()</a></code> crashed on string values. It now skips strings. (<a href="https://github.com/metrumresearchgroup/nmrec/issues/22" class="external-link">#22</a>)</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.0" id="nmrec-020">nmrec 0.2.0<a class="anchor" aria-label="anchor" href="#nmrec-020"></a></h2>
 <div class="section level3">
