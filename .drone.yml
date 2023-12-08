@@ -223,4 +223,6 @@ trigger:
   - tag
 
 depends_on:
+- cran-latest
 - mpn-latest
+- mpn-latest-r40
