@@ -7,7 +7,7 @@
 \alias{extract_sigma}
 \title{Extract initial estimates from parameter records}
 \usage{
-extract_theta(records, mark_flags = NULL)
+extract_theta(records, mark_flags = NULL, type = c("init", "low", "up"))
 
 extract_omega(records, mark_flags = NULL)
 
@@ -28,9 +28,16 @@ linked to all values in the record (e.g., \code{FIXED} for a \code{THETA} or blo
 \code{OMEGA} record). In either case, the boolean vector or matrix is always the
 same shape as the return value.
 
+The same result will be returned regardless of \code{type}. For example, passing
+\code{mark_flags = "fix"} and \code{type = "up"} would yield \code{TRUE} for a \code{THETA}
+initial estimate of \verb{(1,2 FIX)}.
+
 The results are stored in a named list as the "nmrec_flags" attribute
 attached to the return value, with the names corresponding to the resolved
 flag names.}
+
+\item{type}{Which \code{THETA} value to return: initial estimate ("init", the
+default), the lower bound ("low"), or the upper bound ("up").}
 }
 \value{
 A vector (for \code{THETA}) or a square matrix (for \code{OMEGA} and \code{SIGMA}).
@@ -69,6 +76,7 @@ ctl <- parse_ctl(c(
   "0.01 0.01 0.1"
 ))
 extract_theta(ctl)
+extract_theta(ctl, type = "low")
 extract_theta(ctl, mark_flags = "fixed")
 
 extract_omega(ctl)

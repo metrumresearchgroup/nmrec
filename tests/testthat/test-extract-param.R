@@ -135,6 +135,62 @@ test_that("mark_flags errors aborts on unknown flags", {
   )
 })
 
+test_that("extract_theta(..., type = 'up') works", {
+  cases <- list(
+    list(
+      lines = "$theta 1 2 3",
+      want = c(NA_real_, NA_real_, NA_real_)
+    ),
+    list(
+      lines = "$theta (1.0 1.1 1.2) 2 (3.0, 3.1)",
+      want = c(1.2, NA_real_, NA_real_)
+    ),
+    list(
+      lines = "$theta 1 (2.0,,2.1) 3",
+      want = c(NA_real_, 2.1, NA_real_)
+    ),
+    list(
+      lines = "$theta (1.0,1.1,1.2)x3 4",
+      want = c(1.2, NA_real_, NA_real_, NA_real_)
+    )
+  )
+  for (case in cases) {
+    ctl <- parse_ctl(c(prob_line, case$lines))
+    expect_identical(
+      extract_theta(ctl, type = "up"),
+      case$want
+    )
+  }
+})
+
+test_that("extract_theta(..., type = 'low') works", {
+  cases <- list(
+    list(
+      lines = "$theta 1 2 3",
+      want = c(NA_real_, NA_real_, NA_real_)
+    ),
+    list(
+      lines = "$theta (1.0 1.1 1.2) 2 (3.0, 3.1)",
+      want = c(1.0, NA_real_, 3.0)
+    ),
+    list(
+      lines = "$theta 1 (2.0,,2.1) 3",
+      want = c(NA_real_, 2.0, NA_real_)
+    ),
+    list(
+      lines = "$theta (1.0,1.1,1.2)x3 4",
+      want = c(1.0, NA_real_, NA_real_, NA_real_)
+    )
+  )
+  for (case in cases) {
+    ctl <- parse_ctl(c(prob_line, case$lines))
+    expect_identical(
+      extract_theta(ctl, type = "low"),
+      case$want
+    )
+  }
+})
+
 test_that("extract_omega() works", {
   cases <- list(
     list(

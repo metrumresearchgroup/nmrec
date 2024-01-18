@@ -36,9 +36,15 @@
 #'   `OMEGA` record). In either case, the boolean vector or matrix is always the
 #'   same shape as the return value.
 #'
+#'   The same result will be returned regardless of `type`. For example, passing
+#'   `mark_flags = "fix"` and `type = "up"` would yield `TRUE` for a `THETA`
+#'   initial estimate of `(1,2 FIX)`.
+#'
 #'   The results are stored in a named list as the "nmrec_flags" attribute
 #'   attached to the return value, with the names corresponding to the resolved
 #'   flag names.
+#' @param type Which `THETA` value to return: initial estimate ("init", the
+#'   default), the lower bound ("low"), or the upper bound ("up").
 #' @return A vector (for `THETA`) or a square matrix (for `OMEGA` and `SIGMA`).
 #'   For matrix values, the upper triangle is always filled with `NA` values.
 #' @seealso [set_param] for setting parameter options from values
@@ -53,6 +59,7 @@
 #'   "0.01 0.01 0.1"
 #' ))
 #' extract_theta(ctl)
+#' extract_theta(ctl, type = "low")
 #' extract_theta(ctl, mark_flags = "fixed")
 #'
 #' extract_omega(ctl)
@@ -60,14 +67,21 @@
 
 #' @rdname extract_param
 #' @export
-extract_theta <- function(records, mark_flags = NULL) {
+extract_theta <- function(records, mark_flags = NULL,
+                          type = c("init", "low", "up")) {
+  type <- rlang::arg_match(type)
+
   flags <- NULL
   if (length(mark_flags)) {
     flags <- mark_flags_prepare(mark_flags, theta_option_names, theta_option_types)
   }
 
   pinfo <- create_param_index(records, "theta")
-  fn <- function(key) param_get_init(pinfo, key)
+  if (identical(type, "init")) {
+    fn <- function(key) param_get_init(pinfo, key)
+  } else {
+    fn <- function(key) param_get_bound(pinfo, key, type)
+  }
 
   size <- pinfo[["size"]]
   res <- param_fill(rep(NA_real_, size), fn)
@@ -186,6 +200,21 @@ param_get_init <- function(info, key) {
   opt <- ltri_to_opt[[key]][["opt"]]
   if (!is.null(opt) && opt$name %in% c("init", "diag", "odiag")) {
     return(as.numeric(opt$value))
+  }
+}
+
+param_get_bound <- function(info, key, type) {
+  opt_info <- info[["ltri_to_opt"]][[key]]
+  if (!is.null(opt_info)) {
+    ridx <- opt_info[["record_index"]]
+    pidx <- opt_info[["popt_index"]]
+
+    details <- info[["details"]]
+    popt <- details[[ridx]][["popts"]][[pidx]]
+    bound_opt <- get_record_option_impl(popt$values, type)
+    if (!is.null(bound_opt)) {
+      return(as.numeric(bound_opt$value))
+    }
   }
 }
 
