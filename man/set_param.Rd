@@ -20,7 +20,7 @@ set_sigma(records, values, fmt = "\%.3G", representation = c("keep", "reset"))
 these values. The length must match the full length defined by the
 combination of the parameter's records.
 
-For THETA, \code{values} must be a vector. For OMEGA and SIGMA, \code{values} can be
+For \code{THETA}, \code{values} must be a vector. For \code{OMEGA} and \code{SIGMA}, \code{values} can be
 \enumerate{
 \item the square matrix, in which case the values in the lower triangle
 (including the diagonal) are used
@@ -34,30 +34,30 @@ Use \code{NA} in \code{values} to skip updating the corresponding option.}
 specifier.}
 
 \item{bounds}{Whether to keep or discard the existing bounds when setting the
-initial estimates in THETA records.}
+initial estimates in \code{THETA} records.}
 
 \item{representation}{Whether to keep alternative representation options like
-SD and CORRELATION or reset to the default representation (variance and
+\code{SD} and \code{CORRELATION} or reset to the default representation (variance and
 covariance).
 
-For OMEGA and SIGMA records, NONMEM supports specifying diagonal and
+For \code{OMEGA} and \code{SIGMA} records, NONMEM supports specifying diagonal and
 off-diagonal initial estimates in a different representation than the
 default, variance and covariance. If \code{values} are the final estimates from
 a previous NONMEM run, the alternative representation options should be
 discarded because NONMEM always outputs variances and covariances.
 
 \code{NA} values can lead to records and options being "untouched" (i.e. not
-overwritten with the value from \code{values}). Even when "reset" is
-specified, alternative options are not discarded for untouched \emph{records}
-(in the case of BLOCK records, where the option applies to all values in
-the block) or for untouched \emph{options} (in the case of DIAGONAL records,
-where the options apply to individual initial estimates).}
+overwritten with the value from \code{values}). Even when "reset" is specified,
+alternative options are not discarded for untouched \emph{records} (in the case
+of BLOCK records, where the option applies to all values in the block) or
+for untouched \emph{options} (in the case of \code{DIAGONAL} records, where the
+options apply to individual initial estimates).}
 }
 \description{
-\code{set_theta()}, \code{set_omega()}, and \code{set_sigma()} enable updating THETA, OMEGA,
-and SIGMA records by specifying a full-length parameter vector or matrix.
-These functions handle mapping from the parameter space to the corresponding
-option.
+\code{set_theta()}, \code{set_omega()}, and \code{set_sigma()} enable updating \code{THETA},
+\code{OMEGA}, and \code{SIGMA} records by specifying a full-length parameter vector or
+matrix. These functions handle mapping from the parameter space to the
+corresponding option.
 }
 \details{
 \subsection{Constraints and limitations}{
@@ -72,7 +72,7 @@ initial estimates, but only the first explicitly appears. Calling
 by the parameter records.
 \item Using additional parameter records for priors is not supported and will
 lead to a size mismatch between the parameter and its records. Instead use
-informative prior record names (such as THETAP and THETAPV).
+informative prior record names (such as \code{THETAP} and \code{THETAPV}).
 }
 }
 }
