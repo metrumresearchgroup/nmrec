@@ -63,6 +63,109 @@ test_that("matrix_ltri_indices() works", {
   }
 })
 
+test_that("vector_to_matrix_ltri() works", {
+  cases <- list(
+    list(
+      input = 1,
+      n = 1,
+      want = matrix(1, nrow = 1, ncol = 1)
+    ),
+    list(
+      input = 1,
+      n = 1,
+      want = matrix(1, nrow = 1, ncol = 1)
+    ),
+    list(
+      input = c(1, 2, 4),
+      n = 2,
+      want = matrix(
+        c(
+          1, NA_real_,
+          2, 4
+        ),
+        nrow = 2, ncol = 2, byrow = TRUE
+      )
+    ),
+    list(
+      input = c(1, 2, 5, 3, 6, 9),
+      n = 3,
+      want = matrix(
+        c(
+          1, NA_real_, NA_real_,
+          2, 5, NA_real_,
+          3, 6, 9
+        ),
+        nrow = 3, ncol = 3, byrow = TRUE
+      )
+    )
+  )
+  for (case in cases) {
+    expect_identical(
+      vector_to_matrix_ltri(!!case$input, !!case$n),
+      case$want
+    )
+  }
+})
+
+test_that("vector_to_matrix_ltri() aborts on size mismatch", {
+  cases <- list(
+    list(
+      input = 1,
+      n = 2
+    ),
+    list(
+      input = c(1, 1),
+      n = 2
+    ),
+    list(
+      input = c(1, 1, 1),
+      n = 3
+    )
+  )
+  for (case in cases) {
+    expect_error(
+      vector_to_matrix_ltri(!!case$input, !!case$n),
+      class = "nmrec_error"
+    )
+  }
+})
+
+test_that("matrix -> vector -> matrix roundtrip", {
+  cases <- list(
+    list(input = 1, n = 1),
+    list(input = matrix(1, nrow = 1, ncol = 1), n = 1),
+    list(input = matrix(as.numeric(1:4), nrow = 2, ncol = 2), n = 2),
+    list(input = matrix(as.numeric(1:9), nrow = 3, ncol = 3), n = 3)
+  )
+  for (case in cases) {
+    mat <- as.matrix(case$input)
+    mat[upper.tri(mat, diag = FALSE)] <- NA
+    expect_identical(
+      vector_to_matrix_ltri(
+        matrix_ltri_to_vector(case$input),
+        n = case$n
+      ),
+      mat
+    )
+  }
+})
+
+test_that("vector -> matrix -> vector roundtrip", {
+  cases <- list(
+    list(input = 1, n = 1),
+    list(input = c(1, 2, 4), n = 2),
+    list(input = c(1, 20, 30, 400, 500, 600), n = 3)
+  )
+  for (case in cases) {
+    expect_identical(
+      matrix_ltri_to_vector(
+        vector_to_matrix_ltri(case$input, n = case$n)
+      ),
+      case$input
+    )
+  }
+})
+
 test_that("matrix_sub_diag() works", {
   expect_identical(
     matrix_sub_diag(as.matrix(1), 1, 1),

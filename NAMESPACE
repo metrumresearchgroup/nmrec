@@ -2,6 +2,9 @@
 
 S3method(format,nmrec_ctl_records)
 S3method(print,nmrec_ctl_records)
+export(extract_omega)
+export(extract_sigma)
+export(extract_theta)
 export(get_record_option)
 export(nmrec_examples)
 export(parse_ctl)

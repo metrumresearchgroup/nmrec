@@ -1,6 +1,6 @@
 Package: nmrec
 Title: Read, Parse, and Modify NONMEM Control Records
-Version: 0.3.0
+Version: 0.3.0.8000
 Authors@R:
     c(person(given = "Kyle",
              family = "Meyer",
@@ -18,7 +18,7 @@ Encoding: UTF-8
 URL: https://metrumresearchgroup.github.io/nmrec, https://github.com/metrumresearchgroup/nmrec
 BugReports: https://github.com/metrumresearchgroup/nmrec/issues
 Roxygen: list(markdown = TRUE, r6 = FALSE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Imports:
     purrr,
     R6,

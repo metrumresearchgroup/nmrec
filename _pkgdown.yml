@@ -19,6 +19,9 @@ reference:
   contents:
     - select_records
     - get_record_option
+    - extract_theta
+    - extract_omega
+    - extract_sigma
 
 - title: Setting options
   contents:
