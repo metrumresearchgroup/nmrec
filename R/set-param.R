@@ -56,7 +56,7 @@
 #' @param bounds Whether to keep or discard the existing bounds when setting the
 #'   initial estimates in THETA records.
 #'
-#' @seealso [set_record_option()] setting option by name.
+#' @seealso [set_record_option()] for setting option by name.
 #' @examples
 #' ctl <- parse_ctl(c(
 #'   "$PROBLEM ex",

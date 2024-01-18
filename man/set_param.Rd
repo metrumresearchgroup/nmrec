@@ -105,5 +105,5 @@ set_omega(ctl, new_omega)
 ctl
 }
 \seealso{
-\code{\link[=set_record_option]{set_record_option()}} setting option by name.
+\code{\link[=set_record_option]{set_record_option()}} for setting option by name.
 }
