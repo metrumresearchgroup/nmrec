@@ -1,9 +1,9 @@
 #' Set initial estimates in parameter records
 #'
-#' `set_theta()`, `set_omega()`, and `set_sigma()` enable updating THETA, OMEGA,
-#' and SIGMA records by specifying a full-length parameter vector or matrix.
-#' These functions handle mapping from the parameter space to the corresponding
-#' option.
+#' `set_theta()`, `set_omega()`, and `set_sigma()` enable updating `THETA`,
+#' `OMEGA`, and `SIGMA` records by specifying a full-length parameter vector or
+#' matrix. These functions handle mapping from the parameter space to the
+#' corresponding option.
 #'
 #' ## Constraints and limitations
 #'
@@ -19,14 +19,14 @@
 #'
 #'  * Using additional parameter records for priors is not supported and will
 #'    lead to a size mismatch between the parameter and its records. Instead use
-#'    informative prior record names (such as THETAP and THETAPV).
+#'    informative prior record names (such as `THETAP` and `THETAPV`).
 #'
 #' @param records An [nmrec_ctl_records] object.
 #' @param values Overwrite the parameter's initial estimates in `records` with
 #'   these values. The length must match the full length defined by the
 #'   combination of the parameter's records.
 #'
-#'   For THETA, `values` must be a vector. For OMEGA and SIGMA, `values` can be
+#'   For `THETA`, `values` must be a vector. For `OMEGA` and `SIGMA`, `values` can be
 #'
 #'   1) the square matrix, in which case the values in the lower triangle
 #'      (including the diagonal) are used
@@ -38,23 +38,23 @@
 #' @param fmt Convert each value to a string with this [sprintf()] format
 #'   specifier.
 #' @param representation Whether to keep alternative representation options like
-#'   SD and CORRELATION or reset to the default representation (variance and
+#'   `SD` and `CORRELATION` or reset to the default representation (variance and
 #'   covariance).
 #'
-#'   For OMEGA and SIGMA records, NONMEM supports specifying diagonal and
+#'   For `OMEGA` and `SIGMA` records, NONMEM supports specifying diagonal and
 #'   off-diagonal initial estimates in a different representation than the
 #'   default, variance and covariance. If `values` are the final estimates from
 #'   a previous NONMEM run, the alternative representation options should be
 #'   discarded because NONMEM always outputs variances and covariances.
 #'
 #'   `NA` values can lead to records and options being "untouched" (i.e. not
-#'   overwritten with the value from `values`). Even when "reset" is
-#'   specified, alternative options are not discarded for untouched _records_
-#'   (in the case of BLOCK records, where the option applies to all values in
-#'   the block) or for untouched _options_ (in the case of DIAGONAL records,
-#'   where the options apply to individual initial estimates).
+#'   overwritten with the value from `values`). Even when "reset" is specified,
+#'   alternative options are not discarded for untouched _records_ (in the case
+#'   of BLOCK records, where the option applies to all values in the block) or
+#'   for untouched _options_ (in the case of `DIAGONAL` records, where the
+#'   options apply to individual initial estimates).
 #' @param bounds Whether to keep or discard the existing bounds when setting the
-#'   initial estimates in THETA records.
+#'   initial estimates in `THETA` records.
 #'
 #' @seealso [set_record_option()] for setting option by name, [extract_param]
 #'   for getting a vector or matrix of initial estimates
