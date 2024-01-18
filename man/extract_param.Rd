@@ -7,14 +7,30 @@
 \alias{extract_sigma}
 \title{Extract initial estimates from parameter records}
 \usage{
-extract_theta(records)
+extract_theta(records, mark_flags = NULL)
 
-extract_omega(records)
+extract_omega(records, mark_flags = NULL)
 
-extract_sigma(records)
+extract_sigma(records, mark_flags = NULL)
 }
 \arguments{
 \item{records}{An \link{nmrec_ctl_records} object.}
+
+\item{mark_flags}{A vector of NONMEM flags (i.e. valueless options such as
+\code{FIXED} or \code{SD}). For each specified flag, construct a boolean vector (for
+\code{THETA}) or matrix (for \code{OMEGA} and \code{SIGMA}) indicating whether the flag is
+"active" for the value. Any valid spelling of the flag name is allowed.
+
+For example, passing a value of "fix" would indicate whether a \code{FIXED} flag
+is in effect for each value. The flag may be linked to an individual
+initial estimate (e.g., \code{FIXED} for a \code{THETA} or diagonal \code{OMEGA}record) or
+linked to all values in the record (e.g., \code{FIXED} for a \code{THETA} or block
+\code{OMEGA} record). In either case, the boolean vector or matrix is always the
+same shape as the return value.
+
+The results are stored in a named list as the "nmrec_flags" attribute
+attached to the return value, with the names corresponding to the resolved
+flag names.}
 }
 \value{
 A vector (for \code{THETA}) or a square matrix (for \code{OMEGA} and \code{SIGMA}).
@@ -53,6 +69,7 @@ ctl <- parse_ctl(c(
   "0.01 0.01 0.1"
 ))
 extract_theta(ctl)
+extract_theta(ctl, mark_flags = "fixed")
 
 extract_omega(ctl)
 }

@@ -24,6 +24,21 @@
 #'    (such as `THETAP` and `THETAPV`).
 #'
 #' @param records An [nmrec_ctl_records] object.
+#' @param mark_flags A vector of NONMEM flags (i.e. valueless options such as
+#'   `FIXED` or `SD`). For each specified flag, construct a boolean vector (for
+#'   `THETA`) or matrix (for `OMEGA` and `SIGMA`) indicating whether the flag is
+#'   "active" for the value. Any valid spelling of the flag name is allowed.
+#'
+#'   For example, passing a value of "fix" would indicate whether a `FIXED` flag
+#'   is in effect for each value. The flag may be linked to an individual
+#'   initial estimate (e.g., `FIXED` for a `THETA` or diagonal `OMEGA`record) or
+#'   linked to all values in the record (e.g., `FIXED` for a `THETA` or block
+#'   `OMEGA` record). In either case, the boolean vector or matrix is always the
+#'   same shape as the return value.
+#'
+#'   The results are stored in a named list as the "nmrec_flags" attribute
+#'   attached to the return value, with the names corresponding to the resolved
+#'   flag names.
 #' @return A vector (for `THETA`) or a square matrix (for `OMEGA` and `SIGMA`).
 #'   For matrix values, the upper triangle is always filled with `NA` values.
 #' @seealso [set_param] for setting parameter options from values
@@ -38,35 +53,56 @@
 #'   "0.01 0.01 0.1"
 #' ))
 #' extract_theta(ctl)
+#' extract_theta(ctl, mark_flags = "fixed")
 #'
 #' extract_omega(ctl)
 #' @name extract_param
 
 #' @rdname extract_param
 #' @export
-extract_theta <- function(records) {
+extract_theta <- function(records, mark_flags = NULL) {
+  flags <- NULL
+  if (length(mark_flags)) {
+    flags <- mark_flags_prepare(mark_flags, theta_option_names, theta_option_types)
+  }
+
   pinfo <- create_param_index(records, "theta")
   fn <- function(key) param_get_init(pinfo, key)
 
   size <- pinfo[["size"]]
   res <- param_fill(rep(NA_real_, size), fn)
 
+  if (length(flags)) {
+    flags <- purrr::map(flags, function(flag) {
+      param_fill(
+        rep(NA, size),
+        function(key) param_has_flag(pinfo, key, flag)
+      )
+    })
+    attr(res, "nmrec_flags") <- flags
+  }
+
   return(res)
 }
 
 #' @rdname extract_param
 #' @export
-extract_omega <- function(records) {
-  return(extract_matrix("omega", records))
+extract_omega <- function(records, mark_flags = NULL) {
+  return(extract_matrix("omega", records, mark_flags))
 }
 
 #' @rdname extract_param
 #' @export
-extract_sigma <- function(records) {
-  return(extract_matrix("sigma", records))
+extract_sigma <- function(records, mark_flags = NULL) {
+  return(extract_matrix("sigma", records, mark_flags))
 }
 
-extract_matrix <- function(name, records) {
+extract_matrix <- function(name, records, mark_flags) {
+  flags <- NULL
+  if (length(mark_flags)) {
+    flags <- mark_flags_prepare(mark_flags, matrix_option_names, matrix_option_types)
+  }
+
   pinfo <- create_param_index(records, name)
   size <- pinfo[["size"]]
   lsize <- matrix_ltri_size(size)
@@ -77,6 +113,52 @@ extract_matrix <- function(name, records) {
   )
   res <- vector_to_matrix_ltri(res, size)
 
+  if (length(flags)) {
+    attr(res, "nmrec_flags") <- purrr::map(flags, function(flag) {
+      vec <- param_fill(
+        rep(NA, lsize),
+        function(key) param_has_flag(pinfo, key, flag)
+      )
+      return(vector_to_matrix_ltri(vec, size))
+    })
+  }
+
+  return(res)
+}
+
+mark_flags_prepare <- function(flags, option_map, type_map) {
+  resolve <- function(option_map, type_map, name) {
+    found <- get0(tolower(name), option_map)
+    if (!(is.null(found) || identical(type_map[[found]], "flag"))) {
+      abort(
+        sprintf("'%s' is not a flag option.", name),
+        nmrec_error()
+      )
+    }
+    return(found)
+  }
+
+  res <- purrr::map(flags, function(x) {
+    resolve(option_map, type_map, x) %||%
+      param_get_value_option(x)
+  })
+
+  unknown <- purrr::map_lgl(res, is.null)
+  if (any(unknown)) {
+    abort(
+      c(
+        "`mark_flags` contains unknown flags.",
+        as.character(flags[unknown])
+      ),
+      nmrec_error()
+    )
+  }
+
+  # Assign names to get names on the purrr::map() results. It's tempting to use
+  # `flags` here so that the caller gets back the names as they specified them;
+  # that doesn't work well though because different records or parameter options
+  # may use different names (e.g., "$THETA 1 FIX 2 fix").
+  names(res) <- res
   return(res)
 }
 
