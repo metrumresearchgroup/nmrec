@@ -35,6 +35,31 @@ matrix_ltri_indices <- function(n) {
   return(t(x))
 }
 
+#' Reshape vector into lower triangle and diagonal of a square matrix
+#'
+#' @param x A vector of lower triangle and diagonal values in row-major order.
+#' @param n The number of columns (or rows) in the NxN matrix. This must align
+#'   with the number of values specified in `x` (e.g., 2 for an `x` with three
+#'   values).
+#'
+#'                   n=3       6 NA NA
+#'     6 5 4 3 2 1        =>   5  4 NA
+#'                             3  2  1
+#'
+#' @noRd
+vector_to_matrix_ltri <- function(x, n) {
+  idxs <- matrix_ltri_indices(n)
+  if (length(x) != sum(!is.na(idxs))) {
+    abort(
+      sprintf("x has unexpected length for %dx%d matrix: %d", n, n, length(x)),
+      nmrec_error()
+    )
+  }
+  m <- x[idxs]
+  dim(m) <- c(n, n)
+  return(m)
+}
+
 #' Subset diagonal of a square matrix
 #'
 #' @param x A square matrix.
