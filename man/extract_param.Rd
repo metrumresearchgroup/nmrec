@@ -60,8 +60,8 @@ estimates for \code{OMEGA} and \code{SIGMA} records.
 defined in the control stream. All other values are returned as \code{NA}. For
 example, a record of \verb{$THETA (1)x4} is returned as \code{c(1, NA, NA, NA)}.
 \item If additional parameter records are used for priors, those are included in
-the result. To avoid this, instead use informative prior record names
-(such as \code{THETAP} and \code{THETAPV}).
+the result. To avoid this, instead use more specific record names (such as
+\code{THETAP} and \code{THETAPV}).
 }
 }
 }
