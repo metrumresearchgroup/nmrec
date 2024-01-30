@@ -42,6 +42,10 @@ default), the lower bound ("low"), or the upper bound ("up").}
 \value{
 A vector (for \code{THETA}) or a square matrix (for \code{OMEGA} and \code{SIGMA}).
 For matrix values, the upper triangle is always filled with \code{NA} values.
+
+The "nmrec_record_size" attribute attached to the return value indicates
+the number of values that come from each record. For matrix results, the
+value corresponds to the size along the diagonal.
 }
 \description{
 Construct a numeric object from initial estimates defined by control stream

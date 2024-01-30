@@ -4,7 +4,10 @@ test_that("extract_theta() works", {
   cases <- list(
     list(
       lines = "$theta 1 2 3",
-      want = c(1, 2, 3)
+      want = structure(
+        c(1, 2, 3),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = c(
@@ -12,19 +15,31 @@ test_that("extract_theta() works", {
         "$omega 10",
         "$theta 4 5"
       ),
-      want = c(1, 2, 3, 4, 5)
+      want = structure(
+        c(1, 2, 3, 4, 5),
+        nmrec_record_size = c(3L, 2L)
+      )
     ),
     list(
       lines = "$theta (1.0 1.1 1.2) 2 (3.0, 3.1)",
-      want = c(1.1, 2, 3.1)
+      want = structure(
+        c(1.1, 2, 3.1),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta 1 (2.0,,2.1) 3",
-      want = c(1, NA_real_, 3)
+      want = structure(
+        c(1, NA_real_, 3),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta (1.0,1.1,1.2)x3 4",
-      want = c(1.1, NA_real_, NA_real_, 4)
+      want = structure(
+        c(1.1, NA_real_, NA_real_, 4),
+        nmrec_record_size = 4L
+      )
     )
   )
   for (case in cases) {
@@ -43,6 +58,7 @@ test_that("extract_theta(..., mark_flags = ...) works", {
       flags = "fix",
       want = structure(
         c(1, 2, 3),
+        nmrec_record_size = 3L,
         nmrec_flags = list(
           fixed = c(FALSE, FALSE, FALSE)
         )
@@ -57,6 +73,7 @@ test_that("extract_theta(..., mark_flags = ...) works", {
       flags = "fix",
       want = structure(
         c(1, 2, 3, 4, 5),
+        nmrec_record_size = c(3L, 2L),
         nmrec_flags = list(
           fixed = c(FALSE, FALSE, TRUE, FALSE, FALSE)
         )
@@ -67,6 +84,7 @@ test_that("extract_theta(..., mark_flags = ...) works", {
       flags = "fix",
       want = structure(
         c(1.1, 2, 3.1),
+        nmrec_record_size = 3L,
         nmrec_flags = list(
           fixed = c(TRUE, FALSE, TRUE)
         )
@@ -77,6 +95,7 @@ test_that("extract_theta(..., mark_flags = ...) works", {
       flags = "fix",
       want = structure(
         c(1, NA_real_, 3),
+        nmrec_record_size = 3L,
         nmrec_flags = list(
           fixed = c(TRUE, TRUE, FALSE)
         )
@@ -87,6 +106,7 @@ test_that("extract_theta(..., mark_flags = ...) works", {
       flags = c("fix", "uni"),
       want = structure(
         c(1.1, NA_real_, NA_real_, 4),
+        nmrec_record_size = 4L,
         nmrec_flags = list(
           fixed = c(TRUE, NA, NA, FALSE),
           unint = c(FALSE, NA, NA, TRUE)
@@ -147,19 +167,31 @@ test_that("extract_theta(..., type = 'up') works", {
   cases <- list(
     list(
       lines = "$theta 1 2 3",
-      want = c(NA_real_, NA_real_, NA_real_)
+      want = structure(
+        c(NA_real_, NA_real_, NA_real_),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta (1.0 1.1 1.2) 2 (3.0, 3.1)",
-      want = c(1.2, NA_real_, NA_real_)
+      want = structure(
+        c(1.2, NA_real_, NA_real_),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta 1 (2.0,,2.1) 3",
-      want = c(NA_real_, 2.1, NA_real_)
+      want = structure(
+        c(NA_real_, 2.1, NA_real_),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta (1.0,1.1,1.2)x3 4",
-      want = c(1.2, NA_real_, NA_real_, NA_real_)
+      want = structure(
+        c(1.2, NA_real_, NA_real_, NA_real_),
+        nmrec_record_size = 4L
+      )
     )
   )
   for (case in cases) {
@@ -175,19 +207,31 @@ test_that("extract_theta(..., type = 'low') works", {
   cases <- list(
     list(
       lines = "$theta 1 2 3",
-      want = c(NA_real_, NA_real_, NA_real_)
+      want = structure(
+        c(NA_real_, NA_real_, NA_real_),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta (1.0 1.1 1.2) 2 (3.0, 3.1)",
-      want = c(1.0, NA_real_, 3.0)
+      want = structure(
+        c(1.0, NA_real_, 3.0),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta 1 (2.0,,2.1) 3",
-      want = c(NA_real_, 2.0, NA_real_)
+      want = structure(
+        c(NA_real_, 2.0, NA_real_),
+        nmrec_record_size = 3L
+      )
     ),
     list(
       lines = "$theta (1.0,1.1,1.2)x3 4",
-      want = c(1.0, NA_real_, NA_real_, NA_real_)
+      want = structure(
+        c(1.0, NA_real_, NA_real_, NA_real_),
+        nmrec_record_size = 4L
+      )
     )
   )
   for (case in cases) {
@@ -203,12 +247,15 @@ test_that("extract_omega() works", {
   cases <- list(
     list(
       lines = "$omega 1 2",
-      want = matrix(
-        c(
-          1, NA_real_,
-          NA_real_, 2
+      want = structure(
+        matrix(
+          c(
+            1, NA_real_,
+            NA_real_, 2
+          ),
+          nrow = 2, ncol = 2, byrow = TRUE
         ),
-        nrow = 2, ncol = 2, byrow = TRUE
+        nmrec_record_size = 2L
       )
     ),
     list(
@@ -219,25 +266,31 @@ test_that("extract_omega() works", {
         "3",
         "0.1 4"
       ),
-      want = matrix(
-        c(
-          1, NA_real_, NA_real_, NA_real_,
-          NA_real_, 2, NA_real_, NA_real_,
-          NA_real_, NA_real_, 3, NA_real_,
-          NA_real_, NA_real_, 0.1, 4
+      want = structure(
+        matrix(
+          c(
+            1, NA_real_, NA_real_, NA_real_,
+            NA_real_, 2, NA_real_, NA_real_,
+            NA_real_, NA_real_, 3, NA_real_,
+            NA_real_, NA_real_, 0.1, 4
+          ),
+          nrow = 4, ncol = 4, byrow = TRUE
         ),
-        nrow = 4, ncol = 4, byrow = TRUE
+        nmrec_record_size = c(2L, 2L)
       )
     ),
     list(
       lines = "$omega block(3) VAL(1, 0.1)",
-      want = matrix(
-        c(
-          1, NA_real_, NA_real_,
-          0.1, NA_real_, NA_real_,
-          NA_real_, NA_real_, NA_real_
+      want = structure(
+        matrix(
+          c(
+            1, NA_real_, NA_real_,
+            0.1, NA_real_, NA_real_,
+            NA_real_, NA_real_, NA_real_
+          ),
+          nrow = 3, ncol = 3, byrow = TRUE
         ),
-        nrow = 3, ncol = 3, byrow = TRUE
+        nmrec_record_size = 3L
       )
     ),
     list(
@@ -248,14 +301,17 @@ test_that("extract_omega() works", {
         "$table TIME",
         "$OMEGA BLOCK(2) SAME"
       ),
-      want = matrix(
-        c(
-          1, NA_real_, NA_real_, NA_real_,
-          2, 3, NA_real_, NA_real_,
-          NA_real_, NA_real_, NA_real_, NA_real_,
-          NA_real_, NA_real_, NA_real_, NA_real_
+      want = structure(
+        matrix(
+          c(
+            1, NA_real_, NA_real_, NA_real_,
+            2, 3, NA_real_, NA_real_,
+            NA_real_, NA_real_, NA_real_, NA_real_,
+            NA_real_, NA_real_, NA_real_, NA_real_
+          ),
+          nrow = 4, ncol = 4, byrow = TRUE
         ),
-        nrow = 4, ncol = 4, byrow = TRUE
+        nmrec_record_size = c(2L, 2L)
       )
     )
   )
@@ -281,6 +337,7 @@ test_that("extract_omega(..., mark_flags = ...) works", {
           ),
           nrow = 2, ncol = 2, byrow = TRUE
         ),
+        nmrec_record_size = 2L,
         nmrec_flags = list(
           fixed = matrix(
             c(
@@ -307,6 +364,7 @@ test_that("extract_omega(..., mark_flags = ...) works", {
           ),
           nrow = 2, ncol = 2, byrow = TRUE
         ),
+        nmrec_record_size = 2L,
         nmrec_flags = list(
           fixed = matrix(
             c(
@@ -333,6 +391,7 @@ test_that("extract_omega(..., mark_flags = ...) works", {
           ),
           nrow = 2, ncol = 2, byrow = TRUE
         ),
+        nmrec_record_size = 2L,
         nmrec_flags = list(
           fixed = matrix(
             c(
@@ -370,6 +429,7 @@ test_that("extract_omega(..., mark_flags = ...) works", {
           ),
           nrow = 4, ncol = 4, byrow = TRUE
         ),
+        nmrec_record_size = c(2L, 2L),
         nmrec_flags = list(
           standard = matrix(
             c(
@@ -413,6 +473,7 @@ test_that("extract_omega(..., mark_flags = ...) works", {
           ),
           nrow = 3, ncol = 3, byrow = TRUE
         ),
+        nmrec_record_size = 3L,
         nmrec_flags = list(
           fixed = matrix(
             c(
@@ -448,6 +509,7 @@ test_that("extract_sigma() works", {
       ),
       nrow = 2, ncol = 2, byrow = TRUE
     ),
+    nmrec_record_size = 2L,
     nmrec_flags = list(
       fixed = matrix(
         c(
