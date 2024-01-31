@@ -47,6 +47,10 @@
 #'   default), the lower bound ("low"), or the upper bound ("up").
 #' @return A vector (for `THETA`) or a square matrix (for `OMEGA` and `SIGMA`).
 #'   For matrix values, the upper triangle is always filled with `NA` values.
+#'
+#'   The "nmrec_record_size" attribute attached to the return value indicates
+#'   the number of values that come from each record. For matrix results, the
+#'   value corresponds to the size along the diagonal.
 #' @seealso [set_param] for setting parameter options from values
 #' @examples
 #' ctl <- parse_ctl(c(
@@ -85,6 +89,7 @@ extract_theta <- function(records, mark_flags = NULL,
 
   size <- pinfo[["size"]]
   res <- param_fill(rep(NA_real_, size), fn)
+  attr(res, "nmrec_record_size") <- purrr::map_int(pinfo[["details"]], "size")
 
   if (length(flags)) {
     flags <- purrr::map(flags, function(flag) {
@@ -126,6 +131,7 @@ extract_matrix <- function(name, records, mark_flags) {
     function(key) param_get_init(pinfo, key)
   )
   res <- vector_to_matrix_ltri(res, size)
+  attr(res, "nmrec_record_size") <- purrr::map_int(pinfo[["details"]], "size")
 
   if (length(flags)) {
     attr(res, "nmrec_flags") <- purrr::map(flags, function(flag) {
