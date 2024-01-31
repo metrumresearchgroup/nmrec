@@ -19,7 +19,7 @@
 #'
 #'  * Using additional parameter records for priors is not supported and will
 #'    lead to a size mismatch between the parameter and its records. Instead use
-#'    informative prior record names (such as `THETAP` and `THETAPV`).
+#'    more specific record names (such as `THETAP` and `THETAPV`).
 #'
 #' @param records An [nmrec_ctl_records] object.
 #' @param values Overwrite the parameter's initial estimates in `records` with
@@ -195,7 +195,7 @@ set_param <- function(records, name, values, fmt) {
         ),
         "i" = paste0(
           "If you're using ", toupper(name), " records for priors, ",
-          "please switch to informative record names ",
+          "please switch to more specific record names ",
           "(such as THETAP and THETAPV)."
         )
       ),

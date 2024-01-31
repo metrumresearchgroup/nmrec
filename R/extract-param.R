@@ -20,8 +20,8 @@
 #'    example, a record of `$THETA (1)x4` is returned as `c(1, NA, NA, NA)`.
 #'
 #'  * If additional parameter records are used for priors, those are included in
-#'    the result. To avoid this, instead use informative prior record names
-#'    (such as `THETAP` and `THETAPV`).
+#'    the result. To avoid this, instead use more specific record names (such as
+#'    `THETAP` and `THETAPV`).
 #'
 #' @param records An [nmrec_ctl_records] object.
 #' @param mark_flags A vector of NONMEM flags (i.e. valueless options such as

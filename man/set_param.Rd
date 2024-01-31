@@ -72,7 +72,7 @@ initial estimates, but only the first explicitly appears. Calling
 by the parameter records.
 \item Using additional parameter records for priors is not supported and will
 lead to a size mismatch between the parameter and its records. Instead use
-informative prior record names (such as \code{THETAP} and \code{THETAPV}).
+more specific record names (such as \code{THETAP} and \code{THETAPV}).
 }
 }
 }
