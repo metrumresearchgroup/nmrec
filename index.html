@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">nmrec</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p><code>nmrec</code> is an R package for reading records from a NONMEM control stream, parsing and modifying records of interest, and writing the result.</p>
-<p>Its creation was prompted by several features in <a href="https://metrumresearchgroup.github.io/bbr" class="external-link">bbr</a> and <a href="https://metrumresearchgroup.github.io/bbr.bayes" class="external-link">bbr.bayes</a> that require modifying a NONMEM control stream. The purpose of <code>nmrec</code> is to free these package from worrying about many details of parsing. For example, <code>nmrec</code> allows grabbing an estimation record without accounting for the many ways <code>$ESTIMATION</code> could be spelled (<code>$EST</code>, <code>$ESTM</code>, or <code>$esti</code>, to name just a few).</p>
+<p>Its creation was prompted by several features in <a href="https://metrumresearchgroup.github.io/bbr" class="external-link">bbr</a> and <a href="https://metrumresearchgroup.github.io/bbr.bayes" class="external-link">bbr.bayes</a> that require modifying a NONMEM control stream. The purpose of <code>nmrec</code> is to free these packages from worrying about many details of parsing. For example, <code>nmrec</code> allows grabbing an estimation record without accounting for the many ways <code>$ESTIMATION</code> could be spelled (<code>$EST</code>, <code>$ESTM</code>, or <code>$esti</code>, to name just a few).</p>
 <p><code>nmrec</code> aims to</p>
 <ul>
 <li><p>stick as close to the NONMEM user guide specification as possible (e.g., support nearly all abbreviations and aliases for record names and options) and try to abort loudly when an unsupported case is hit</p></li>
