@@ -15,7 +15,7 @@ result.
 
 Its creation was prompted by several features in [bbr] and [bbr.bayes]
 that require modifying a NONMEM control stream.  The purpose of
-`nmrec` is to free these package from worrying about many details of
+`nmrec` is to free these packages from worrying about many details of
 parsing.  For example, `nmrec` allows grabbing an estimation record
 without accounting for the many ways `$ESTIMATION` could be spelled
 (`$EST`, `$ESTM`, or `$esti`, to name just a few).

@@ -1,3 +1,13 @@
+# nmrec 0.4.0
+
+## New features
+
+* New functions `extract_theta()`, `extract_omega()`, and
+  `extract_sigma()` provide an interface for extracting the initial
+  estimates of `$THETA`, `$OMEGA`, and `$SIGMA` records into numeric
+  objects.  (#30, #34)
+
+
 # nmrec 0.3.0
 
 ## New features and changes
