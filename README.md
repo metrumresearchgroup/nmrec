@@ -4,7 +4,7 @@
 
 <!-- badges: start -->
 
-[![Build Status](https://github-drone.metrumrg.com/api/badges/metrumresearchgroup/nmrec/status.svg)](https://github-drone.metrumrg.com/metrumresearchgroup/nmrec)
+[![Build Status](https://github.com/metrumresearchgroup/nmrec/actions/workflows/main.yaml/badge.svg)](https://github.com/metrumresearchgroup/nmrec/actions/workflows/main.yaml)
 <!-- badges: end -->
 
 ## Overview
