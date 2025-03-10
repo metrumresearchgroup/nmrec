@@ -144,6 +144,19 @@ test_that("parse_data_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$data foo.csv nofdata",
+      want = list(
+        values = list(
+          option_record_name$new("data", "data"),
+          elem_whitespace(" "),
+          option_pos$new("filename", value = "foo.csv"),
+          elem_whitespace(" "),
+          option_flag$new("nofdatacsv", name_raw = "nofdata"),
+          elem_linebreak()
+        )
+      )
     )
   )
 
