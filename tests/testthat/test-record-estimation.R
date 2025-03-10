@@ -36,6 +36,25 @@ test_that("parse_estimation_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$est maxeval=0 evalshrink 1",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "maxevals",
+            name_raw = "maxeval", value = "0", sep = "="
+          ),
+          elem_whitespace(" "),
+          option_value$new(
+            "evalshrink",
+            name_raw = "evalshrink", value = "1", sep = " "
+          ),
+          elem_linebreak()
+        )
+      )
     )
   )
 
