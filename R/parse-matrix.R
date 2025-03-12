@@ -20,15 +20,18 @@ parse_matrix_block <- function(name, rp) {
   rp$walk(function(r) {
     process_matrix_options(r, fail_on_unknown = FALSE)
     param_parse_label(r)
-    process_matrix_options(r, fail_on_unknown = FALSE)
-    if (!rp$done() && startsWith("values", tolower(rp$current()))) {
-      parse_matrix_block_vpair(name, r)
-      process_matrix_options(r, fail_on_unknown = FALSE)
-    } else if (!r$done()) {
+  })
+  if (!rp$done() && startsWith("values", tolower(rp$current()))) {
+    parse_matrix_block_vpair(name, rp)
+    process_matrix_options(rp, fail_on_unknown = FALSE)
+  } else if (!rp$done()) {
+    rp$walk(function(r) {
       parse_matrix_block_init(name, r)
       process_matrix_options(r, fail_on_unknown = FALSE)
-    }
-  })
+      param_parse_label(r)
+      process_matrix_options(r, fail_on_unknown = FALSE)
+    })
+  }
 }
 
 parse_matrix_block_init <- function(name, rp) {
