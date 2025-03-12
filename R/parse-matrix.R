@@ -10,7 +10,7 @@ parse_matrix_record <- function(name, rp) {
   rp$gobble()
 
   fn <- if (is_block) parse_matrix_block else parse_matrix_diag
-  rp$walk(purrr::partial(fn, name = name))
+  fn(name, rp)
   rp$assert_done()
 
   return(rp$get_values())
