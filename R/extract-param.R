@@ -126,6 +126,15 @@ extract_matrix <- function(name, records, mark_flags) {
   size <- pinfo[["size"]]
   lsize <- matrix_ltri_size(size)
 
+  for (rec in pinfo[["records"]]) {
+    if (matrix_has_scale_option(rec)) {
+      warning(
+        "SCALE option should be accounted for when working with raw values:\n",
+        rec$format()
+      )
+    }
+  }
+
   res <- param_fill(
     rep(NA_real_, lsize),
     function(key) param_get_init(pinfo, key)

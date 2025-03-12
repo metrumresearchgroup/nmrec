@@ -66,3 +66,9 @@ matrix_option_names <- list2env(
   ),
   parent = diag_option_names
 )
+
+matrix_has_scale_option <- function(record) {
+  purrr::some(record[["values"]], function(v) {
+    inherits(v, "nmrec_option_value") && identical(v[["name"]], "scale")
+  })
+}

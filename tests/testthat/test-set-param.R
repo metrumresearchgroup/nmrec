@@ -277,6 +277,21 @@ test_that("set_omega() works", {
         "$omega 2",
         "$omega BLOCK(3) VALUES(3, 1.3)"
       )
+    ),
+    # Note: There's no warning about SCALE here because the second record isn't
+    # touched by set_omega.
+    list(
+      lines = c(
+        "$omega 0.5 0.8 0.9",
+        "$omega sca(1.5) 0.1"
+      ),
+      values = c(
+        1,
+        0, NA,
+        0, 0, NA,
+        0, 0, 0, NA
+      ),
+      want = "$omega 1 0.8 0.9\n$omega sca(1.5) 0.1"
     )
   )
   for (case in cases) {
@@ -395,6 +410,45 @@ test_that("set_omega() resets to variance/covariance", {
   for (case in cases) {
     ctl <- parse_ctl(c(prob_line, case$lines))
     set_omega(ctl, case$values, representation = "reset")
+    expect_identical(
+      format(ctl),
+      paste0(paste(c(prob_line, case$want), collapse = "\n"), "\n")
+    )
+  }
+})
+
+test_that("set_omega() warns if SCALE is present", {
+  cases <- list(
+    list(
+      lines = "$omega 0.5 scale(2.0) 0.8 0.9 sca(1.5) 0.1",
+      values = c(
+        1,
+        0, NA,
+        0, 0, 3,
+        0, 0, 0, 4
+      ),
+      want = "$omega 1 scale(2.0) 0.8 3 sca(1.5) 4"
+    ),
+    list(
+      lines = c(
+        "$omega 0.5 0.8 0.9",
+        "$omega sca(1.5) 0.1"
+      ),
+      values = c(
+        NA,
+        0, NA,
+        0, 0, NA,
+        0, 0, 0, 2
+      ),
+      want = "$omega 0.5 0.8 0.9\n$omega sca(1.5) 2"
+    )
+  )
+  for (case in cases) {
+    ctl <- parse_ctl(c(prob_line, case$lines))
+    expect_warning(
+      set_omega(ctl, case$values, representation = "reset"),
+      "SCALE"
+    )
     expect_identical(
       format(ctl),
       paste0(paste(c(prob_line, case$want), collapse = "\n"), "\n")
