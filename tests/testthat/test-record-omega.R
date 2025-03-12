@@ -283,6 +283,35 @@ test_that("parse_omega_record() works", {
       )
     ),
     list(
+      input = "$OMEGA BLOCK(4) NAMES  (ECL, EV1, EQ,EV2) VALUES (0.1,0.01)",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(4)", sep = ""),
+          elem_whitespace(" "),
+          option_value$new(
+            "names",
+            name_raw = "NAMES", value = "(ECL, EV1, EQ,EV2)", sep = "  "
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(
+              option_flag$new("values", "VALUES"),
+              elem_whitespace(" "),
+              elem_paren_open(),
+              option_pos$new("diag", "0.1"),
+              elem_comma(),
+              option_pos$new("odiag", "0.01"),
+              elem_paren_close()
+            )
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
       input = c(
         "$OMEGA BLOCK(4)",
         "ECL=  0.1",
