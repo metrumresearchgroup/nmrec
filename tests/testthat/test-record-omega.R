@@ -439,6 +439,411 @@ test_that("parse_omega_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$OMEGA 0.5 0.7 SCALE(2.0) 0.8 0.9 sca(1.5) 0.1 0.2",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.5"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.7"))
+          ),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(2.0)", sep = ""),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.8"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.9"))
+          ),
+          elem_whitespace(" "),
+          option_value$new("scale", "sca", "(1.5)", sep = ""),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.1"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.2"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$OMEGA 0.5 0.7 fix SD SCALE(2.0) 0.8",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.5"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(
+              option_pos$new("init", "0.7"),
+              elem_whitespace(" "),
+              option_flag$new("fixed", "fix"),
+              elem_whitespace(" "),
+              option_flag$new("standard", "SD")
+            )
+          ),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(2.0)", sep = ""),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.8"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$OMEGA SCALE  ( 0.7  ) BLOCK(4) FIX VALUES(0.5,0.01)",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "( 0.7  )", sep = "  "),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(4)", sep = ""),
+          elem_whitespace(" "),
+          option_flag$new("fixed", "FIX"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(
+              option_flag$new("values", "VALUES"),
+              elem_paren_open(),
+              option_pos$new("diag", "0.5"),
+              elem_comma(),
+              option_pos$new("odiag", "0.01"),
+              elem_paren_close()
+            )
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$OMEGA SD SCALE(0.7) FIX BLOCK(4) VALUES(0.5,0.01)",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_flag$new("standard", "SD"),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(0.7)", sep = ""),
+          elem_whitespace(" "),
+          option_flag$new("fixed", "FIX"),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(4)", sep = ""),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(
+              option_flag$new("values", "VALUES"),
+              elem_paren_open(),
+              option_pos$new("diag", "0.5"),
+              elem_comma(),
+              option_pos$new("odiag", "0.01"),
+              elem_paren_close()
+            )
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = c(
+        "$OMEGA BLOCK(4) SCALE",
+        " (0.7) FIX VALUES(0.5,0.01)"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(4)", sep = ""),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(0.7)", sep = "\n "),
+          elem_whitespace(" "),
+          option_flag$new("fixed", "FIX"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(
+              option_flag$new("values", "VALUES"),
+              elem_paren_open(),
+              option_pos$new("diag", "0.5"),
+              elem_comma(),
+              option_pos$new("odiag", "0.01"),
+              elem_paren_close()
+            )
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = c(
+        "$OMEGA block(2) scale ; (2)",
+        "(3) 4 5 6"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("block", "block", "(2)", sep = ""),
+          elem_whitespace(" "),
+          option_value$new("scale", "scale", "(3)", sep = " ; (2)\n"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "4"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "5"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "6"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$OMEGA 0.1 scale= scale(3) 0.2",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.1"))
+          ),
+          elem_whitespace(" "),
+          option_pos$new("label", value = "scale="),
+          elem_whitespace(" "),
+          option_value$new("scale", "scale", "(3)", sep = ""),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.2"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$OMEGA 0.1 scale(3) scale= 0.2",
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.1"))
+          ),
+          elem_whitespace(" "),
+          option_value$new("scale", "scale", "(3)", sep = ""),
+          elem_whitespace(" "),
+          option_pos$new("label", value = "scale="),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.2"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = c(
+        "$OMEGA SCALE (0.7 ) BLOCK(4) FIX",
+        "0.5",
+        "0.01 0.5",
+        "SCALE(2.5)",
+        "0.02 0.02 SCALE(3.5) 0.003"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(0.7 )", sep = " "),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(4)", sep = ""),
+          elem_whitespace(" "),
+          option_flag$new("fixed", "FIX"),
+          elem_linebreak(),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.5"))
+          ),
+          elem_linebreak(),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.01"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.5"))
+          ),
+          elem_linebreak(),
+          option_value$new("scale", "SCALE", "(2.5)", sep = ""),
+          elem_linebreak(),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.02"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.02"))
+          ),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(3.5)", sep = ""),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.003"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = c(
+        "$OMEGA BLOCK(2) SCALE(2)",
+        "0.1",
+        "scale= scale(3) 0.02 0.3"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(2)", sep = ""),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(2)", sep = ""),
+          elem_linebreak(),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.1"))
+          ),
+          elem_linebreak(),
+          option_pos$new("label", value = "scale="),
+          elem_whitespace(" "),
+          option_value$new("scale", "scale", "(3)", sep = ""),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.02"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.3"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = c(
+        "$OMEGA BLOCK(2) SCALE(2)",
+        "0.1",
+        "scale(3) scale= 0.02 0.3"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(2)", sep = ""),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(2)", sep = ""),
+          elem_linebreak(),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.1"))
+          ),
+          elem_linebreak(),
+          option_value$new("scale", "scale", "(3)", sep = ""),
+          elem_whitespace(" "),
+          option_pos$new("label", value = "scale="),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.02"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.3"))
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = c(
+        "$OMEGA BLOCK(2) SCALE(2)",
+        "0.1",
+        "scale(3) FIX alabel= SD 0.02 0.3"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("omega", "OMEGA"),
+          elem_whitespace(" "),
+          option_value$new("block", "BLOCK", "(2)", sep = ""),
+          elem_whitespace(" "),
+          option_value$new("scale", "SCALE", "(2)", sep = ""),
+          elem_linebreak(),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.1"))
+          ),
+          elem_linebreak(),
+          option_value$new("scale", "scale", "(3)", sep = ""),
+          elem_whitespace(" "),
+          option_flag$new("fixed", "FIX"),
+          elem_whitespace(" "),
+          option_pos$new("label", value = "alabel="),
+          elem_whitespace(" "),
+          option_flag$new("standard", "SD"),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.02"))
+          ),
+          elem_whitespace(" "),
+          option_nested$new(
+            "omega",
+            values = list(option_pos$new("init", "0.3"))
+          ),
+          elem_linebreak()
+        )
+      )
     )
   )
 
@@ -526,6 +931,37 @@ test_that("parse_omega_record() aborts on invalid vpair", {
     "$OMEGA BLOCK(3) VALUES",
     "$OMEGA BLOCK(3) VALUES(1)",
     "$OMEGA BLOCK(3) VALUES(1,2"
+  )
+
+  for (case in cases) {
+    rec <- record_omega$new("omega", "OMEGA", case)
+    expect_error(rec$parse(), class = "nmrec_parse_error")
+  }
+})
+
+test_that("parse_omega_record() aborts on missing or incomplete scale value", {
+  cases <- list(
+    # no value
+    "$OMEGA SCALE 0.5 0.7",
+    "$OMEGA 0.5 SCALE 0.7",
+    "$OMEGA 0.5 0.7 SCALE",
+    # no closing paren
+    "$OMEGA SCALE(2.0 0.5 0.7",
+    "$OMEGA 0.5 SCALE(2.0 0.7",
+    "$OMEGA 0.5 0.7 SCALE(2.0"
+  )
+
+  for (case in cases) {
+    rec <- record_omega$new("omega", "OMEGA", case)
+    expect_error(rec$parse(), class = "nmrec_parse_error")
+  }
+})
+
+test_that("parse_omega_record() aborts if scale is inside init parens", {
+  cases <- list(
+    # NM-TRAN doesn't support these ("too many nested parentheses").
+    "$OMEGA 1 (fix 2 scale(0.2))",
+    "$OMEGA 1 (2 scale(0.2))"
   )
 
   for (case in cases) {
