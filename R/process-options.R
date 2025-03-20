@@ -84,6 +84,29 @@ parse_option_value <- function(rp, name, name_raw) {
   )
 }
 
+parse_format_option_value <- function(rp, name, name_raw) {
+  sep <- parse_option_sep(rp, name_raw)
+  if (rp$is("comma")) {
+    val <- rp$yank()
+    if (inherits(rp$current(), "nmrec_element")) {
+      abort(
+        c(
+          paste("Incomplete specification for", name_raw),
+          rp$format()
+        ),
+        nmrec_error("parse")
+      )
+    }
+    val <- paste0(val, rp$yank())
+  } else {
+    val <- rp$yank(fold_quoted = TRUE)
+  }
+
+  rp$append(
+    option_value$new(name, name_raw, value = val, sep = sep)
+  )
+}
+
 parse_option_sep <- function(rp, name_raw) {
   rp$assert_remaining()
 

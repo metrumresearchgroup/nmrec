@@ -131,6 +131,62 @@ test_that("parse_table_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$table num format=,1PE11.4",
+      want = list(
+        values = list(
+          option_record_name$new("table", "table"),
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "num"),
+          elem_whitespace(" "),
+          option_value$new("format", name_raw = "format", value = ",1PE11.4"),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$table num format,1PE11.4 file=a",
+      want = list(
+        values = list(
+          option_record_name$new("table", "table"),
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "num"),
+          elem_whitespace(" "),
+          option_value$new("format", name_raw = "format", sep = "", value = ",1PE11.4"),
+          elem_whitespace(" "),
+          option_value$new("file", name_raw = "file", value = "a"),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$table num format ,1PE11.4 file=a",
+      want = list(
+        values = list(
+          option_record_name$new("table", "table"),
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "num"),
+          elem_whitespace(" "),
+          option_value$new("format", name_raw = "format", sep = " ", value = ",1PE11.4"),
+          elem_whitespace(" "),
+          option_value$new("file", name_raw = "file", value = "a"),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$table num format=,1PE15.8:160",
+      want = list(
+        values = list(
+          option_record_name$new("table", "table"),
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "num"),
+          elem_whitespace(" "),
+          option_value$new("format", name_raw = "format", sep = "=", value = ",1PE15.8:160"),
+          elem_linebreak()
+        )
+      )
     )
   )
 

@@ -14,7 +14,8 @@ parse_table_record <- function() {
   # WRESCHOL/NPDTYPE options, not list1 elements, so don't guard this next call.
   process_options(
     rp, table_option_types, table_option_names,
-    fail_on_unknown = FALSE
+    fail_on_unknown = FALSE,
+    value_fns = list("format" = parse_format_option_value)
   )
 
   saw_list1 <- FALSE
@@ -55,7 +56,8 @@ parse_table_record <- function() {
     rp$gobble()
     process_options(
       rp, table_option_types, table_option_names,
-      fail_on_unknown = FALSE
+      fail_on_unknown = FALSE,
+      value_fns = list("format" = parse_format_option_value)
     )
   }
   rp$assert_done()
