@@ -18,7 +18,7 @@ Encoding: UTF-8
 URL: https://metrumresearchgroup.github.io/nmrec, https://github.com/metrumresearchgroup/nmrec
 BugReports: https://github.com/metrumresearchgroup/nmrec/issues
 Roxygen: list(markdown = TRUE, r6 = FALSE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports:
     purrr,
     R6,
