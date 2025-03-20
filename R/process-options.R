@@ -20,10 +20,18 @@
 #' @param fail_on_unknown Whether to signal an error if an unknown option is
 #'   encountered. In either case, processing is halted with `rp$idx_e`
 #'   positioned at the unknown name.
+#' @param value_fns A list where each entry maps a normalized option name to a
+#'   function that provides tailored parsing of the option's value. The function
+#'   is called with three arguments: the `record_parser` object, the normalized
+#'   option name, and the raw option name. When called, the idx_e field of the
+#'   record parser object points to the element after the option name. The
+#'   function is responsible for appending a new `option_value` item to the
+#'   object's `lstr`, moving `idx_e` as appropriate.
 #' @noRd
 process_options <- function(rp,
                             option_types, option_names,
-                            fail_on_unknown = TRUE) {
+                            fail_on_unknown = TRUE,
+                            value_fns = NULL) {
   rp$gobble()
   while (!rp$done()) {
     opt_raw <- rp$current()
@@ -51,7 +59,8 @@ process_options <- function(rp,
       rp$append(option_flag$new(opt, opt_raw, TRUE))
       rp$gobble()
     } else if (identical(kind, "value")) {
-      parse_option_value(rp, opt, opt_raw)
+      value_fn <- value_fns[[opt]] %||% parse_option_value
+      value_fn(rp, opt, opt_raw)
       rp$gobble()
     } else {
       bug(paste("Unrecognized type for", opt))
