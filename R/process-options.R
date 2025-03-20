@@ -83,11 +83,19 @@ parse_option_sep <- function(rp, name_raw) {
   rp$assert_remaining()
 
   beg <- rp$idx_e
-  idx_sep <- purrr::detect_index(
+  eol <- purrr::detect_index(
     rp$elems[beg:rp$n_elems],
+    function(x) elem_is(x, c("ampersand", "linebreak", "semicolon"))
+  )
+  if (identical(eol, 0L)) {
+    bug("Record must end with linebreak element.")
+  }
+
+  idx <- purrr::detect_index(
+    rp$elems[beg:(beg + eol)],
     function(x) !elem_is(x, c("whitespace", "equal_sign"))
   )
-  if (idx_sep < 2) {
+  if (identical(idx, 0L) || idx == eol) {
     abort(
       c(
         paste("Missing value for", name_raw),
@@ -96,7 +104,12 @@ parse_option_sep <- function(rp, name_raw) {
       nmrec_error("parse")
     )
   }
-  sep <- rp$yank_to(beg + idx_sep - 2)
+
+  if (idx > 1) {
+    sep <- rp$yank_to(rp$idx_e + idx - 2)
+  } else {
+    sep <- ""
+  }
 
   return(sep)
 }

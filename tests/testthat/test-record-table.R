@@ -118,6 +118,19 @@ test_that("parse_table_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$table id file'foo'",
+      want = list(
+        values = list(
+          option_record_name$new("table", "table"),
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "id"),
+          elem_whitespace(" "),
+          option_value$new("file", name_raw = "file", sep = "", value = "'foo'"),
+          elem_linebreak()
+        )
+      )
     )
   )
 
