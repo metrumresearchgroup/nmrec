@@ -1,3 +1,19 @@
+# nmrec 0.5.0
+
+## New features
+
+* Add support for options introduced by NONMEM 7.6: `NOFDATACSV`
+  (`$DATA`), `EVALSHRINK` (`$ESTIMATION`), and `SCALE` (`$OMEGA` and
+  `$SIGMA`).  (#44, #46)
+
+## Bug fixes
+
+* When parsing `$ESTIMATION` and `$TABLE` records, a comma at the
+  start of an unquoted `FORMAT` value was incorrectly treated as an
+  option delimiter, leading to a parse error despite a valid
+  specification.  (#47)
+
+
 # nmrec 0.4.0
 
 ## New features
