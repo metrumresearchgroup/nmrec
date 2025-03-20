@@ -62,18 +62,14 @@ process_options <- function(rp,
 }
 
 parse_option_value <- function(rp, name, name_raw) {
+  sep <- parse_option_sep(rp, name_raw)
   if (rp$is("paren_open")) {
-    sep <- ""
-  } else {
-    sep <- parse_option_sep(rp, name_raw)
-  }
-
-  end <- rp$find_closing_paren()
-  if (!identical(end, 0L)) {
+    end <- rp$find_closing_paren()
     val <- rp$yank_to(end)
   } else {
     val <- rp$yank(fold_quoted = TRUE)
   }
+
   rp$append(
     option_value$new(name, name_raw, value = val, sep = sep)
   )
