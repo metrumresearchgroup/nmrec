@@ -65,21 +65,7 @@ parse_option_value <- function(rp, name, name_raw) {
   if (rp$is("paren_open")) {
     sep <- ""
   } else {
-    beg <- rp$idx_e
-    idx_sep <- purrr::detect_index(
-      rp$elems[beg:rp$n_elems],
-      function(x) !elem_is(x, c("whitespace", "equal_sign"))
-    )
-    if (idx_sep < 2) {
-      abort(
-        c(
-          paste("Missing value for", name_raw),
-          rp$format()
-        ),
-        nmrec_error("parse")
-      )
-    }
-    sep <- rp$yank_to(beg + idx_sep - 2)
+    sep <- parse_option_sep(rp, name_raw)
   }
 
   end <- rp$find_closing_paren()
@@ -91,6 +77,26 @@ parse_option_value <- function(rp, name, name_raw) {
   rp$append(
     option_value$new(name, name_raw, value = val, sep = sep)
   )
+}
+
+parse_option_sep <- function(rp, name_raw) {
+  beg <- rp$idx_e
+  idx_sep <- purrr::detect_index(
+    rp$elems[beg:rp$n_elems],
+    function(x) !elem_is(x, c("whitespace", "equal_sign"))
+  )
+  if (idx_sep < 2) {
+    abort(
+      c(
+        paste("Missing value for", name_raw),
+        rp$format()
+      ),
+      nmrec_error("parse")
+    )
+  }
+  sep <- rp$yank_to(beg + idx_sep - 2)
+
+  return(sep)
 }
 
 resolve_option <- function(x, option_names) {
