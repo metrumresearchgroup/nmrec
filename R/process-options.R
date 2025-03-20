@@ -51,35 +51,7 @@ process_options <- function(rp,
       rp$append(option_flag$new(opt, opt_raw, TRUE))
       rp$gobble()
     } else if (identical(kind, "value")) {
-      if (rp$is("paren_open")) {
-        sep <- ""
-      } else {
-        beg <- rp$idx_e
-        idx_sep <- purrr::detect_index(
-          rp$elems[beg:rp$n_elems],
-          function(x) !elem_is(x, c("whitespace", "equal_sign"))
-        )
-        if (idx_sep < 2) {
-          abort(
-            c(
-              paste("Missing value for", opt_raw),
-              rp$format()
-            ),
-            nmrec_error("parse")
-          )
-        }
-        sep <- rp$yank_to(beg + idx_sep - 2)
-      }
-
-      end <- rp$find_closing_paren()
-      if (!identical(end, 0L)) {
-        val <- rp$yank_to(end)
-      } else {
-        val <- rp$yank(fold_quoted = TRUE)
-      }
-      rp$append(
-        option_value$new(opt, opt_raw, value = val, sep = sep)
-      )
+      parse_option_value(rp, opt, opt_raw)
       rp$gobble()
     } else {
       bug(paste("Unrecognized type for", opt))
@@ -87,6 +59,38 @@ process_options <- function(rp,
   }
 
   return(invisible(rp))
+}
+
+parse_option_value <- function(rp, name, name_raw) {
+  if (rp$is("paren_open")) {
+    sep <- ""
+  } else {
+    beg <- rp$idx_e
+    idx_sep <- purrr::detect_index(
+      rp$elems[beg:rp$n_elems],
+      function(x) !elem_is(x, c("whitespace", "equal_sign"))
+    )
+    if (idx_sep < 2) {
+      abort(
+        c(
+          paste("Missing value for", name_raw),
+          rp$format()
+        ),
+        nmrec_error("parse")
+      )
+    }
+    sep <- rp$yank_to(beg + idx_sep - 2)
+  }
+
+  end <- rp$find_closing_paren()
+  if (!identical(end, 0L)) {
+    val <- rp$yank_to(end)
+  } else {
+    val <- rp$yank(fold_quoted = TRUE)
+  }
+  rp$append(
+    option_value$new(name, name_raw, value = val, sep = sep)
+  )
 }
 
 resolve_option <- function(x, option_names) {
