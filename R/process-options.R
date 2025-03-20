@@ -80,6 +80,8 @@ parse_option_value <- function(rp, name, name_raw) {
 }
 
 parse_option_sep <- function(rp, name_raw) {
+  rp$assert_remaining()
+
   beg <- rp$idx_e
   idx_sep <- purrr::detect_index(
     rp$elems[beg:rp$n_elems],
