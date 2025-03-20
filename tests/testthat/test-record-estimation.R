@@ -55,6 +55,44 @@ test_that("parse_estimation_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$est meth 1 format =,1PE12.5",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth", value = "1", sep = " "
+          ),
+          elem_whitespace(" "),
+          option_value$new(
+            "format",
+            name_raw = "format", value = ",1PE12.5", sep = " ="
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$est meth 1 delim=,1PE12.5",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth", value = "1", sep = " "
+          ),
+          elem_whitespace(" "),
+          option_value$new(
+            "format",
+            name_raw = "delim", value = ",1PE12.5", sep = "="
+          ),
+          elem_linebreak()
+        )
+      )
     )
   )
 

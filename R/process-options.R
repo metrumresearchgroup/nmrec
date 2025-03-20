@@ -20,10 +20,18 @@
 #' @param fail_on_unknown Whether to signal an error if an unknown option is
 #'   encountered. In either case, processing is halted with `rp$idx_e`
 #'   positioned at the unknown name.
+#' @param value_fns A list where each entry maps a normalized option name to a
+#'   function that provides tailored parsing of the option's value. The function
+#'   is called with three arguments: the `record_parser` object, the normalized
+#'   option name, and the raw option name. When called, the idx_e field of the
+#'   record parser object points to the element after the option name. The
+#'   function is responsible for appending a new `option_value` item to the
+#'   object's `lstr`, moving `idx_e` as appropriate.
 #' @noRd
 process_options <- function(rp,
                             option_types, option_names,
-                            fail_on_unknown = TRUE) {
+                            fail_on_unknown = TRUE,
+                            value_fns = NULL) {
   rp$gobble()
   while (!rp$done()) {
     opt_raw <- rp$current()
@@ -51,35 +59,8 @@ process_options <- function(rp,
       rp$append(option_flag$new(opt, opt_raw, TRUE))
       rp$gobble()
     } else if (identical(kind, "value")) {
-      if (rp$is("paren_open")) {
-        sep <- ""
-      } else {
-        beg <- rp$idx_e
-        idx_sep <- purrr::detect_index(
-          rp$elems[beg:rp$n_elems],
-          function(x) !elem_is(x, c("whitespace", "equal_sign"))
-        )
-        if (idx_sep < 2) {
-          abort(
-            c(
-              paste("Missing value for", opt_raw),
-              rp$format()
-            ),
-            nmrec_error("parse")
-          )
-        }
-        sep <- rp$yank_to(beg + idx_sep - 2)
-      }
-
-      end <- rp$find_closing_paren()
-      if (!identical(end, 0L)) {
-        val <- rp$yank_to(end)
-      } else {
-        val <- rp$yank(fold_quoted = TRUE)
-      }
-      rp$append(
-        option_value$new(opt, opt_raw, value = val, sep = sep)
-      )
+      value_fn <- value_fns[[opt]] %||% parse_option_value
+      value_fn(rp, opt, opt_raw)
       rp$gobble()
     } else {
       bug(paste("Unrecognized type for", opt))
@@ -87,6 +68,78 @@ process_options <- function(rp,
   }
 
   return(invisible(rp))
+}
+
+parse_option_value <- function(rp, name, name_raw) {
+  sep <- parse_option_sep(rp, name_raw)
+  if (rp$is("paren_open")) {
+    end <- rp$find_closing_paren()
+    val <- rp$yank_to(end)
+  } else {
+    val <- rp$yank(fold_quoted = TRUE)
+  }
+
+  rp$append(
+    option_value$new(name, name_raw, value = val, sep = sep)
+  )
+}
+
+parse_format_option_value <- function(rp, name, name_raw) {
+  sep <- parse_option_sep(rp, name_raw)
+  if (rp$is("comma")) {
+    val <- rp$yank()
+    if (inherits(rp$current(), "nmrec_element")) {
+      abort(
+        c(
+          paste("Incomplete specification for", name_raw),
+          rp$format()
+        ),
+        nmrec_error("parse")
+      )
+    }
+    val <- paste0(val, rp$yank())
+  } else {
+    val <- rp$yank(fold_quoted = TRUE)
+  }
+
+  rp$append(
+    option_value$new(name, name_raw, value = val, sep = sep)
+  )
+}
+
+parse_option_sep <- function(rp, name_raw) {
+  rp$assert_remaining()
+
+  beg <- rp$idx_e
+  eol <- purrr::detect_index(
+    rp$elems[beg:rp$n_elems],
+    function(x) elem_is(x, c("ampersand", "linebreak", "semicolon"))
+  )
+  if (identical(eol, 0L)) {
+    bug("Record must end with linebreak element.")
+  }
+
+  idx <- purrr::detect_index(
+    rp$elems[beg:(beg + eol)],
+    function(x) !elem_is(x, c("whitespace", "equal_sign"))
+  )
+  if (identical(idx, 0L) || idx == eol) {
+    abort(
+      c(
+        paste("Missing value for", name_raw),
+        rp$format()
+      ),
+      nmrec_error("parse")
+    )
+  }
+
+  if (idx > 1) {
+    sep <- rp$yank_to(rp$idx_e + idx - 2)
+  } else {
+    sep <- ""
+  }
+
+  return(sep)
 }
 
 resolve_option <- function(x, option_names) {

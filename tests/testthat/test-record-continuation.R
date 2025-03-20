@@ -75,6 +75,31 @@ test_that("continuation is parsed correctly", {
     list(
       record_type = "table",
       input = c(
+        "$table ID format=,1PE15.8:160& ;",
+        "       firsto"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("table", "table"),
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "ID"),
+          elem_whitespace(" "),
+          option_value$new(
+            "format",
+            name_raw = "format", value = ",1PE15.8:160&"
+          ),
+          elem_whitespace(" "),
+          elem_comment(";"),
+          elem_linebreak(),
+          elem_whitespace("       "),
+          option_flag$new("firstonly", name_raw = "firsto", value = TRUE),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      record_type = "table",
+      input = c(
         "$table ID file='foo bar'&",
         "       firsto"
       ),
