@@ -4,13 +4,18 @@ parse_matrix_record <- function(name, rp) {
   })
 
   if (is_block) {
-    process_matrix_options(rp, fail_on_unknown = FALSE)
+    rp$walk(function(r) {
+      # ^ Do inside a walk() call because the order isn't specified and SCALE
+      # may be interspersed between other options.
+      process_matrix_options(r, fail_on_unknown = FALSE)
+      parse_matrix_scale(r)
+    })
   }
   matrix_process_prefix_option(rp)
   rp$gobble()
 
   fn <- if (is_block) parse_matrix_block else parse_matrix_diag
-  rp$walk(purrr::partial(fn, name = name))
+  fn(name, rp)
   rp$assert_done()
 
   return(rp$get_values())
@@ -20,15 +25,25 @@ parse_matrix_block <- function(name, rp) {
   rp$walk(function(r) {
     process_matrix_options(r, fail_on_unknown = FALSE)
     param_parse_label(r)
-    process_matrix_options(r, fail_on_unknown = FALSE)
-    if (!rp$done() && startsWith("values", tolower(rp$current()))) {
-      parse_matrix_block_vpair(name, r)
-      process_matrix_options(r, fail_on_unknown = FALSE)
-    } else if (!r$done()) {
-      parse_matrix_block_init(name, r)
-      process_matrix_options(r, fail_on_unknown = FALSE)
-    }
+    r$gobble_one("whitespace")
+    parse_matrix_scale(r)
   })
+  if (!rp$done() && startsWith("values", tolower(rp$current()))) {
+    parse_matrix_block_vpair(name, rp)
+    process_matrix_options(rp, fail_on_unknown = FALSE)
+  } else if (!rp$done()) {
+    rp$walk(function(r) {
+      parse_matrix_block_init(name, r)
+      rp$walk(function(rr) {
+        # ^ This inner walk() allows the items to be in any order, including
+        # interspersed.
+        process_matrix_options(rr, fail_on_unknown = FALSE)
+        param_parse_label(rr)
+        rr$gobble_one("whitespace")
+        parse_matrix_scale(rr)
+      })
+    })
+  }
 }
 
 parse_matrix_block_init <- function(name, rp) {
@@ -37,8 +52,13 @@ parse_matrix_block_init <- function(name, rp) {
 
 parse_matrix_diag <- function(name, rp) {
   rp$walk(function(r) {
-    param_parse_label(r)
-    r$gobble_one("whitespace")
+    rp$walk(function(rr) {
+      # ^ This inner walk() allows the items to be in any order, including
+      # interspersed.
+      param_parse_label(rr)
+      rr$gobble_one("whitespace")
+      parse_matrix_scale(rr)
+    })
     parse_matrix_diag_init(name, r)
     r$gobble()
   })
@@ -207,5 +227,46 @@ parse_matrix_block_vpair <- function(name, rp) {
   lstr$append(rp$yank())
 
   param_append(name, rp, lstr)
+  rp$gobble()
+}
+
+parse_matrix_scale <- function(rp) {
+  if (rp$done()) {
+    return(NULL)
+  }
+
+  opt_raw <- rp$current()
+  if (!tolower(opt_raw) %in% c("sca", "scal", "scale")) {
+    return(NULL)
+  }
+  if (rp$is("equal_sign", pos = rp$idx_e + 1)) {
+    # This is a label, not the SCALE option.
+    return(NULL)
+  }
+
+  rp$tick_e()
+
+  if (rp$is("paren_open")) {
+    sep <- ""
+  } else {
+    lstr <- lstring$new()
+    rp$gobble(lstr)
+    if (!rp$is("paren_open")) {
+      abort(
+        c("SCALE option lacks value:", rp$format()),
+        nmrec_error("parse")
+      )
+    }
+    sep <- lstr$format()
+  }
+
+  end <- rp$find_closing_paren("linebreak")
+  rp$append(
+    option_value$new(
+      "scale", opt_raw,
+      value = rp$yank_to(end), sep = sep
+    )
+  )
+
   rp$gobble()
 }

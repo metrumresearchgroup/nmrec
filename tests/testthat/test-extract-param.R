@@ -529,3 +529,54 @@ test_that("extract_sigma() works", {
   )
   expect_identical(got, want)
 })
+
+test_that("extract_omega() warns about SCALE", {
+  cases <- list(
+    list(
+      lines = "$omega 0.5 scale(2.0) 0.8 0.9 sca(1.5) 0.1",
+      want = structure(
+        matrix(
+          c(
+            0.5, NA_real_, NA_real_, NA_real_,
+            NA_real_, 0.8, NA_real_, NA_real_,
+            NA_real_, NA_real_, 0.9, NA_real_,
+            NA_real_, NA_real_, NA_real_, 0.1
+          ),
+          nrow = 4, ncol = 4, byrow = TRUE
+        ),
+        nmrec_record_size = 4L
+      )
+    ),
+    list(
+      lines = c(
+        "$omega scale(3) block (2)",
+        "0.1",
+        "0.01 0.2",
+        "$omega block(2) same"
+      ),
+      want = structure(
+        matrix(
+          c(
+            0.1, NA_real_, NA_real_, NA_real_,
+            0.01, 0.2, NA_real_, NA_real_,
+            NA_real_, NA_real_, NA_real_, NA_real_,
+            NA_real_, NA_real_, NA_real_, NA_real_
+          ),
+          nrow = 4, ncol = 4, byrow = TRUE
+        ),
+        nmrec_record_size = c(2L, 2L)
+      )
+    )
+  )
+  for (case in cases) {
+    ctl <- parse_ctl(c(prob_line, case$lines))
+    want <- case$want
+    expect_warning(
+      expect_identical(
+        extract_omega(ctl),
+        case$want
+      ),
+      "SCALE"
+    )
+  }
+})

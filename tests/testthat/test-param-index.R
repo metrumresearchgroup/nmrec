@@ -559,6 +559,65 @@ test_that("create_param_index() works: matrix", {
           )
         )
       )
+    ),
+    list(
+      lines = c(
+        "$OMEGA SCALE(1.5) BLOCK(2)",
+        "1",
+        "2 SCALE(2.5) 3"
+      ),
+      want = list(
+        details = list(
+          list(
+            type = "block",
+            subtype = "plain",
+            size = 2L
+          )
+        ),
+        size = 2L,
+        ltri_to_opt = list(
+          p1 = list(
+            opt = option_pos$new("init", "1"),
+            popt_index = 1L,
+            record_index = 1L
+          ),
+          p2 = list(
+            opt = option_pos$new("init", "2"),
+            popt_index = 2L,
+            record_index = 1L
+          ),
+          p3 = list(
+            opt = option_pos$new("init", "3"),
+            popt_index = 3L,
+            record_index = 1L
+          )
+        )
+      )
+    ),
+    list(
+      lines = "$OMEGA (1)x2 SCALE (0.5) 3",
+      want = list(
+        details = list(
+          list(
+            type = "diagonal",
+            subtype = "implicit",
+            size = 3L
+          )
+        ),
+        size = 3L,
+        ltri_to_opt = list(
+          p1 = list(
+            opt = option_pos$new("init", "1"),
+            popt_index = 1L,
+            record_index = 1L
+          ),
+          p6 = list(
+            opt = option_pos$new("init", "3"),
+            popt_index = 2L,
+            record_index = 1L
+          )
+        )
+      )
     )
   )
 

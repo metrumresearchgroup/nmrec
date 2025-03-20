@@ -148,6 +148,14 @@ set_matrix <- function(name, records, values, fmt, representation) {
     modified_popts <- res[["modified_popts"]]
     ridxs <- unique(modified_records[modified_records != 0])
     for (ridx in ridxs) {
+      rec <- pinfo[["records"]][[ridx]]
+      if (matrix_has_scale_option(rec)) {
+        warning(
+          "Result may be unexpected because record has SCALE option:\n",
+          rec$format()
+        )
+      }
+
       if (identical(details[[ridx]][["type"]], "diagonal")) {
         # For diagonal, options like SD are attached to individual estimates.
         popts <- details[[ridx]][["popts"]]
@@ -155,7 +163,7 @@ set_matrix <- function(name, records, values, fmt, representation) {
         purrr::walk(popts[oidxs], matrix_reset_var_covar)
       } else {
         # For block, options like SD apply to all values.
-        matrix_reset_var_covar(pinfo[["records"]][[ridx]])
+        matrix_reset_var_covar(rec)
       }
     }
   }
