@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nmrec</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -47,9 +47,20 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/metrumresearchgroup/nmrec/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/metrumresearchgroup/nmrec/blob/0.5.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.5.0" id="nmrec-050">nmrec 0.5.0<a class="anchor" aria-label="anchor" href="#nmrec-050"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-5-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h3>
+<ul><li>Add support for options introduced by NONMEM 7.6: <code>NOFDATACSV</code> (<code>$DATA</code>), <code>EVALSHRINK</code> (<code>$ESTIMATION</code>), and <code>SCALE</code> (<code>$OMEGA</code> and <code>$SIGMA</code>). (<a href="https://github.com/metrumresearchgroup/nmrec/issues/44" class="external-link">#44</a>, <a href="https://github.com/metrumresearchgroup/nmrec/issues/46" class="external-link">#46</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-5-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-0"></a></h3>
+<ul><li>When parsing <code>$ESTIMATION</code> and <code>$TABLE</code> records, a comma at the start of an unquoted <code>FORMAT</code> value was incorrectly treated as an option delimiter, leading to a parse error despite a valid specification. (<a href="https://github.com/metrumresearchgroup/nmrec/issues/47" class="external-link">#47</a>)</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.0" id="nmrec-040">nmrec 0.4.0<a class="anchor" aria-label="anchor" href="#nmrec-040"></a></h2>
 <div class="section level3">
