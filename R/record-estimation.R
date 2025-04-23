@@ -1,7 +1,9 @@
 parse_estimation_record <- function() {
   rp <- record_parser$new("estimation", private$name_raw, private$lines)
   process_options(
-    rp, estimation_option_types, estimation_option_names,
+    rp,
+    estimation_option_types,
+    estimation_option_names,
     value_fns = list("format" = parse_format_option_value)
   )
   rp$assert_done()

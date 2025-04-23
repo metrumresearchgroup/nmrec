@@ -13,7 +13,9 @@ parse_table_record <- function() {
   # Based on NM-TRAN testing, a leading WRES/NPD is treated as the
   # WRESCHOL/NPDTYPE options, not list1 elements, so don't guard this next call.
   process_options(
-    rp, table_option_types, table_option_names,
+    rp,
+    table_option_types,
+    table_option_names,
     fail_on_unknown = FALSE,
     value_fns = list("format" = parse_format_option_value)
   )
@@ -55,7 +57,9 @@ parse_table_record <- function() {
     rp$append(option_pos$new(what, value = rp$yank_to(pos)))
     rp$gobble()
     process_options(
-      rp, table_option_types, table_option_names,
+      rp,
+      table_option_types,
+      table_option_names,
       fail_on_unknown = FALSE,
       value_fns = list("format" = parse_format_option_value)
     )

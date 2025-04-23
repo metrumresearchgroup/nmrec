@@ -40,7 +40,9 @@ param_parse_x <- function(rp, lstr) {
       lstr$append(
         option_value$new(
           "x",
-          name_raw = xname, value = xval, sep = sep
+          name_raw = xname,
+          value = xval,
+          sep = sep
         )
       )
     } else if (isTRUE(grepl("^x[0-9]+$", xcand, ignore.case = TRUE))) {
@@ -49,7 +51,9 @@ param_parse_x <- function(rp, lstr) {
       lstr$append(
         option_value$new(
           "x",
-          name_raw = xname, value = xval, sep = ""
+          name_raw = xname,
+          value = xval,
+          sep = ""
         )
       )
       rp$tick_e()
@@ -66,7 +70,8 @@ param_append_num_opt <- function(lstr, name, value) {
     abort(
       sprintf(
         "Expected numeric value for %s, got %s",
-        name, deparse_string(value)
+        name,
+        deparse_string(value)
       ),
       nmrec_error("parse")
     )

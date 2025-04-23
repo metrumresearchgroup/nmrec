@@ -37,16 +37,19 @@ test_that("matrix_ltri_indices() works", {
     list(
       input = 2,
       want = matrix(
+        # fmt: skip
         c(
           1L, NA_integer_,
           2L, 3L
         ),
-        nrow = 2, byrow = TRUE
+        nrow = 2,
+        byrow = TRUE
       )
     ),
     list(
       input = 5,
       want = matrix(
+        # fmt: skip
         c(
           1L, NA_integer_, NA_integer_, NA_integer_, NA_integer_,
           2L, 3L, NA_integer_, NA_integer_, NA_integer_,
@@ -54,7 +57,8 @@ test_that("matrix_ltri_indices() works", {
           7L, 8L, 9L, 10L, NA_integer_,
           11L, 12L, 13L, 14L, 15L
         ),
-        nrow = 5, byrow = TRUE
+        nrow = 5,
+        byrow = TRUE
       )
     )
   )
@@ -79,23 +83,29 @@ test_that("vector_to_matrix_ltri() works", {
       input = c(1, 2, 4),
       n = 2,
       want = matrix(
+        # fmt: skip
         c(
           1, NA_real_,
           2, 4
         ),
-        nrow = 2, ncol = 2, byrow = TRUE
+        nrow = 2,
+        ncol = 2,
+        byrow = TRUE
       )
     ),
     list(
       input = c(1, 2, 5, 3, 6, 9),
       n = 3,
       want = matrix(
+        # fmt: skip
         c(
           1, NA_real_, NA_real_,
           2, 5, NA_real_,
           3, 6, 9
         ),
-        nrow = 3, ncol = 3, byrow = TRUE
+        nrow = 3,
+        ncol = 3,
+        byrow = TRUE
       )
     )
   )
@@ -228,6 +238,7 @@ test_that("matrix_sub_ltri() works", {
   )
   expect_identical(
     matrix_sub_ltri(m, 1, 7),
+    # fmt: skip
     c(
       1L,
       8L, 9L,

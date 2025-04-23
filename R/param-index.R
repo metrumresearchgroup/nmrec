@@ -95,7 +95,8 @@ create_param_index <- function(records, name) {
     records[["records"]],
     function(x) identical(x[["name"]], name)
   )
-  fn <- switch(name,
+  fn <- switch(
+    name,
     "theta" = theta_index,
     "omega" = matrix_index,
     "sigma" = matrix_index,

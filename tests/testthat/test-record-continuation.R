@@ -36,7 +36,8 @@ test_that("continuation is parsed correctly", {
           elem_whitespace(" "),
           option_value$new(
             "format",
-            name_raw = "format", value = "s1PE15.8:160"
+            name_raw = "format",
+            value = "s1PE15.8:160"
           ),
           elem_ampersand(),
           elem_whitespace(" "),
@@ -61,7 +62,8 @@ test_that("continuation is parsed correctly", {
           elem_whitespace(" "),
           option_value$new(
             "format",
-            name_raw = "format", value = "s1PE15.8:160&"
+            name_raw = "format",
+            value = "s1PE15.8:160&"
           ),
           elem_whitespace(" "),
           elem_comment(";"),
@@ -86,7 +88,8 @@ test_that("continuation is parsed correctly", {
           elem_whitespace(" "),
           option_value$new(
             "format",
-            name_raw = "format", value = ",1PE15.8:160&"
+            name_raw = "format",
+            value = ",1PE15.8:160&"
           ),
           elem_whitespace(" "),
           elem_comment(";"),
@@ -111,7 +114,8 @@ test_that("continuation is parsed correctly", {
           elem_whitespace(" "),
           option_value$new(
             "file",
-            name_raw = "file", value = "'foo bar'"
+            name_raw = "file",
+            value = "'foo bar'"
           ),
           elem_ampersand(),
           elem_linebreak(),
@@ -135,7 +139,9 @@ test_that("continuation is parsed correctly", {
           elem_whitespace(" "),
           option_value$new(
             "ignore",
-            name_raw = "IGNORE", value = "(ID)", sep = ""
+            name_raw = "IGNORE",
+            value = "(ID)",
+            sep = ""
           ),
           elem_ampersand(),
           elem_whitespace(" "),
@@ -144,7 +150,9 @@ test_that("continuation is parsed correctly", {
           elem_whitespace(" "),
           option_value$new(
             "ignore",
-            name_raw = "IGNORE", value = "@", sep = "="
+            name_raw = "IGNORE",
+            value = "@",
+            sep = "="
           ),
           elem_linebreak()
         )

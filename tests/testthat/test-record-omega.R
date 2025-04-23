@@ -21,7 +21,9 @@ test_that("parse_omega_record() works", {
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new(
-            "diagonal", "diag", "(1)",
+            "diagonal",
+            "diag",
+            "(1)",
             sep = ""
           ),
           elem_whitespace(" "),
@@ -52,7 +54,9 @@ test_that("parse_omega_record() works", {
               option_flag$new("standard", "sd")
             )
           ),
-          elem_whitespace(" "), elem_comment("; c"), elem_linebreak(),
+          elem_whitespace(" "),
+          elem_comment("; c"),
+          elem_linebreak(),
           elem_whitespace("  "),
           option_nested$new(
             "omega",
@@ -118,7 +122,8 @@ test_that("parse_omega_record() works", {
               option_pos$new("init", "2"),
               elem_whitespace(" "),
               option_pos$new("init", "3"),
-              elem_paren_close(), elem_whitespace(" "),
+              elem_paren_close(),
+              elem_whitespace(" "),
               option_value$new("x", "X", "4", sep = " ")
             )
           ),
@@ -133,7 +138,9 @@ test_that("parse_omega_record() works", {
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new(
-            "block", "bloc", "(2)",
+            "block",
+            "bloc",
+            "(2)",
             sep = ""
           ),
           elem_whitespace(" "),
@@ -162,7 +169,9 @@ test_that("parse_omega_record() works", {
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new(
-            "block", "BLOCK", "(2)",
+            "block",
+            "BLOCK",
+            "(2)",
             sep = " "
           ),
           elem_whitespace(" "),
@@ -191,7 +200,9 @@ test_that("parse_omega_record() works", {
           option_record_name$new("omega", "OMEGA"),
           elem_whitespace(" "),
           option_value$new(
-            "block", "block", "(4)",
+            "block",
+            "block",
+            "(4)",
             sep = ""
           ),
           elem_whitespace(" "),
@@ -292,7 +303,9 @@ test_that("parse_omega_record() works", {
           elem_whitespace(" "),
           option_value$new(
             "names",
-            name_raw = "NAMES", value = "(ECL, EV1, EQ,EV2)", sep = "  "
+            name_raw = "NAMES",
+            value = "(ECL, EV1, EQ,EV2)",
+            sep = "  "
           ),
           elem_whitespace(" "),
           option_nested$new(

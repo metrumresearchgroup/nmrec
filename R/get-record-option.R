@@ -56,7 +56,8 @@ resolve_option_name <- function(record, name) {
   record$parse()
 
   rtype <- record[["name"]]
-  name_map <- switch(rtype,
+  name_map <- switch(
+    rtype,
     omega = matrix_option_names,
     sigma = matrix_option_names,
     get(paste0(rtype, "_option_names"))

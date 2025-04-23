@@ -10,7 +10,8 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
     bug("make_record() called with empty `lines`.")
   }
 
-  rec <- switch(name,
+  rec <- switch(
+    name,
     data = record_data,
     estimation = record_estimation,
     input = record_input,
@@ -24,7 +25,8 @@ make_record <- function(name, name_raw, lines, previous_rec = NULL) {
   )
 
   return(rec$new(
-    name = name, name_raw = name_raw,
+    name = name,
+    name_raw = name_raw,
     lines = lines,
     previous_rec = previous_rec
   ))

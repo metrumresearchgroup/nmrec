@@ -89,8 +89,12 @@
 
 #' @rdname set_param
 #' @export
-set_theta <- function(records, values, fmt = "%.3G",
-                      bounds = c("keep", "discard")) {
+set_theta <- function(
+  records,
+  values,
+  fmt = "%.3G",
+  bounds = c("keep", "discard")
+) {
   bounds <- rlang::arg_match(bounds)
 
   res <- set_param(records, "theta", values, fmt)
@@ -110,8 +114,12 @@ set_theta <- function(records, values, fmt = "%.3G",
 
 #' @rdname set_param
 #' @export
-set_omega <- function(records, values, fmt = "%.3G",
-                      representation = c("keep", "reset")) {
+set_omega <- function(
+  records,
+  values,
+  fmt = "%.3G",
+  representation = c("keep", "reset")
+) {
   representation <- rlang::arg_match(representation)
   set_matrix("omega", records, values, fmt, representation)
   return(invisible(NULL))
@@ -119,8 +127,12 @@ set_omega <- function(records, values, fmt = "%.3G",
 
 #' @rdname set_param
 #' @export
-set_sigma <- function(records, values, fmt = "%.3G",
-                      representation = c("keep", "reset")) {
+set_sigma <- function(
+  records,
+  values,
+  fmt = "%.3G",
+  representation = c("keep", "reset")
+) {
   representation <- rlang::arg_match(representation)
   set_matrix("sigma", records, values, fmt, representation)
   return(invisible(NULL))
@@ -199,10 +211,13 @@ set_param <- function(records, name, values, fmt) {
       c(
         sprintf(
           "Expected length of `values` to be %d, got %d.",
-          len_expected, length(values)
+          len_expected,
+          length(values)
         ),
         "i" = paste0(
-          "If you're using ", toupper(name), " records for priors, ",
+          "If you're using ",
+          toupper(name),
+          " records for priors, ",
           "please switch to more specific record names ",
           "(such as THETAP and THETAPV)."
         )
@@ -277,7 +292,8 @@ param_add_init <- function(popt, init) {
   }
 
   popt$values <- append(
-    vals, option_pos$new("init", init),
+    vals,
+    option_pos$new("init", init),
     after = comma_idx - 1L
   )
 }

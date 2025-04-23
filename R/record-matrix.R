@@ -2,7 +2,9 @@
 
 process_matrix_options <- function(rp, fail_on_unknown = TRUE) {
   process_options(
-    rp, matrix_option_types, matrix_option_names,
+    rp,
+    matrix_option_types,
+    matrix_option_names,
     fail_on_unknown = fail_on_unknown
   )
 }

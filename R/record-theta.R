@@ -8,7 +8,9 @@ parse_theta_record <- function() {
 
   rp$walk(function(r) {
     process_options(
-      r, theta_option_types, theta_option_names,
+      r,
+      theta_option_types,
+      theta_option_names,
       fail_on_unknown = FALSE
     )
 

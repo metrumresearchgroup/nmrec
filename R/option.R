@@ -111,8 +111,7 @@ option_value <- R6::R6Class(
   inherit = option,
   public = list(
     sep = NULL,
-    initialize = function(name, name_raw = NULL, value = NULL,
-                          sep = "=", ...) {
+    initialize = function(name, name_raw = NULL, value = NULL, sep = "=", ...) {
       super$initialize(name = name)
       self$name_raw <- name_raw
       self$sep <- sep

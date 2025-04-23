@@ -26,9 +26,7 @@ test_that("parse_ctl() aborts if input contains newlines", {
     c("$problem prob", "$theta\n1")
   )
   for (case in cases) {
-    expect_error(parse_ctl(!!case), "must be split",
-      class = "nmrec_error"
-    )
+    expect_error(parse_ctl(!!case), "must be split", class = "nmrec_error")
   }
 })
 
@@ -38,10 +36,7 @@ test_that("parse_ctl() warns on unknown record", {
     c("$PROBLEM", "$FOO problem")
   )
   for (case in cases) {
-    expect_warning(parse_ctl(!!case),
-      "FOO",
-      class = "nmrec_warning"
-    )
+    expect_warning(parse_ctl(!!case), "FOO", class = "nmrec_warning")
   }
 })
 
@@ -144,9 +139,7 @@ test_that("parse_ctl() works: bayes1", {
 })
 
 test_that("make_record() dev error on empty lines", {
-  expect_error(make_record("name", "name_raw", c()),
-    class = "nmrec_dev_error"
-  )
+  expect_error(make_record("name", "name_raw", c()), class = "nmrec_dev_error")
 })
 
 test_that("extract_record_name() dev errors", {
@@ -155,8 +148,6 @@ test_that("extract_record_name() dev errors", {
     "nodollar"
   )
   for (case in cases) {
-    expect_error(extract_record_name(!!case),
-      class = "nmrec_dev_error"
-    )
+    expect_error(extract_record_name(!!case), class = "nmrec_dev_error")
   }
 })

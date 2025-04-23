@@ -74,7 +74,8 @@ lstring <- R6::R6Class(
 lstr_format <- function(values) {
   paste(
     purrr::map_chr(
-      values, function(x) {
+      values,
+      function(x) {
         if (is.character(x)) {
           x
         } else {

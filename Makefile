@@ -9,7 +9,7 @@ help:
 	$(info check-pkgdown: run pkgdown::check_pkgdown())
 	$(info cov: run tests and display coverage report)
 	$(info )
-	$(info fmt: run styler::style_pkg())
+	$(info fmt: format code with Air)
 	$(info )
 	$(info site: build site under docs/)
 	@:
@@ -47,7 +47,7 @@ cov:
 
 .PHONY: fmt
 fmt:
-	Rscript -e 'styler::style_pkg()'
+	air format $$(git ls-files '*.R')
 
 .PHONY: site
 site:

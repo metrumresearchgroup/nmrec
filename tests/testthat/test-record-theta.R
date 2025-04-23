@@ -117,9 +117,11 @@ test_that("parse_theta_record() works", {
               elem_whitespace(" "),
               option_flag$new(
                 "unint",
-                name_raw = "unint", value = TRUE
+                name_raw = "unint",
+                value = TRUE
               ),
-              elem_comma(), elem_whitespace(" "),
+              elem_comma(),
+              elem_whitespace(" "),
               option_flag$new("fixed", name_raw = "fixed", value = TRUE)
             )
           ),
@@ -138,7 +140,8 @@ test_that("parse_theta_record() works", {
             values = list(
               elem_paren_open(),
               option_pos$new("low", "1"),
-              elem_comma(), elem_comma(),
+              elem_comma(),
+              elem_comma(),
               option_pos$new("up", "3"),
               elem_paren_close()
             )
@@ -158,7 +161,9 @@ test_that("parse_theta_record() works", {
             values = list(
               elem_paren_open(),
               option_pos$new("low", "1"),
-              elem_comma(), elem_whitespace(" "), elem_comma(),
+              elem_comma(),
+              elem_whitespace(" "),
+              elem_comma(),
               option_pos$new("up", "3"),
               elem_paren_close()
             )
@@ -230,7 +235,9 @@ test_that("parse_theta_record() works", {
               elem_comma(),
               option_pos$new("up", "3"),
               elem_paren_close(),
-              elem_whitespace(" "), elem_comment("; ok"), elem_linebreak(),
+              elem_whitespace(" "),
+              elem_comment("; ok"),
+              elem_linebreak(),
               elem_whitespace("        "),
               option_flag$new("fixed", name_raw = "fixed", value = TRUE)
             )
@@ -262,7 +269,9 @@ test_that("parse_theta_record() works", {
           elem_whitespace(" "),
           option_value$new(
             "numberpoints",
-            name_raw = "numberpts", value = "3", sep = "="
+            name_raw = "numberpts",
+            value = "3",
+            sep = "="
           ),
           elem_linebreak()
         )
@@ -389,7 +398,9 @@ test_that("parse_theta_record() works", {
           elem_whitespace(" "),
           option_value$new(
             "names",
-            name_raw = "NAMES", value = "(V1,CL,Q,V2)", sep = ""
+            name_raw = "NAMES",
+            value = "(V1,CL,Q,V2)",
+            sep = ""
           ),
           elem_whitespace(" "),
           option_nested$new(
@@ -471,7 +482,8 @@ test_that("parse_theta_record() works", {
               option_pos$new("init", "2"),
               elem_comma(),
               option_pos$new("up", "3"),
-              elem_paren_close(), elem_whitespace(" "),
+              elem_paren_close(),
+              elem_whitespace(" "),
               option_value$new("x", name_raw = "X", value = "3", sep = " ")
             )
           ),

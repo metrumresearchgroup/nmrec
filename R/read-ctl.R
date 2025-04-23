@@ -78,7 +78,8 @@ parse_ctl <- function(lines) {
     name_raw <- nm[2]
 
     rec <- make_record(
-      name, name_raw,
+      name,
+      name_raw,
       lines[beg:end_pos[i]],
       previous_rec = get0(name, envir = last_rec_of_type)
     )
@@ -115,7 +116,8 @@ extract_record_name <- function(line) {
   beg <- match[2]
   end <- beg + attr(match, "match.length")[2] - 1
   name_raw <- substr(line, beg, end)
-  tryCatch(name <- resolve_record_name(name_raw),
+  tryCatch(
+    name <- resolve_record_name(name_raw),
     nmrec_unknown_record = function(e) {
       warn(
         paste("Unknown record type:", name_raw),

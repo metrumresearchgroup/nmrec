@@ -1,4 +1,5 @@
 ^.*\.Rproj$
+^\.air\.toml$
 ^\.github$
 ^\.Rproj\.user$
 ^_pkgdown\.yml$

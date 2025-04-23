@@ -65,8 +65,10 @@ test_that("parse_data_record() works", {
           option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = "foo.csv"),
-          elem_whitespace(" "), elem_ampersand(),
-          elem_whitespace("  "), elem_linebreak(),
+          elem_whitespace(" "),
+          elem_ampersand(),
+          elem_whitespace("  "),
+          elem_linebreak(),
           option_pos$new("format", value = "(FE)"),
           elem_whitespace(" "),
           option_value$new("records", "rec", value = "3", sep = " "),
@@ -86,15 +88,19 @@ test_that("parse_data_record() works", {
           elem_whitespace("    "),
           option_pos$new("filename", value = "foo.csv"),
           elem_whitespace(" "),
-          elem_comment("; a comment"), elem_linebreak(),
+          elem_comment("; a comment"),
+          elem_linebreak(),
           option_value$new(
             "ignore",
-            name_raw = "IGNORE", value = "( inside paren )", sep = ""
+            name_raw = "IGNORE",
+            value = "( inside paren )",
+            sep = ""
           ),
           elem_whitespace(" "),
           option_flag$new("norewind", name_raw = "norew", value = TRUE),
           elem_linebreak(),
-          elem_whitespace("\t"), elem_comment("; trailing comment"),
+          elem_whitespace("\t"),
+          elem_comment("; trailing comment"),
           elem_linebreak()
         )
       )
@@ -110,15 +116,21 @@ test_that("parse_data_record() works", {
           option_record_name$new("data", "data"),
           elem_whitespace(" "),
           option_pos$new("filename", value = "foo.csv"),
-          elem_linebreak(), elem_comment("; comment"), elem_linebreak(),
+          elem_linebreak(),
+          elem_comment("; comment"),
+          elem_linebreak(),
           option_value$new(
             "ignore",
-            name_raw = "IGNORE", value = "C", sep = "="
+            name_raw = "IGNORE",
+            value = "C",
+            sep = "="
           ),
           elem_whitespace(" "),
           option_value$new(
             "ignore",
-            name_raw = "IGNORE", value = "(foo)", sep = ""
+            name_raw = "IGNORE",
+            value = "(foo)",
+            sep = ""
           ),
           elem_linebreak()
         )
@@ -139,7 +151,9 @@ test_that("parse_data_record() works", {
           elem_whitespace(" "),
           option_value$new(
             "ignore",
-            name_raw = "ign", value = "(foo ; bar\nbaz)", sep = " "
+            name_raw = "ign",
+            value = "(foo ; bar\nbaz)",
+            sep = " "
           ),
           elem_linebreak()
         )

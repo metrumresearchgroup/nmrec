@@ -66,7 +66,8 @@ parse_matrix_diag <- function(name, rp) {
 
 parse_matrix_diag_init <- function(name, rp) {
   param_append(
-    name, rp,
+    name,
+    rp,
     parse_matrix_init(rp, matrix_process_diag_option)
   )
 }
@@ -141,8 +142,10 @@ matrix_process_prefix_option <- function(rp) {
       end <- rp$find_closing_paren()
       r$append(
         option_value$new(
-          name, name_raw,
-          value = r$yank_to(end), sep = sep
+          name,
+          name_raw,
+          value = r$yank_to(end),
+          sep = sep
         )
       )
     } else {
@@ -263,8 +266,10 @@ parse_matrix_scale <- function(rp) {
   end <- rp$find_closing_paren("linebreak")
   rp$append(
     option_value$new(
-      "scale", opt_raw,
-      value = rp$yank_to(end), sep = sep
+      "scale",
+      opt_raw,
+      value = rp$yank_to(end),
+      sep = sep
     )
   )
 

@@ -9,7 +9,8 @@ nmrec_error <- function(kind = NULL) {
     return(base)
   }
 
-  cls <- switch(kind,
+  cls <- switch(
+    kind,
     dev = "nmrec_dev_error",
     parse = "nmrec_parse_error",
     unknown_option = c("nmrec_unknown_option", "nmrec_parse_error"),

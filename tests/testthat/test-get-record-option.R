@@ -68,7 +68,8 @@ test_that("get_record_option() returns NULL if no option is found", {
 
 test_that("get_record_option() errors on unsupported record type", {
   ctl <- parse_ctl(c("$prob p", "$pk not supported"))
-  expect_error(get_record_option(ctl$records[[2]], "foo"),
+  expect_error(
+    get_record_option(ctl$records[[2]], "foo"),
     class = "nmrec_unsupported"
   )
 })

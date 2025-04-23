@@ -127,7 +127,12 @@ test_that("parse_table_record() works", {
           elem_whitespace(" "),
           option_pos$new("list1", value = "id"),
           elem_whitespace(" "),
-          option_value$new("file", name_raw = "file", sep = "", value = "'foo'"),
+          option_value$new(
+            "file",
+            name_raw = "file",
+            sep = "",
+            value = "'foo'"
+          ),
           elem_linebreak()
         )
       )
@@ -153,7 +158,12 @@ test_that("parse_table_record() works", {
           elem_whitespace(" "),
           option_pos$new("list1", value = "num"),
           elem_whitespace(" "),
-          option_value$new("format", name_raw = "format", sep = "", value = ",1PE11.4"),
+          option_value$new(
+            "format",
+            name_raw = "format",
+            sep = "",
+            value = ",1PE11.4"
+          ),
           elem_whitespace(" "),
           option_value$new("file", name_raw = "file", value = "a"),
           elem_linebreak()
@@ -168,7 +178,12 @@ test_that("parse_table_record() works", {
           elem_whitespace(" "),
           option_pos$new("list1", value = "num"),
           elem_whitespace(" "),
-          option_value$new("format", name_raw = "format", sep = " ", value = ",1PE11.4"),
+          option_value$new(
+            "format",
+            name_raw = "format",
+            sep = " ",
+            value = ",1PE11.4"
+          ),
           elem_whitespace(" "),
           option_value$new("file", name_raw = "file", value = "a"),
           elem_linebreak()
@@ -183,7 +198,12 @@ test_that("parse_table_record() works", {
           elem_whitespace(" "),
           option_pos$new("list1", value = "num"),
           elem_whitespace(" "),
-          option_value$new("format", name_raw = "format", sep = "=", value = ",1PE15.8:160"),
+          option_value$new(
+            "format",
+            name_raw = "format",
+            sep = "=",
+            value = ",1PE15.8:160"
+          ),
           elem_linebreak()
         )
       )

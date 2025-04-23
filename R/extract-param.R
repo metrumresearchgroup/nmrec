@@ -71,13 +71,20 @@
 
 #' @rdname extract_param
 #' @export
-extract_theta <- function(records, mark_flags = NULL,
-                          type = c("init", "low", "up")) {
+extract_theta <- function(
+  records,
+  mark_flags = NULL,
+  type = c("init", "low", "up")
+) {
   type <- rlang::arg_match(type)
 
   flags <- NULL
   if (length(mark_flags)) {
-    flags <- mark_flags_prepare(mark_flags, theta_option_names, theta_option_types)
+    flags <- mark_flags_prepare(
+      mark_flags,
+      theta_option_names,
+      theta_option_types
+    )
   }
 
   pinfo <- create_param_index(records, "theta")
@@ -119,7 +126,11 @@ extract_sigma <- function(records, mark_flags = NULL) {
 extract_matrix <- function(name, records, mark_flags) {
   flags <- NULL
   if (length(mark_flags)) {
-    flags <- mark_flags_prepare(mark_flags, matrix_option_names, matrix_option_types)
+    flags <- mark_flags_prepare(
+      mark_flags,
+      matrix_option_names,
+      matrix_option_types
+    )
   }
 
   pinfo <- create_param_index(records, name)

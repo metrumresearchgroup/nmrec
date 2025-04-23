@@ -139,7 +139,8 @@ record_parser <- R6::R6Class(
         bug(
           sprintf(
             "pos (%s) must be at least value of current position (%s)",
-            pos, beg
+            pos,
+            beg
           )
         )
       }
@@ -277,8 +278,12 @@ record_parser <- R6::R6Class(
     gobble = function(lstr = NULL) {
       lstr <- lstr %||% self$lstr
       uninteresting <- c(
-        "ampersand", "comma", "comment", "equal_sign",
-        "linebreak", "whitespace"
+        "ampersand",
+        "comma",
+        "comment",
+        "equal_sign",
+        "linebreak",
+        "whitespace"
       )
       while (!self$done()) {
         if (self$is("semicolon")) {

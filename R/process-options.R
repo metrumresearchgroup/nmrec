@@ -28,10 +28,13 @@
 #'   function is responsible for appending a new `option_value` item to the
 #'   object's `lstr`, moving `idx_e` as appropriate.
 #' @noRd
-process_options <- function(rp,
-                            option_types, option_names,
-                            fail_on_unknown = TRUE,
-                            value_fns = NULL) {
+process_options <- function(
+  rp,
+  option_types,
+  option_names,
+  fail_on_unknown = TRUE,
+  value_fns = NULL
+) {
   rp$gobble()
   while (!rp$done()) {
     opt_raw <- rp$current()

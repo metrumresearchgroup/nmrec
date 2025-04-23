@@ -32,7 +32,8 @@ set_record_option <- function(record, name, value) {
     abort(
       sprintf(
         "%s is not a known flag or value option for %s blocks",
-        name, record[["name"]]
+        name,
+        record[["name"]]
       ),
       nmrec_error()
     )
@@ -40,7 +41,8 @@ set_record_option <- function(record, name, value) {
 
   # Create new record option
   if (is.null(opt_prev)) {
-    type_map <- switch(record[["name"]],
+    type_map <- switch(
+      record[["name"]],
       omega = matrix_option_types,
       sigma = matrix_option_types,
       get(paste0(record[["name"]], "_option_types"))
@@ -57,9 +59,13 @@ set_record_option <- function(record, name, value) {
 
     new_opt_lst <- list(elem_whitespace(" "), opt)
 
-    opt_end <- purrr::detect_index(record$values, function(x) {
-      inherits(x, "nmrec_option")
-    }, .dir = "backward")
+    opt_end <- purrr::detect_index(
+      record$values,
+      function(x) {
+        inherits(x, "nmrec_option")
+      },
+      .dir = "backward"
+    )
     record$values <- append(record$values, new_opt_lst, after = opt_end)
   } else {
     # Modify existing option

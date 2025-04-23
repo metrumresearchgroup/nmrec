@@ -47,12 +47,14 @@ test_that("set_{theta,omega,sigma}() support specifying value format", {
   ))
 
   theta <- 1230:1232 / 1e12
+  # fmt: skip
   omega <- c(
     1330,
     NA, 1331,
     NA, NA, 1332
   )
   omega <- omega / 1e12
+  # fmt: skip
   sigma <- c(
     1430,
     NA, 1431,
@@ -214,6 +216,7 @@ test_that("set_omega() works", {
   cases <- list(
     list(
       lines = "$omega 1 2 3",
+      # fmt: skip
       values = c(
         4,
         0, 5,
@@ -224,12 +227,14 @@ test_that("set_omega() works", {
     list(
       lines = "$omega 1 2 3 SD",
       values = matrix(
+        # fmt: skip
         c(
           4, 0, 0,
           0, 5, 0,
           0, 0, 6
         ),
-        nrow = 3, byrow = TRUE,
+        nrow = 3,
+        byrow = TRUE,
       ),
       want = "$omega 4 5 6 SD"
     ),
@@ -242,6 +247,7 @@ test_that("set_omega() works", {
         "$omega BLOCK(3) VALUES(1.4, 1.5) ; diag, odiag"
       ),
       values = matrix(
+        # fmt: skip
         c(
           2, 0, 0, 0, 0,
           3, 4, 0, 0, 0,
@@ -249,7 +255,8 @@ test_that("set_omega() works", {
           0, 0, 6, 0, 0,
           0, 0, 0, 0, 0
         ),
-        nrow = 5, byrow = TRUE,
+        nrow = 5,
+        byrow = TRUE,
       ),
       want = c(
         "$omega BLOCK(2)",
@@ -265,13 +272,15 @@ test_that("set_omega() works", {
         "$omega BLOCK(3) VALUES(1.2, 1.3)"
       ),
       values = matrix(
+        # fmt: skip
         c(
           2, 0, 0, 0,
           0, 3, 0, 0,
           0, NA, 0, 0,
           0, 0, 0, 0
         ),
-        nrow = 4, byrow = TRUE,
+        nrow = 4,
+        byrow = TRUE,
       ),
       want = c(
         "$omega 2",
@@ -285,6 +294,7 @@ test_that("set_omega() works", {
         "$omega 0.5 0.8 0.9",
         "$omega sca(1.5) 0.1"
       ),
+      # fmt: skip
       values = c(
         1,
         0, NA,
@@ -308,6 +318,7 @@ test_that("set_omega() resets to variance/covariance", {
   cases <- list(
     list(
       lines = "$omega (1 SD) 2 3",
+      # fmt: skip
       values = c(
         4,
         0, 5,
@@ -317,6 +328,7 @@ test_that("set_omega() resets to variance/covariance", {
     ),
     list(
       lines = "$omega 1 2 3 SD",
+      # fmt: skip
       values = c(
         4,
         0, 5,
@@ -326,6 +338,7 @@ test_that("set_omega() resets to variance/covariance", {
     ),
     list(
       lines = "$omega 1 2 SD 3 SD",
+      # fmt: skip
       values = c(
         4,
         0, NA,
@@ -341,6 +354,7 @@ test_that("set_omega() resets to variance/covariance", {
         "2.1",
         "2.2 3.3"
       ),
+      # fmt: skip
       values = c(
         3,
         0, 4,
@@ -364,6 +378,7 @@ test_that("set_omega() resets to variance/covariance", {
         "2.2 2.3",
         "$omega 3.3"
       ),
+      # fmt: skip
       values = c(
         NA,
         0, 4,
@@ -386,6 +401,7 @@ test_that("set_omega() resets to variance/covariance", {
         "2.1",
         "2.2 2.3"
       ),
+      # fmt: skip
       values = c(
         4,
         5, 6
@@ -421,6 +437,7 @@ test_that("set_omega() warns if SCALE is present", {
   cases <- list(
     list(
       lines = "$omega 0.5 scale(2.0) 0.8 0.9 sca(1.5) 0.1",
+      # fmt: skip
       values = c(
         1,
         0, NA,
@@ -434,6 +451,7 @@ test_that("set_omega() warns if SCALE is present", {
         "$omega 0.5 0.8 0.9",
         "$omega sca(1.5) 0.1"
       ),
+      # fmt: skip
       values = c(
         NA,
         0, NA,

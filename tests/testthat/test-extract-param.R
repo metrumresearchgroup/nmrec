@@ -249,11 +249,14 @@ test_that("extract_omega() works", {
       lines = "$omega 1 2",
       want = structure(
         matrix(
+          # fmt: skip
           c(
             1, NA_real_,
             NA_real_, 2
           ),
-          nrow = 2, ncol = 2, byrow = TRUE
+          nrow = 2,
+          ncol = 2,
+          byrow = TRUE
         ),
         nmrec_record_size = 2L
       )
@@ -268,13 +271,16 @@ test_that("extract_omega() works", {
       ),
       want = structure(
         matrix(
+          # fmt: skip
           c(
             1, NA_real_, NA_real_, NA_real_,
             NA_real_, 2, NA_real_, NA_real_,
             NA_real_, NA_real_, 3, NA_real_,
             NA_real_, NA_real_, 0.1, 4
           ),
-          nrow = 4, ncol = 4, byrow = TRUE
+          nrow = 4,
+          ncol = 4,
+          byrow = TRUE
         ),
         nmrec_record_size = c(2L, 2L)
       )
@@ -283,12 +289,15 @@ test_that("extract_omega() works", {
       lines = "$omega block(3) VAL(1, 0.1)",
       want = structure(
         matrix(
+          # fmt: skip
           c(
             1, NA_real_, NA_real_,
             0.1, NA_real_, NA_real_,
             NA_real_, NA_real_, NA_real_
           ),
-          nrow = 3, ncol = 3, byrow = TRUE
+          nrow = 3,
+          ncol = 3,
+          byrow = TRUE
         ),
         nmrec_record_size = 3L
       )
@@ -303,13 +312,16 @@ test_that("extract_omega() works", {
       ),
       want = structure(
         matrix(
+          # fmt: skip
           c(
             1, NA_real_, NA_real_, NA_real_,
             2, 3, NA_real_, NA_real_,
             NA_real_, NA_real_, NA_real_, NA_real_,
             NA_real_, NA_real_, NA_real_, NA_real_
           ),
-          nrow = 4, ncol = 4, byrow = TRUE
+          nrow = 4,
+          ncol = 4,
+          byrow = TRUE
         ),
         nmrec_record_size = c(2L, 2L)
       )
@@ -331,20 +343,26 @@ test_that("extract_omega(..., mark_flags = ...) works", {
       flags = "fix",
       want = structure(
         matrix(
+          # fmt: skip
           c(
             1, NA_real_,
             NA_real_, 2
           ),
-          nrow = 2, ncol = 2, byrow = TRUE
+          nrow = 2,
+          ncol = 2,
+          byrow = TRUE
         ),
         nmrec_record_size = 2L,
         nmrec_flags = list(
           fixed = matrix(
+            # fmt: skip
             c(
               FALSE, NA,
               NA, TRUE
             ),
-            nrow = 2, ncol = 2, byrow = TRUE
+            nrow = 2,
+            ncol = 2,
+            byrow = TRUE
           )
         )
       )
@@ -358,20 +376,26 @@ test_that("extract_omega(..., mark_flags = ...) works", {
       flags = "fix",
       want = structure(
         matrix(
+          # fmt: skip
           c(
             3, NA_real_,
             0.1, 4
           ),
-          nrow = 2, ncol = 2, byrow = TRUE
+          nrow = 2,
+          ncol = 2,
+          byrow = TRUE
         ),
         nmrec_record_size = 2L,
         nmrec_flags = list(
           fixed = matrix(
+            # fmt: skip
             c(
               TRUE, NA,
               TRUE, TRUE
             ),
-            nrow = 2, ncol = 2, byrow = TRUE
+            nrow = 2,
+            ncol = 2,
+            byrow = TRUE
           )
         )
       )
@@ -385,27 +409,36 @@ test_that("extract_omega(..., mark_flags = ...) works", {
       flags = c("fix", "unint"),
       want = structure(
         matrix(
+          # fmt: skip
           c(
             3, NA_real_,
             0.1, 4
           ),
-          nrow = 2, ncol = 2, byrow = TRUE
+          nrow = 2,
+          ncol = 2,
+          byrow = TRUE
         ),
         nmrec_record_size = 2L,
         nmrec_flags = list(
           fixed = matrix(
+            # fmt: skip
             c(
               TRUE, NA,
               TRUE, TRUE
             ),
-            nrow = 2, ncol = 2, byrow = TRUE
+            nrow = 2,
+            ncol = 2,
+            byrow = TRUE
           ),
           unint = matrix(
+            # fmt: skip
             c(
               TRUE, NA,
               TRUE, TRUE
             ),
-            nrow = 2, ncol = 2, byrow = TRUE
+            nrow = 2,
+            ncol = 2,
+            byrow = TRUE
           )
         )
       )
@@ -421,42 +454,54 @@ test_that("extract_omega(..., mark_flags = ...) works", {
       flags = c("SD", "fix", "corre"),
       want = structure(
         matrix(
+          # fmt: skip
           c(
             1, NA_real_, NA_real_, NA_real_,
             NA_real_, 2, NA_real_, NA_real_,
             NA_real_, NA_real_, 3, NA_real_,
             NA_real_, NA_real_, 0.1, 4
           ),
-          nrow = 4, ncol = 4, byrow = TRUE
+          nrow = 4,
+          ncol = 4,
+          byrow = TRUE
         ),
         nmrec_record_size = c(2L, 2L),
         nmrec_flags = list(
           standard = matrix(
+            # fmt: skip
             c(
               TRUE, NA, NA, NA,
               NA, FALSE, NA, NA,
               NA, NA, FALSE, NA,
               NA, NA, FALSE, FALSE
             ),
-            nrow = 4, ncol = 4, byrow = TRUE
+            nrow = 4,
+            ncol = 4,
+            byrow = TRUE
           ),
           fixed = matrix(
+            # fmt: skip
             c(
               TRUE, NA, NA, NA,
               NA, FALSE, NA, NA,
               NA, NA, TRUE, NA,
               NA, NA, TRUE, TRUE
             ),
-            nrow = 4, ncol = 4, byrow = TRUE
+            nrow = 4,
+            ncol = 4,
+            byrow = TRUE
           ),
           correlation = matrix(
+            # fmt: skip
             c(
               FALSE, NA, NA, NA,
               NA, FALSE, NA, NA,
               NA, NA, TRUE, NA,
               NA, NA, TRUE, TRUE
             ),
-            nrow = 4, ncol = 4, byrow = TRUE
+            nrow = 4,
+            ncol = 4,
+            byrow = TRUE
           )
         )
       )
@@ -466,22 +511,28 @@ test_that("extract_omega(..., mark_flags = ...) works", {
       flags = "fix",
       want = structure(
         matrix(
+          # fmt: skip
           c(
             1, NA_real_, NA_real_,
             0.1, NA_real_, NA_real_,
             NA_real_, NA_real_, NA_real_
           ),
-          nrow = 3, ncol = 3, byrow = TRUE
+          nrow = 3,
+          ncol = 3,
+          byrow = TRUE
         ),
         nmrec_record_size = 3L,
         nmrec_flags = list(
           fixed = matrix(
+            # fmt: skip
             c(
               TRUE, NA, NA,
               TRUE, NA, NA,
               NA, NA, NA
             ),
-            nrow = 3, ncol = 3, byrow = TRUE
+            nrow = 3,
+            ncol = 3,
+            byrow = TRUE
           )
         )
       )
@@ -503,27 +554,36 @@ test_that("extract_sigma() works", {
   got <- extract_sigma(ctl, mark_flags = c("fixed", "SD"))
   want <- structure(
     matrix(
+      # fmt: skip
       c(
         1, NA_real_,
         2, 3
       ),
-      nrow = 2, ncol = 2, byrow = TRUE
+      nrow = 2,
+      ncol = 2,
+      byrow = TRUE
     ),
     nmrec_record_size = 2L,
     nmrec_flags = list(
       fixed = matrix(
+        # fmt: skip
         c(
           TRUE, NA,
           TRUE, TRUE
         ),
-        nrow = 2, ncol = 2, byrow = TRUE
+        nrow = 2,
+        ncol = 2,
+        byrow = TRUE
       ),
       standard = matrix(
+        # fmt: skip
         c(
           TRUE, NA,
           TRUE, TRUE
         ),
-        nrow = 2, ncol = 2, byrow = TRUE
+        nrow = 2,
+        ncol = 2,
+        byrow = TRUE
       )
     )
   )
@@ -536,13 +596,16 @@ test_that("extract_omega() warns about SCALE", {
       lines = "$omega 0.5 scale(2.0) 0.8 0.9 sca(1.5) 0.1",
       want = structure(
         matrix(
+          # fmt: skip
           c(
             0.5, NA_real_, NA_real_, NA_real_,
             NA_real_, 0.8, NA_real_, NA_real_,
             NA_real_, NA_real_, 0.9, NA_real_,
             NA_real_, NA_real_, NA_real_, 0.1
           ),
-          nrow = 4, ncol = 4, byrow = TRUE
+          nrow = 4,
+          ncol = 4,
+          byrow = TRUE
         ),
         nmrec_record_size = 4L
       )
@@ -556,13 +619,16 @@ test_that("extract_omega() warns about SCALE", {
       ),
       want = structure(
         matrix(
+          # fmt: skip
           c(
             0.1, NA_real_, NA_real_, NA_real_,
             0.01, 0.2, NA_real_, NA_real_,
             NA_real_, NA_real_, NA_real_, NA_real_,
             NA_real_, NA_real_, NA_real_, NA_real_
           ),
-          nrow = 4, ncol = 4, byrow = TRUE
+          nrow = 4,
+          ncol = 4,
+          byrow = TRUE
         ),
         nmrec_record_size = c(2L, 2L)
       )

@@ -21,6 +21,7 @@ split_to_elements <- function(lines) {
     "list",
     # Double number of delimiter matches to count the delimiter itself and the
     # element (if any) to the left side.
+    # fmt: skip
     2 * length(unlist(ln_delim_idxs)) +
       # For each line, also count the non-delimiter element at the end of the
       # string (if any) and an item for the newline.
@@ -91,7 +92,8 @@ split_to_elements <- function(lines) {
 }
 
 elem_select <- function(x) {
-  switch(x,
+  switch(
+    x,
     "=" = elem_equal_sign(),
     ";" = elem_semicolon(),
     "&" = elem_ampersand(),
@@ -118,7 +120,8 @@ elem_is <- function(e, types) {
 }
 
 elem_get_class <- function(x) {
-  switch(x,
+  switch(
+    x,
     "ampersand" = "nmrec_ampersand",
     "comment" = "nmrec_comment",
     "comma" = "nmrec_comma",
@@ -137,7 +140,8 @@ elem_get_class <- function(x) {
 }
 
 elem_ampersand <- function() {
-  structure("&",
+  structure(
+    "&",
     class = c(
       "nmrec_ampersand",
       "nmrec_element",
@@ -147,7 +151,8 @@ elem_ampersand <- function() {
 }
 
 elem_comment <- function(x) {
-  structure(x,
+  structure(
+    x,
     class = c(
       "nmrec_comment",
       "nmrec_element",
@@ -157,7 +162,8 @@ elem_comment <- function(x) {
 }
 
 elem_comma <- function() {
-  structure(",",
+  structure(
+    ",",
     class = c(
       "nmrec_comma",
       "nmrec_element",
@@ -167,7 +173,8 @@ elem_comma <- function() {
 }
 
 elem_equal_sign <- function() {
-  structure("=",
+  structure(
+    "=",
     class = c(
       "nmrec_equal_sign",
       "nmrec_element",
@@ -177,7 +184,8 @@ elem_equal_sign <- function() {
 }
 
 elem_semicolon <- function() {
-  structure(";",
+  structure(
+    ";",
     class = c(
       "nmrec_semicolon",
       "nmrec_element",
@@ -187,7 +195,8 @@ elem_semicolon <- function() {
 }
 
 elem_linebreak <- function() {
-  structure("\n",
+  structure(
+    "\n",
     class = c(
       "nmrec_linebreak",
       "nmrec_element",
@@ -197,7 +206,8 @@ elem_linebreak <- function() {
 }
 
 elem_paren_close <- function() {
-  structure(")",
+  structure(
+    ")",
     class = c(
       "nmrec_paren_close",
       "nmrec_paren",
@@ -208,7 +218,8 @@ elem_paren_close <- function() {
 }
 
 elem_paren_open <- function() {
-  structure("(",
+  structure(
+    "(",
     class = c(
       "nmrec_paren_open",
       "nmrec_paren",
@@ -219,7 +230,8 @@ elem_paren_open <- function() {
 }
 
 elem_quote_double <- function() {
-  structure("\"",
+  structure(
+    "\"",
     class = c(
       "nmrec_quote_double",
       "nmrec_quote",
@@ -230,7 +242,8 @@ elem_quote_double <- function() {
 }
 
 elem_quote_single <- function() {
-  structure("'",
+  structure(
+    "'",
     class = c(
       "nmrec_quote_single",
       "nmrec_quote",
@@ -241,7 +254,8 @@ elem_quote_single <- function() {
 }
 
 elem_whitespace <- function(x) {
-  structure(x,
+  structure(
+    x,
     class = c(
       "nmrec_whitespace",
       "nmrec_element",

@@ -14,7 +14,9 @@ parse_prior_record <- function() {
 
 parse_prior <- function(rp) {
   process_options(
-    rp, prior_option_types, prior_option_names,
+    rp,
+    prior_option_types,
+    prior_option_names,
     fail_on_unknown = FALSE
   )
 
