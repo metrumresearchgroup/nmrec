@@ -1,11 +1,11 @@
 ^.*\.Rproj$
-^LICENSE\.md$
-^Makefile$
-^\.Rproj\.user$
 ^\.github$
+^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^coverage$
 ^docs$
+^LICENSE\.md$
+^Makefile$
 ^pkgdown$
 ^pkgr\.yml$
 ^renv$
