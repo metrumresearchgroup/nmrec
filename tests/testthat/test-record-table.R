@@ -105,6 +105,21 @@ test_that("parse_table_record() works", {
       )
     ),
     list(
+      input = "$table id noapp interp=1",
+      want = list(
+        values = list(
+          option_record_name$new("table", "table"),
+          elem_whitespace(" "),
+          option_pos$new("list1", value = "id"),
+          elem_whitespace(" "),
+          option_flag$new("noappend", name_raw = "noapp", value = TRUE),
+          elem_whitespace(" "),
+          option_value$new("interptype", name_raw = "interp", value = "1"),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
       input = "$table id noapp file='quo;ted'",
       want = list(
         values = list(
