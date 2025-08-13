@@ -19,10 +19,7 @@ jobs:
         config:
           - os: ubuntu-22.04
             r: 4.0.5
-            # httr2 1.2.0 requires at least R 4.1.
-            httr2_pkg: 'url::https://packagemanager.posit.co/cran/latest/src/contrib/Archive/httr2/httr2_1.1.2.tar.gz'
-            # purrr 1.1.0 requires at least R 4.1.
-            purrr_pkg: 'url::https://packagemanager.posit.co/cran/latest/src/contrib/Archive/purrr/purrr_1.0.4.tar.gz'
+            rspm: 'https://packagemanager.posit.co/cran/__linux__/jammy/2023-01-25'
           - os: ubuntu-22.04
             r: 4.3.3
           - os: ubuntu-22.04
@@ -37,13 +34,13 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
+        env:
+          RSPM: ${{ matrix.config.rspm }}
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
             any::pkgdown
             any::rcmdcheck
-            ${{ matrix.config.httr2_pkg }}
-            ${{ matrix.config.purrr_pkg }}
           upgrade: ${{ matrix.config.r == '4.0.5' && 'FALSE' || 'TRUE' }}
       - uses: r-lib/actions/check-r-package@v2
         with:
