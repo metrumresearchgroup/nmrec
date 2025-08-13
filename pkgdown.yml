@@ -1,9 +1,9 @@
 pandoc: 3.1.3
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   nmrec: nmrec.html
-last_built: 2025-03-21T15:00Z
+last_built: 2025-08-13T14:52Z
 urls:
   reference: https://metrumresearchgroup.github.io/nmrec/reference
   article: https://metrumresearchgroup.github.io/nmrec/articles
