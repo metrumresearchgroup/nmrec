@@ -1,3 +1,11 @@
+# nmrec 0.5.1
+
+## Bug fixes
+
+* The `$TABLE` parser did not recognize the `INTERPTYPE` option (added
+  in NONMEM 7.5.1).  (#49)
+
+
 # nmrec 0.5.0
 
 ## New features
