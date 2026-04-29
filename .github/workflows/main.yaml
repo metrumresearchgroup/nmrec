@@ -21,9 +21,9 @@ jobs:
             r: 4.0.5
             rspm: 'https://packagemanager.posit.co/cran/__linux__/jammy/2023-01-25'
           - os: ubuntu-22.04
-            r: 4.3.3
-          - os: ubuntu-22.04
             r: 4.4.2
+          - os: ubuntu-22.04
+            r: 4.5.1
           - os: ubuntu-latest
             r: release
     env:
