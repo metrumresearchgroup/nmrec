@@ -1,7 +1,7 @@
 #' Create index with positions and details about a parameter
 #'
 #' The purpose of this index is to allow the caller to get from a position in
-#' the parameter space (e.g., THETA[3]) to the corresponding option in
+#' the parameter space (e.g., `THETA[3]`) to the corresponding option in
 #' `records`.
 #'
 #' The return value is a list with the following elements:
