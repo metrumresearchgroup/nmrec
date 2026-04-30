@@ -112,6 +112,128 @@ test_that("parse_estimation_record() works", {
         )
       )
     ),
+    # SLOW option may be specified with a value...
+    list(
+      input = "$est meth 1 SLOW=1",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth",
+            value = "1",
+            sep = " "
+          ),
+          elem_whitespace(" "),
+          option_value$new(
+            "slow",
+            name_raw = "SLOW",
+            value = "1",
+            sep = "="
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$est meth 1 slow 2",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth",
+            value = "1",
+            sep = " "
+          ),
+          elem_whitespace(" "),
+          option_value$new(
+            "slow",
+            name_raw = "slow",
+            value = "2",
+            sep = " "
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    # ... or SLOW can be specified without a value.
+    list(
+      input = "$est meth 1 SLOW ctype=3",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth",
+            value = "1",
+            sep = " "
+          ),
+          elem_whitespace(" "),
+          option_flag$new("slow", name_raw = "SLOW"),
+          elem_whitespace(" "),
+          option_value$new(
+            "ctype",
+            name_raw = "ctype",
+            value = "3",
+            sep = "="
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = c(
+        "$est meth 1 SLOW",
+        "  ctype=3"
+      ),
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth",
+            value = "1",
+            sep = " "
+          ),
+          elem_whitespace(" "),
+          option_flag$new("slow", name_raw = "SLOW"),
+          elem_linebreak(),
+          elem_whitespace("  "),
+          option_value$new(
+            "ctype",
+            name_raw = "ctype",
+            value = "3",
+            sep = "="
+          ),
+          elem_linebreak()
+        )
+      )
+    ),
+    list(
+      input = "$est meth 1 SLOW ; comment",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth",
+            value = "1",
+            sep = " "
+          ),
+          elem_whitespace(" "),
+          option_flag$new("slow", name_raw = "SLOW"),
+          elem_whitespace(" "),
+          elem_comment("; comment"),
+          elem_linebreak()
+        )
+      )
+    ),
     list(
       input = "$est meth 1 NOSLOW",
       want = list(

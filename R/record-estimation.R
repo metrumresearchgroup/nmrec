@@ -4,11 +4,29 @@ parse_estimation_record <- function() {
     rp,
     estimation_option_types,
     estimation_option_names,
-    value_fns = list("format" = parse_format_option_value)
+    value_fns = list(
+      "format" = parse_format_option_value,
+      "slow" = parse_slow_option_value
+    )
   )
   rp$assert_done()
 
   return(rp$get_values())
+}
+
+parse_slow_option_value <- function(rp, name, name_raw) {
+  idx <- rp$find_next(function(x) !elem_is(x, c("whitespace", "equal_sign")))
+
+  # Note: 3 isn't a documented value, but NM-TRAN doesn't error if it's used.
+  valid <- c("1", "2", "3")
+  if (identical(idx, 0L) || !rp$elems[[idx]] %in% valid) {
+    rp$append(option_flag$new(name, name_raw))
+    return(NULL)
+  }
+
+  sep <- parse_option_sep(rp, name_raw)
+  val <- rp$yank()
+  rp$append(option_value$new(name, name_raw, value = val, sep = sep))
 }
 
 #' @rdname record
