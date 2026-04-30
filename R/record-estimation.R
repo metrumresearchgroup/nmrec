@@ -103,7 +103,7 @@ estimation_option_types <- list(
   "norepeat2" = option_type_flag,
   "nosigmaboundtest" = option_type_flag,
   "nosub" = option_type_value,
-  "noslow" = option_type_value,
+  "noslow" = option_type_flag,
   "nosort" = option_type_flag,
   "nothetaboundtest" = option_type_flag,
   "notitle" = option_type_value,

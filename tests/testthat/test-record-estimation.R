@@ -111,6 +111,24 @@ test_that("parse_estimation_record() works", {
           elem_linebreak()
         )
       )
+    ),
+    list(
+      input = "$est meth 1 NOSLOW",
+      want = list(
+        values = list(
+          option_record_name$new("estimation", "est"),
+          elem_whitespace(" "),
+          option_value$new(
+            "method",
+            name_raw = "meth",
+            value = "1",
+            sep = " "
+          ),
+          elem_whitespace(" "),
+          option_flag$new("noslow", name_raw = "NOSLOW"),
+          elem_linebreak()
+        )
+      )
     )
   )
 
