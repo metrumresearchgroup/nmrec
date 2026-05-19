@@ -1,6 +1,6 @@
 Package: nmrec
 Title: Read, Parse, and Modify NONMEM Control Records
-Version: 0.5.1
+Version: 0.5.2
 Authors@R:
     c(person(given = "Kyle",
              family = "Meyer",
