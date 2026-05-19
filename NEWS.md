@@ -1,3 +1,15 @@
+# nmrec 0.5.2
+
+## Bug fixes
+
+* NONMEM allows the `SLOW` option to be specified with or without a
+  value, but the `$ESTIMATION` parser did not handle the no-value
+  form. (#52)
+
+* The `$ESTIMATION` parser incorrectly expected the `NOSLOW` option to
+  be followed by a value.  (#52)
+
+
 # nmrec 0.5.1
 
 ## Bug fixes
