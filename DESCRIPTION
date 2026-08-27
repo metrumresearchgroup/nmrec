@@ -10,7 +10,7 @@ Authors@R:
              family = "Barrett",
              role = "aut",
              email = "barrettk@metrumrg.com"))
-Description: An interface reading records from a NONMEM control
+Description: An interface for reading records from a NONMEM control
     stream, parsing and modifying records of interest, and writing the
     result.
 License: MIT + file LICENSE
